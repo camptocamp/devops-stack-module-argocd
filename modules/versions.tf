@@ -6,5 +6,9 @@ terraform {
     utils = {
       source = "cloudposse/utils"
     }
+    htpasswd = {
+      source  = "loafoe/htpasswd"
+      version = "~> 0.9"
+    }
   }
 }
