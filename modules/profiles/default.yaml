@@ -22,6 +22,8 @@ argo-cd:
     metrics:
       enabled: true
   server:
+    extraArgs:
+      - --insecure
     config:
       accounts.pipeline: apiKey
       resource.customizations: |
