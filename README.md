@@ -24,7 +24,7 @@ module "argocd" {
   base_domain    = module.cluster.base_domain
   cluster_issuer = "letsencrypt-prod"
 
-  depends_on = [ module.cert-manager ]
+  depends_on = [ module.cert-manager, module.monitoring ]
 }
 ```
 
