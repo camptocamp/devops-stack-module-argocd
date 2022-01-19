@@ -22,6 +22,7 @@ variable "argocd" {
     accounts_pipeline_tokens = string
     server_admin_password    = string
     domain                   = string
+    admin_enabled            = bool
   })
 }
 

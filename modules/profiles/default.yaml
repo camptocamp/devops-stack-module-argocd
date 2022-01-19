@@ -25,6 +25,7 @@ argo-cd:
     extraArgs:
       - --insecure
     config:
+      admin.enabled: "${argocd.admin_enabled}"
       accounts.pipeline: apiKey
       resource.customizations: |
         argoproj.io/Application:

@@ -1,6 +1,0 @@
-argo-cd:
-  server:
-    config:
-      admin.enabled: "false"
-    extraArgs:
-      - --insecure

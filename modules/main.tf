@@ -37,7 +37,7 @@ data "utils_deep_merge_yaml" "values" {
       cluster_issuer        = var.cluster_issuer
       oidc                  = var.oidc
 
-      argocd                = var.argocd
+      argocd                = local.argocd
       repositories          = var.repositories
       server_admin_password = htpasswd_password.argocd_server_admin.bcrypt
   }) ]
@@ -48,6 +48,8 @@ resource "argocd_application" "this" {
     name      = "argocd"
     namespace = var.argocd.namespace
   }
+
+  cascade = false
 
   spec {
     project = argocd_project.this.metadata.0.name
