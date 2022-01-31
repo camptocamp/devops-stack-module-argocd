@@ -36,9 +36,9 @@ variable "namespace" {
   default = "argocd"
 }
 
-variable "profiles" {
+variable "extra_yaml" {
   type    = list(string)
-  default = ["default"]
+  default = []
 }
 
 #######################

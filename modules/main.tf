@@ -32,15 +32,7 @@ resource "htpasswd_password" "argocd_server_admin" {
 }
 
 data "utils_deep_merge_yaml" "values" {
-  input = [ for i in var.profiles : templatefile("${path.module}/profiles/${i}.yaml", {
-      base_domain           = var.base_domain,
-      cluster_issuer        = var.cluster_issuer
-      oidc                  = var.oidc
-
-      argocd                = local.argocd
-      repositories          = var.repositories
-      server_admin_password = htpasswd_password.argocd_server_admin.bcrypt
-  }) ]
+  input = local.all_yaml
 }
 
 resource "argocd_application" "this" {

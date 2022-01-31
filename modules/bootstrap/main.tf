@@ -21,7 +21,7 @@ locals {
   argocd_server_secretkey = var.argocd_server_secretkey == null ? random_password.argocd_server_secretkey.result : var.argocd_server_secretkey
 
   argocd_values = [
-    yamlencode(yamldecode(templatefile("${path.module}/../profiles/default.yaml", {
+    yamlencode(yamldecode(templatefile("${path.module}/../values.tmpl.yaml", {
       base_domain           = var.base_domain
       cluster_issuer        = ""
       oidc                  = {
