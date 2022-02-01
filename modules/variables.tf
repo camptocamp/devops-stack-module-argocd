@@ -2,28 +2,17 @@
 ## Standard variables
 #######################
 
-variable "cluster_name" {
-  type = string
-}
-
-variable "base_domain" {
-  type = string
+variable "cluster_info" {
+  type = object({
+    cluster_name     = string
+    base_domain      = string
+    argocd_namespace = string
+  })
 }
 
 variable "oidc" {
   type    = any
   default = {}
-}
-
-variable "argocd" {
-  type = object({
-    namespace                = string
-    server_secretkey         = string
-    accounts_pipeline_tokens = string
-    server_admin_password    = string
-    domain                   = string
-    admin_enabled            = bool
-  })
 }
 
 variable "cluster_issuer" {
@@ -44,6 +33,16 @@ variable "extra_yaml" {
 #######################
 ## Module variables
 #######################
+
+variable "argocd" {
+  type = object({
+    server_secretkey         = string
+    accounts_pipeline_tokens = string
+    server_admin_password    = string
+    domain                   = string
+    admin_enabled            = bool
+  })
+}
 
 variable "repositories" {
   description = "A list of repositories to add to ArgoCD."
