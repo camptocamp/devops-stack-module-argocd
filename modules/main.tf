@@ -1,7 +1,10 @@
 resource "argocd_project" "this" {
   metadata {
     name      = "argocd"
-    namespace = var.cluster_info.argocd_namespace
+    namespace = var.argocd.namespace
+    annotations = {
+      "devops-stack.io/argocd_namespace" = var.argocd.namespace
+    }
   }
  
   spec {
@@ -35,7 +38,7 @@ data "utils_deep_merge_yaml" "values" {
 resource "argocd_application" "this" {
   metadata {
     name      = "argocd"
-    namespace = var.cluster_info.argocd_namespace
+    namespace = var.argocd.namespace
   }
 
   cascade = false
