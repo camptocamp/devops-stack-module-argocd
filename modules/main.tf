@@ -41,7 +41,6 @@ resource "argocd_application" "this" {
     namespace = var.argocd.namespace
   }
 
-  wait    = true
   cascade = false
 
   spec {
