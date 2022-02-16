@@ -12,11 +12,11 @@ description: |
   * ArgoCD Notifications
 dependencies:
   - name: "argo-cd"
-    version: "3.29.5"
+    version: "^3"
     repository: "https://argoproj.github.io/argo-helm"
   - name: "argocd-applicationset"
-    version: "1.7.0"
+    version: "^1"
     repository: "https://argoproj.github.io/argo-helm"
   - name: "argocd-notifications"
-    version: "1.7.0"
+    version: "^1"
     repository: "https://argoproj.github.io/argo-helm"
