@@ -22,9 +22,9 @@ locals {
 
   argocd_values = [
     yamlencode(yamldecode(templatefile("${path.module}/../values.tmpl.yaml", {
-      base_domain           = var.base_domain
-      cluster_issuer        = ""
-      oidc                  = {
+      base_domain    = var.base_domain
+      cluster_issuer = ""
+      oidc = {
         client_id     = "deadbeef"
         client_secret = "deadbeef"
         issuer_url    = "http://deadbeef"
