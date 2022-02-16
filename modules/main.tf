@@ -12,7 +12,7 @@ resource "argocd_project" "this" {
     source_repos = ["https://github.com/camptocamp/devops-stack-module-argocd.git"]
 
     destination {
-      server    = "https://kubernetes.default.svc"
+      name      = "in-cluster"
       namespace = var.namespace
     }
 
@@ -56,7 +56,7 @@ resource "argocd_application" "this" {
     }
 
     destination {
-      server    = "https://kubernetes.default.svc"
+      name      = "in-cluster"
       namespace = var.namespace
     }
 
