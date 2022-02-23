@@ -16,7 +16,7 @@ locals {
     ]
   )
 
-  argocd_chart = yamldecode(file("${path.module}/../../charts/argocd/Chart.yaml")).dependencies.0
+  argocd_chart = yamldecode(file("${path.module}/../charts/argocd/Chart.yaml")).dependencies.0
 
   argocd_server_secretkey = var.argocd_server_secretkey == null ? random_password.argocd_server_secretkey.result : var.argocd_server_secretkey
 
