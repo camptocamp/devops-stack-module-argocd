@@ -9,7 +9,7 @@ While the `argocd-helm` module deploys a bootstrap ArgoCD, this module allows to
 
 ```hcl
 module "argocd" {
-  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git//modules"
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git/"
 
   cluster_name   = var.cluster_name
   oidc           = module.oidc.oidc
