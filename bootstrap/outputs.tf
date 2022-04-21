@@ -21,10 +21,15 @@ output "argocd_accounts_pipeline_tokens" {
   value       = local.argocd_accounts_pipeline_tokens
 }
 
-output "argo_namespace" {
+output "argocd_namespace" {
   value = helm_release.argocd.metadata.0.namespace
 }
 
 output "argocd_domain" {
   value = local.argocd.domain
+}
+
+output "bootstrap_values" {
+  value = [yamldecode(data.utils_deep_merge_yaml.values.output)]
+  sensitive = true
 }
