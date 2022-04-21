@@ -1,9 +1,9 @@
 resource "argocd_project" "this" {
   metadata {
     name      = "argocd"
-    namespace = var.argocd.namespace
+    namespace = var.argocd_namespace
     annotations = {
-      "devops-stack.io/argocd_namespace" = var.argocd.namespace
+      "devops-stack.io/argocd_namespace" = var.argocd_namespace
     }
   }
 
@@ -27,21 +27,19 @@ resource "argocd_project" "this" {
   }
 }
 
-resource "htpasswd_password" "argocd_server_admin" {
-  password = var.argocd.server_admin_password
-}
-
 data "utils_deep_merge_yaml" "values" {
-  input = local.all_yaml
+  input = [for i in concat(var.bootstrap_values, var.helm_values) : yamlencode(i)]
 }
 
 resource "argocd_application" "this" {
   metadata {
     name      = "argocd"
-    namespace = var.argocd.namespace
+    namespace = var.argocd_namespace
   }
 
   cascade = false
+
+  wait = true
 
   spec {
     project = argocd_project.this.metadata.0.name
@@ -67,14 +65,17 @@ resource "argocd_application" "this" {
         self_heal   = true
       }
 
+      retry {
+        backoff = {
+          duration     = ""
+          max_duration = ""
+        }
+        limit = "0"
+      }
+
       sync_options = [
         "CreateNamespace=true"
       ]
-
-      retry {
-        backoff = {}
-        limit   = "0"
-      }
     }
   }
 }

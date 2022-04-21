@@ -4,6 +4,9 @@ terraform {
       source  = "hashicorp/helm"
       version = "~> 2.0"
     }
+    utils = {
+      source = "cloudposse/utils"
+    }
     jwt = {
       source  = "camptocamp/jwt"
       version = ">= 0.0.3"
