@@ -18,14 +18,6 @@ locals {
 
   argocd_server_secretkey = var.argocd_server_secretkey == null ? random_password.argocd_server_secretkey.result : var.argocd_server_secretkey
 
-  oidc_default = {
-    client_id     = "alive"
-    client_secret = "alive"
-    issuer_url    = "http://z"
-  }
-
-  oidc = merge(local.oidc_default, var.oidc)
-
   argocd_default = {
     namespace                = "argocd"
     domain                   = "argocd.apps.${var.cluster_name}.${var.base_domain}"

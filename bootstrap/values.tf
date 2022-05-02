@@ -9,9 +9,8 @@ locals {
           argocdServerAdminPassword      = "${htpasswd_password.argocd_server_admin.bcrypt}"
           argocdServerAdminPasswordMtime = "2020-07-23T11:31:23Z"
           extra = {
-            "oidc.default.clientSecret" = "${replace(local.oidc.client_secret, "\\\"", "\"")}"
-            "accounts.pipeline.tokens"  = "${replace(local.argocd.accounts_pipeline_tokens, "\\\"", "\"")}"
-            "server.secretkey"          = "${replace(local.argocd.server_secretkey, "\\\"", "\"")}"
+            "accounts.pipeline.tokens" = "${replace(local.argocd.accounts_pipeline_tokens, "\\\"", "\"")}"
+            "server.secretkey"         = "${replace(local.argocd.server_secretkey, "\\\"", "\"")}"
           }
         }
       })
@@ -68,20 +67,6 @@ locals {
                     args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
                         EOT
           url                       = "https://${local.argocd.domain}"
-          # TODO check and potentially change the following var references
-          "oidc.config" = <<-EOT
-                name: OIDC
-                issuer: "${replace(local.oidc.issuer_url, "\"", "\\\"")}"
-                clientID: "${replace(local.oidc.client_id, "\"", "\\\"")}"
-                clientSecret: "${local.oidc.client_secret}"
-                requestedIDTokenClaims:
-                  groups:
-                    essential: true
-                requestedScopes:
-                  - openid
-                  - profile
-                  - email
-                EOT
         }
         ingress = {
           enabled = true
