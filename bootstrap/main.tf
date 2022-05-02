@@ -47,3 +47,9 @@ resource "htpasswd_password" "argocd_server_admin" {
 data "utils_deep_merge_yaml" "values" {
   input = [for i in concat(local.helm_values, [{"argo-cd" = tomap(var.helm_values.0)}]) : yamlencode(i)]
 }
+
+resource "null_resource" "this" {
+  depends_on = [
+    resource.helm_release.argocd,
+  ]
+}

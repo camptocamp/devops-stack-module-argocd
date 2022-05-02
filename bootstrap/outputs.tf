@@ -33,3 +33,7 @@ output "bootstrap_values" {
   value = [yamldecode(data.utils_deep_merge_yaml.values.output)]
   sensitive = true
 }
+
+output "id" {
+  value = resource.null_resource.this.id
+}
