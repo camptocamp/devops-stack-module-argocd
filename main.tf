@@ -1,3 +1,13 @@
+locals {
+  oidc_default = {
+    client_id     = "alive"
+    client_secret = "alive"
+    issuer_url    = "http://z"
+  }
+
+  oidc = merge(local.oidc_default, var.oidc)
+}
+
 resource "null_resource" "dependencies" {
   triggers = var.dependency_ids
 }
@@ -32,7 +42,7 @@ resource "argocd_project" "this" {
 }
 
 data "utils_deep_merge_yaml" "values" {
-  input = [for i in concat(var.bootstrap_values, var.helm_values) : yamlencode(i)]
+  input = [for i in concat(var.bootstrap_values, local.helm_values, var.helm_values) : yamlencode(i)]
 }
 
 resource "argocd_application" "this" {
