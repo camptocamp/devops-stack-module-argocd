@@ -1,3 +1,7 @@
+resource "null_resource" "dependencies" {
+  triggers = var.dependency_ids
+}
+
 resource "argocd_project" "this" {
   metadata {
     name      = "argocd"
@@ -78,4 +82,14 @@ resource "argocd_application" "this" {
       ]
     }
   }
+
+  depends_on = [
+    resource.null_resource.dependencies,
+  ]
+}
+
+resource "null_resource" "this" {
+  depends_on = [
+    resource.argocd_application.this,
+  ]
 }

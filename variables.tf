@@ -61,3 +61,9 @@ variable "argocd_namespace" {
   type    = string
   default = "argocd"
 }
+
+variable "dependency_ids" {
+  type = map(string)
+
+  default = {}
+}
