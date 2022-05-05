@@ -1,7 +1,6 @@
 locals {
   helm_values = [{
     argo-cd = {
-      installCRDs = false
       configs = merge(length(var.repositories) > 0 ? {
         repositories = var.repositories
         } : null, {
