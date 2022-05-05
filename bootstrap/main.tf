@@ -5,7 +5,7 @@ locals {
 resource "helm_release" "argocd" {
   name       = "argocd"
   repository = local.argocd_chart.repository
-  chart      = "argo-cd"
+  chart      = local.argocd_chart.name
   version    = local.argocd_chart.version
 
   namespace         = "argocd"
