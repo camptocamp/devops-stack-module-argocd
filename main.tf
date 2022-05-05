@@ -53,7 +53,6 @@ resource "argocd_application" "this" {
 
   cascade = false
 
-  wait = true
 
   spec {
     project = argocd_project.this.metadata.0.name
