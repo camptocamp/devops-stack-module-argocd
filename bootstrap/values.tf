@@ -21,9 +21,7 @@ locals {
         }
       }
       dex = {
-        metrics = {
-          enabled = true
-        }
+        enabled = false
       }
       repoServer = {
         metrics = {
