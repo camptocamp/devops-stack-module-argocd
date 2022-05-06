@@ -19,10 +19,6 @@ locals {
                 requestedIDTokenClaims:
                   groups:
                     essential: true
-                requestedScopes:
-                  - openid
-                  - profile
-                  - email
                 EOT
         }
       }
