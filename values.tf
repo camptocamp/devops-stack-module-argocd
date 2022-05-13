@@ -16,6 +16,7 @@ locals {
                 issuer: "${replace(local.oidc.issuer_url, "\"", "\\\"")}"
                 clientID: "${replace(local.oidc.client_id, "\"", "\\\"")}"
                 clientSecret: "${local.oidc.client_secret}"
+                cliClientID: "${replace(local.oidc.cli_client_id, "\"", "\\\"")}"
                 requestedIDTokenClaims:
                   groups:
                     essential: true
