@@ -12,18 +12,15 @@ locals {
         config = {
           # TODO check and potentially change the following var references
           "oidc.config" = <<-EOT
-            name: OIDC
-            issuer: "${replace(local.oidc.issuer_url, "\"", "\\\"")}"
-            clientID: "${replace(local.oidc.client_id, "\"", "\\\"")}"
-            clientSecret: "${local.oidc.client_secret}"
-            requestedIDTokenClaims:
-              groups:
-                essential: true
-            requestedScopes:
-              - openid
-              - profile
-              - email
-          EOT
+                name: OIDC
+                issuer: "${replace(local.oidc.issuer_url, "\"", "\\\"")}"
+                clientID: "${replace(local.oidc.client_id, "\"", "\\\"")}"
+                clientSecret: "${local.oidc.client_secret}"
+                cliClientID: "${replace(local.oidc.cli_client_id, "\"", "\\\"")}"
+                requestedIDTokenClaims:
+                  groups:
+                    essential: true
+                EOT
         }
       }
     }

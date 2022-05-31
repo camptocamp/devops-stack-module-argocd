@@ -1,7 +1,3 @@
-resource "null_resource" "dependencies" {
-  triggers = var.dependency_ids
-}
-
 locals {
   oidc_default = {
     client_id     = "alive"
@@ -10,6 +6,10 @@ locals {
   }
 
   oidc = merge(local.oidc_default, var.oidc)
+}
+
+resource "null_resource" "dependencies" {
+  triggers = var.dependency_ids
 }
 
 resource "argocd_project" "this" {
