@@ -1,8 +1,9 @@
 annotations:
   artifacthub.io/changes: |
-    - "[Added]: Ability to define security context for Slack bot deployment"
+    - "[Deprecated]: This chart is now deprecated and will be removed soon. Please upgrade to Argo CD 2.3+ (chart version 4.x) which includes Argo CD Notifications."
 apiVersion: v2
 appVersion: v1.2.1
+deprecated: true
 description: A Helm chart for ArgoCD notifications, an add-on to ArgoCD.
 home: https://github.com/argoproj/argo-helm
 icon: https://argocd-notifications.readthedocs.io/en/stable/assets/logo.png
@@ -15,4 +16,4 @@ maintainers:
 - name: andyfeller
 name: argocd-notifications
 type: application
-version: 1.8.0
+version: 1.8.1

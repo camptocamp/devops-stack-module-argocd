@@ -1,8 +1,9 @@
 annotations:
   artifacthub.io/changes: |
-    - "[Changed]: Consistent .helmignore"
+    - "[Deprecated]: This chart is now deprecated and will be removed soon. Please upgrade to Argo CD 2.3+ (chart version 4.x) which includes ApplicationSet."
 apiVersion: v2
-appVersion: v0.3.0
+appVersion: v0.4.1
+deprecated: true
 description: A Helm chart for installing ArgoCD ApplicationSet
 home: https://github.com/argoproj/argo-helm
 icon: https://argocd-applicationset.readthedocs.io/en/stable/assets/logo.png
@@ -14,4 +15,4 @@ maintainers:
 - name: maruina
 name: argocd-applicationset
 type: application
-version: 1.9.1
+version: 1.12.1
