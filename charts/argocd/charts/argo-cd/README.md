@@ -263,7 +263,7 @@ NAME: my-release
 | controller.logFormat | string | `"text"` | Application controller log format. Either `text` or `json` |
 | controller.logLevel | string | `"info"` | Application controller log level |
 | controller.metrics.applicationLabels.enabled | bool | `false` | Enables additional labels in argocd_app_labels metric |
-| controller.metrics.applicationLabels.labels | object | `{}` | Additional labels |
+| controller.metrics.applicationLabels.labels | list | `[]` | Additional labels |
 | controller.metrics.enabled | bool | `false` | Deploy metrics service |
 | controller.metrics.rules.enabled | bool | `false` | Deploy a PrometheusRule for the application controller |
 | controller.metrics.rules.spec | list | `[]` | PrometheusRule.Spec for the application controller |
@@ -369,7 +369,7 @@ NAME: my-release
 | repoServer.service.portName | string | `"https-repo-server"` | Repo server service port name |
 | repoServer.serviceAccount.annotations | object | `{}` | Annotations applied to created service account |
 | repoServer.serviceAccount.automountServiceAccountToken | bool | `true` | Automount API credentials for the Service Account |
-| repoServer.serviceAccount.create | bool | `false` | Create repo server service account |
+| repoServer.serviceAccount.create | bool | `true` | Create repo server service account |
 | repoServer.serviceAccount.name | string | `""` | Repo server service account name |
 | repoServer.tolerations | list | `[]` | [Tolerations] for use with node taints |
 | repoServer.topologySpreadConstraints | list | `[]` | Assign custom [TopologySpreadConstraints] rules to the repo server |
@@ -520,6 +520,7 @@ NAME: my-release
 | dex.enabled | bool | `true` | Enable dex |
 | dex.env | list | `[]` | Environment variables to pass to the Dex server |
 | dex.envFrom | list | `[]` (See [values.yaml]) | envFrom to pass to the Dex server |
+| dex.extraArgs | list | `[]` | Additional command line arguments to pass to the Dex server |
 | dex.extraContainers | list | `[]` | Additional containers to be added to the dex pod |
 | dex.extraVolumeMounts | list | `[]` | Extra volumeMounts to the dex pod |
 | dex.extraVolumes | list | `[]` | Extra volumes to the dex pod |
