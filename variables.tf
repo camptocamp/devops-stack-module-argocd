@@ -67,3 +67,9 @@ variable "dependency_ids" {
 
   default = {}
 }
+
+variable "target_revision" {
+  default = "main"
+  description = "Enable to point to a specific branch"
+  type = string
+}

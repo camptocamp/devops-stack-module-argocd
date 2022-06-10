@@ -60,7 +60,7 @@ resource "argocd_application" "this" {
     source {
       repo_url        = "https://github.com/camptocamp/devops-stack-module-argocd.git"
       path            = "charts/argocd"
-      target_revision = "main"
+      target_revision = var.target_revision
       helm {
         values = data.utils_deep_merge_yaml.values.output
       }
