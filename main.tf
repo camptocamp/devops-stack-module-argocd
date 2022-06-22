@@ -2,6 +2,7 @@ locals {
   oidc_default = {
     client_id     = "alive"
     client_secret = "alive"
+    cli_client_id = "alive"
     issuer_url    = "http://z"
   }
 
