@@ -19,7 +19,6 @@ variable "cluster_issuer" {
 variable "oidc" {
   description = "OIDC Settings"
   type        = any
-  default     = {}
 }
 
 variable "argocd" {
@@ -69,7 +68,7 @@ variable "dependency_ids" {
 }
 
 variable "target_revision" {
-  default = "main"
+  default     = "main"
   description = "Enable to point to a specific branch"
-  type = string
+  type        = string
 }

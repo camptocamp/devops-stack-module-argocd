@@ -1,28 +1,20 @@
 locals {
-  helm_values = [{
+  helm_values = [merge({}, var.oidc == null ? null : {
     argo-cd = {
       configs = {
         secret = {
           extra = {
-            "oidc.default.clientSecret" = "${replace(local.oidc.client_secret, "\\\"", "\"")}"
+            "oidc.default.clientSecret" = "${replace(var.oidc.clientSecret, "\\\"", "\"")}"
           }
         }
       }
       server = {
         config = {
-          # TODO check and potentially change the following var references
           "oidc.config" = <<-EOT
-                name: OIDC
-                issuer: "${replace(local.oidc.issuer_url, "\"", "\\\"")}"
-                clientID: "${replace(local.oidc.client_id, "\"", "\\\"")}"
-                clientSecret: "${local.oidc.client_secret}"
-                cliClientID: "${replace(local.oidc.cli_client_id, "\"", "\\\"")}"
-                requestedIDTokenClaims:
-                  groups:
-                    essential: true
-                EOT
+            ${yamlencode(var.oidc)}
+          EOT
         }
       }
     }
-  }]
+  })]
 }
