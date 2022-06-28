@@ -11,7 +11,7 @@ locals {
       server = {
         config = {
           "oidc.config" = <<-EOT
-            ${yamlencode(var.oidc)}
+            ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
           EOT
         }
       }
