@@ -1,13 +1,3 @@
-locals {
-  oidc_default = {
-    client_id     = "alive"
-    client_secret = "alive"
-    issuer_url    = "http://z"
-  }
-
-  oidc = merge(local.oidc_default, var.oidc)
-}
-
 resource "null_resource" "dependencies" {
   triggers = var.dependency_ids
 }
