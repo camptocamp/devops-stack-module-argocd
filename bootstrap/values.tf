@@ -8,8 +8,8 @@ locals {
           argocdServerAdminPassword      = "${htpasswd_password.argocd_server_admin.bcrypt}"
           argocdServerAdminPasswordMtime = "2020-07-23T11:31:23Z"
           extra = {
-            "accounts.pipeline.tokens"  = "${replace(local.argocd.accounts_pipeline_tokens, "\\\"", "\"")}"
-            "server.secretkey"          = "${replace(local.argocd.server_secretkey, "\\\"", "\"")}"
+            "accounts.pipeline.tokens" = "${replace(local.argocd.accounts_pipeline_tokens, "\\\"", "\"")}"
+            "server.secretkey"         = "${replace(local.argocd.server_secretkey, "\\\"", "\"")}"
           }
         }
       })
