@@ -30,7 +30,7 @@ output "argocd_domain" {
 }
 
 output "bootstrap_values" {
-  value = [yamldecode(data.utils_deep_merge_yaml.values.output)]
+  value     = [yamldecode(data.utils_deep_merge_yaml.values.output)]
   sensitive = true
 }
 
