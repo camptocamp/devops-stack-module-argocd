@@ -69,7 +69,7 @@ variable "dependency_ids" {
 }
 
 variable "target_revision" {
-  default     = "main"
-  description = "Enable to point to a specific branch"
+  description = "Override of target revision of the application chart."
   type        = string
+  default     = "v1.0.0" # x-release-please-version
 }
