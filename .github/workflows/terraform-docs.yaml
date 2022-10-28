@@ -1,0 +1,11 @@
+---
+name: "Terraform Docs"
+
+on:
+  pull_request:
+
+jobs:
+  terraform-docs:
+    uses: camptocamp/devops-stack/.github/workflows/modules-terraform-docs.yaml@master
+    with:
+      variants: "bootstrap"
