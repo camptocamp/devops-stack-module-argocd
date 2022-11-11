@@ -15,7 +15,6 @@ resource "helm_release" "argocd" {
   values            = [for i in concat([local.helm_values.0.argo-cd], var.helm_values) : yamlencode(i)]
 }
 
-
 data "utils_deep_merge_yaml" "values" {
   input = [for i in concat(local.helm_values, [{ "argo-cd" = tomap(var.helm_values.0) }]) : yamlencode(i)]
 }
@@ -24,23 +23,6 @@ resource "null_resource" "this" {
   depends_on = [
     resource.helm_release.argocd,
   ]
-}
-
-# TODO do we need these following resources here?
-
-resource "time_static" "iat" {}
-
-resource "random_uuid" "jti" {}
-
-resource "random_password" "argocd_server_secretkey" {
-  length  = 32
-  special = false
-}
-
-resource "jwt_hashed_token" "argocd" {
-  algorithm   = "HS256"
-  secret      = local.argocd_server_secretkey
-  claims_json = jsonencode(local.jwt_token_payload)
 }
 
 resource "random_password" "oauth2_cookie_secret" {

@@ -1,5 +1,6 @@
 
 locals {
+  argocd_server_secretkey = var.argocd_server_secretkey == null ? random_password.argocd_server_secretkey.result : var.argocd_server_secretkey
 
   jwt_token_payload = {
     jti = random_uuid.jti.result
@@ -17,9 +18,6 @@ locals {
       }
     ]
   )
-
-  argocd_server_secretkey = var.argocd_server_secretkey == null ? random_password.argocd_server_secretkey.result : var.argocd_server_secretkey
-
 
   helm_values = [{
     argo-cd = {
@@ -57,3 +55,18 @@ locals {
     }
   }]
 }
+
+resource "random_password" "argocd_server_secretkey" {
+  length  = 32
+  special = false
+}
+
+resource "jwt_hashed_token" "argocd" {
+  algorithm   = "HS256"
+  secret      = local.argocd_server_secretkey
+  claims_json = jsonencode(local.jwt_token_payload)
+}
+
+resource "time_static" "iat" {}
+
+resource "random_uuid" "jti" {}

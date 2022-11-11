@@ -1,12 +1,10 @@
 locals {
-  local.argocd_accounts_pipeline_tokens
-  
   
   argocd_default = {
     namespace                = "argocd"
     domain                   = "argocd.apps.${var.cluster_name}.${var.base_domain}"
-    accounts_pipeline_tokens = local.argocd_accounts_pipeline_tokens
-    server_secretkey         = local.argocd_server_secretkey
+    accounts_pipeline_tokens = ""
+    server_secretkey         = var.argocd_server_secretkey
     admin_enabled            = "false"
   }
 
@@ -31,3 +29,4 @@ locals {
     }
   })]
 }
+
