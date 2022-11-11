@@ -30,11 +30,4 @@ resource "random_password" "oauth2_cookie_secret" {
   special = false
 }
 
-resource "random_password" "argocd_server_admin" {
-  length  = 16
-  special = false
-}
 
-resource "htpasswd_password" "argocd_server_admin" {
-  password = random_password.argocd_server_admin.result
-}
