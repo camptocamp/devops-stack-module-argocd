@@ -10,3 +10,9 @@ output "values" {
   value     = [yamldecode(data.utils_deep_merge_yaml.values.output)]
   sensitive = true
 }
+
+output "argocd_server_admin_password" {
+  description = "The ArgoCD admin password."
+  sensitive   = true
+  value       = random_password.argocd_server_admin.result
+}
