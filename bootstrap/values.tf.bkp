@@ -1,22 +1,12 @@
 locals {
-
-  argocd_default = {
-    namespace                = "argocd"
-    domain                   = "argocd.apps.${var.cluster_name}.${var.base_domain}"
-    accounts_pipeline_tokens = ""
-    server_secretkey         = var.argocd_server_secretkey
-    admin_enabled            = "false"
-  }
-
-  argocd = merge(local.argocd_default, var.argocd)
-  default_values = {
+  helm_values = [{
     argo-cd = {
       configs = merge(length(var.repositories) > 0 ? {
         repositories = var.repositories
         } : null, {
         secret = {
-          #argocdServerAdminPassword      = ""
-          #argocdServerAdminPasswordMtime = "2020-07-23T11:31:23Z"
+          argocdServerAdminPassword      = "${htpasswd_password.argocd_server_admin.bcrypt}"
+          argocdServerAdminPasswordMtime = "2020-07-23T11:31:23Z"
           extra = {
             "accounts.pipeline.tokens" = "${replace(local.argocd.accounts_pipeline_tokens, "\\\"", "\"")}"
             "server.secretkey"         = "${replace(local.argocd.server_secretkey, "\\\"", "\"")}"
@@ -73,7 +63,7 @@ locals {
                     command: ["/bin/sh", "-c"]
                     args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
                         EOT
-          url                       = "https://${local.argocd.domain}"
+          url = "https://${local.argocd.domain}"
         }
         ingress = {
           enabled = true
@@ -128,23 +118,5 @@ locals {
         ]
       } : null)
     }
-  }
-  helm_values = [merge(local.default_values, var.oidc == null ? null : {
-    argo-cd = {
-      configs = {
-        secret = {
-          extra = {
-            "oidc.default.clientSecret" = "${replace(var.oidc.clientSecret, "\\\"", "\"")}"
-          }
-        }
-      }
-      server = {
-        config = {
-          "oidc.config" = <<-EOT
-            ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
-          EOT
-        }
-      }
-    }
-  }, )]
+  }]
 }
