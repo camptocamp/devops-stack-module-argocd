@@ -34,3 +34,9 @@ output "argocd_server_secretkey" {
   sensitive   = true
   value       = local.argocd_server_secretkey
 }
+
+output "argocd_server_admin_password" {
+  description = "The ArgoCD admin password."
+  sensitive   = true
+  value       = random_password.argocd_server_admin.result
+}

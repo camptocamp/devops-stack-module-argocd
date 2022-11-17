@@ -30,20 +30,29 @@ locals {
         enabled = false
       }
       redis = {
-        enabled = false
+        enabled = true
       }
       repoServer = {
         metrics = {
           enabled = false
         }
       }
-      server = merge({
+      server = {
         extraArgs = [
           "--insecure",
         ]
         config = {
-          "admin.enabled"     = "false"
+          "admin.enabled"     = "true"
           "accounts.pipeline" = "apiKey"
+          configManagementPlugins   = <<-EOT
+                - name: kustomized-helm
+                  init:
+                    command: ["/bin/sh", "-c"]
+                    args: ["helm dependency build || true"]
+                  generate:
+                    command: ["/bin/sh", "-c"]
+                    args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
+                EOT
         }
         ingress = {
           enabled = false
@@ -51,9 +60,34 @@ locals {
         metrics = {
           enabled = false
         }
-      })
+      }
+      configs = {
+        secret = {
+          extra = {
+            "accounts.pipeline.tokens" = "${replace(local.argocd_accounts_pipeline_tokens, "\\\"", "\"")}"
+            "server.secretkey"         = "${replace(local.argocd_server_secretkey, "\\\"", "\"")}"
+          }
+        }
+        rbacConfig = {
+          "policy.default" = ""
+          "policy.csv"     = <<-EOT
+                            g, pipeline, role:admin
+                            g, argocd-admin, role:admin
+                          EOT
+          scopes           = "[groups, cognito:groups, roles]"
+        }
+      }
     }
   }]
+}
+
+resource "htpasswd_password" "argocd_server_admin" {
+  password = random_password.argocd_server_admin.result
+}
+
+resource "random_password" "argocd_server_admin" {
+  length  = 16
+  special = false
 }
 
 resource "random_password" "argocd_server_secretkey" {
