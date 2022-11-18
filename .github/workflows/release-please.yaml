@@ -1,0 +1,11 @@
+---
+name: "Release"
+
+on:
+  push:
+    branches:
+    - "main"
+
+jobs:
+  release:
+    uses: camptocamp/devops-stack/.github/workflows/modules-release-please.yaml@master
