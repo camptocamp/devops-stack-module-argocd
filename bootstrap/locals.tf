@@ -68,16 +68,16 @@ locals {
             "server.secretkey"         = "${replace(local.argocd_server_secretkey, "\\\"", "\"")}"
           }
         }
-        rbacConfig = {
-          "policy.default" = ""
-          "policy.csv"     = <<-EOT
-                            g, pipeline, role:admin
-                            g, argocd-admin, role:admin
+      }
+      rbacConfig = {
+        scopes           = "[groups, cognito:groups, roles]"
+        "policy.default" = ""
+        "policy.csv"     = <<-EOT
+                          g, pipeline, role:admin
+                          g, argocd-admin, role:admin
                           EOT
-          scopes           = "[groups, cognito:groups, roles]"
         }
       }
-    }
   }]
 }
 
