@@ -8,10 +8,10 @@ terraform {
       source = "cloudposse/utils"
     }
     htpasswd = {
-      source  = "loafoe/htpasswd"
+      source = "loafoe/htpasswd"
     }
     jwt = {
-      source  = "camptocamp/jwt"
+      source = "camptocamp/jwt"
     }
   }
   required_version = ">= 0.13"

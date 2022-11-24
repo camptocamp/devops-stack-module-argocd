@@ -42,9 +42,9 @@ locals {
           "--insecure",
         ]
         config = {
-          "admin.enabled"     = "true"
-          "accounts.pipeline" = "apiKey"
-          configManagementPlugins   = <<-EOT
+          "admin.enabled"         = "true"
+          "accounts.pipeline"     = "apiKey"
+          configManagementPlugins = <<-EOT
                 - name: kustomized-helm
                   init:
                     command: ["/bin/sh", "-c"]
@@ -76,8 +76,8 @@ locals {
                           g, pipeline, role:admin
                           g, argocd-admin, role:admin
                           EOT
-        }
       }
+    }
   }]
 }
 
