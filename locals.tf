@@ -107,7 +107,7 @@ locals {
           "policy.csv"     = <<-EOT
                             g, pipeline, role:admin
                             g, argocd-admin, role:admin
-                        EOT
+                            EOT
           scopes           = "[groups, cognito:groups, roles]"
         }
         }, var.cluster_issuer == "ca-issuer" ? {
