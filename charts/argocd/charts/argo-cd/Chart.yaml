@@ -1,14 +1,14 @@
 annotations:
   artifacthub.io/changes: |
-    - "[Fixed]: ArgoCD application controller metric application label templating"
+    - "[Added]: Ability to annotate Deployment and Statefulset objects for all components"
 apiVersion: v2
-appVersion: v2.2.5
+appVersion: v2.5.3
 dependencies:
 - condition: redis-ha.enabled
   name: redis-ha
   repository: https://dandydeveloper.github.io/charts/
-  version: 4.12.17
-description: A Helm chart for ArgoCD, a declarative, GitOps continuous delivery tool
+  version: 4.22.3
+description: A Helm chart for Argo CD, a declarative, GitOps continuous delivery tool
   for Kubernetes.
 home: https://github.com/argoproj/argo-helm
 icon: https://argo-cd.readthedocs.io/en/stable/assets/logo.png
@@ -16,10 +16,12 @@ keywords:
 - argoproj
 - argocd
 - gitops
+kubeVersion: '>=1.22.0-0'
 maintainers:
-- name: alexec
-- name: alexmt
-- name: jessesuen
-- name: seanson
+- name: argoproj
+  url: https://argoproj.github.io/
 name: argo-cd
-version: 3.35.4
+sources:
+- https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+- https://github.com/argoproj/argo-cd
+version: 5.16.0
