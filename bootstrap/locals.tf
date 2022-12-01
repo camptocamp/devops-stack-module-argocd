@@ -44,15 +44,36 @@ locals {
         config = {
           "admin.enabled"         = "true"
           "accounts.pipeline"     = "apiKey"
-          configManagementPlugins = <<-EOT
-                - name: kustomized-helm
-                  init:
-                    command: ["/bin/sh", "-c"]
-                    args: ["helm dependency build || true"]
-                  generate:
-                    command: ["/bin/sh", "-c"]
-                    args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
-                EOT
+          "configManagementPlugins" = <<-EOT
+            - name: kustomized-helm # prometheus requirement
+              init:
+                command: ["/bin/sh", "-c"]
+                args: ["helm dependency build || true"]
+              generate:
+                command: ["/bin/sh", "-c"]
+                args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
+          EOT
+          "resource.customizations" = <<-EOT
+            argoproj.io/Application: # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app
+              health.lua: |
+                hs = {}
+                hs.status = "Progressing"
+                hs.message = ""
+                if obj.status ~= nil then
+                  if obj.status.health ~= nil then
+                    hs.status = obj.status.health.status
+                    if obj.status.health.message ~= nil then
+                      hs.message = obj.status.health.message
+                    end
+                  end
+                end
+                return hs
+            networking.k8s.io/Ingress: # https://argo-cd.readthedocs.io/en/stable/faq/#why-is-my-application-stuck-in-progressing-state
+              health.lua: |
+                hs = {}
+                hs.status = "Healthy"
+                return hs
+          EOT
         }
         ingress = {
           enabled = false
