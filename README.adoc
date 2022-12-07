@@ -42,6 +42,14 @@ No required inputs.
 
 The following input variables are optional (have default values):
 
+==== [[input_app_autosync]] <<input_app_autosync,app_autosync>>
+
+Description: n/a
+
+Type: `bool`
+
+Default: `false`
+
 ==== [[input_argocd]] <<input_argocd,argocd>>
 
 Description: ArgoCD settings
@@ -150,7 +158,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v1.0.0"`
+Default: `"v1.0.0-alpha.1"`
 
 === Outputs
 
@@ -199,6 +207,12 @@ Description: n/a
 [cols="a,a,a,a,a",options="header,autowidth"]
 |===
 |Name |Description |Type |Default |Required
+|[[input_app_autosync]] <<input_app_autosync,app_autosync>>
+|n/a
+|`bool`
+|`false`
+|no
+
 |[[input_argocd]] <<input_argocd,argocd>>
 |ArgoCD settings
 |`any`
@@ -282,7 +296,7 @@ Description: n/a
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v1.0.0"`
+|`"v1.0.0-alpha.1"`
 |no
 
 |===
