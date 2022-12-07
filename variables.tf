@@ -73,3 +73,8 @@ variable "target_revision" {
   type        = string
   default     = "v1.0.0-alpha.1" # x-release-please-version
 }
+
+variable "app_autosync" {
+  type = bool
+  default = false
+}

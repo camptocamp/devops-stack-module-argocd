@@ -1,3 +1,6 @@
+locals {
+  autosync = var.app_autosync ? { "allow_empty" = false, "prune" = true, "self_heal" = true } : {}
+}
 resource "null_resource" "dependencies" {
   triggers = var.dependency_ids
 }
@@ -62,11 +65,7 @@ resource "argocd_application" "this" {
     }
 
     sync_policy {
-      automated = {
-        allow_empty = false
-        prune       = true
-        self_heal   = true
-      }
+      automated = local.autosync
 
       retry {
         backoff = {
