@@ -75,6 +75,15 @@ variable "target_revision" {
 }
 
 variable "app_autosync" {
-  type = bool
-  default = false
+  description = "Automated sync options for the Argo CD Application resource."
+  type = object({
+    allow_empty = optional(bool)
+    prune       = optional(bool)
+    self_heal   = optional(bool)
+  })  
+  default = { 
+    allow_empty = false
+    prune       = true
+    self_heal   = true
+  }
 }
