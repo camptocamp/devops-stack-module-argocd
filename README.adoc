@@ -44,11 +44,27 @@ The following input variables are optional (have default values):
 
 ==== [[input_app_autosync]] <<input_app_autosync,app_autosync>>
 
-Description: n/a
+Description: Automated sync options for the Argo CD Application resource.
 
-Type: `bool`
+Type:
+[source,hcl]
+----
+object({
+    allow_empty = optional(bool)
+    prune       = optional(bool)
+    self_heal   = optional(bool)
+  })
+----
 
-Default: `false`
+Default:
+[source,json]
+----
+{
+  "allow_empty": false,
+  "prune": true,
+  "self_heal": true
+}
+----
 
 ==== [[input_argocd]] <<input_argocd,argocd>>
 
@@ -208,9 +224,29 @@ Description: n/a
 |===
 |Name |Description |Type |Default |Required
 |[[input_app_autosync]] <<input_app_autosync,app_autosync>>
-|n/a
-|`bool`
-|`false`
+|Automated sync options for the Argo CD Application resource.
+|
+
+[source]
+----
+object({
+    allow_empty = optional(bool)
+    prune       = optional(bool)
+    self_heal   = optional(bool)
+  })
+----
+
+|
+
+[source]
+----
+{
+  "allow_empty": false,
+  "prune": true,
+  "self_heal": true
+}
+----
+
 |no
 
 |[[input_argocd]] <<input_argocd,argocd>>
