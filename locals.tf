@@ -1,25 +1,13 @@
 locals {
-
-  argocd_default = {
-    namespace                = "argocd"
-    domain                   = "argocd.apps.${var.cluster_name}.${var.base_domain}"
-    accounts_pipeline_tokens = ""
-    server_secretkey         = var.argocd_server_secretkey
-    admin_enabled            = "false"
-  }
-
-  argocd = merge(local.argocd_default, var.argocd)
   default_values = {
     argo-cd = {
       configs = merge(length(var.repositories) > 0 ? {
         repositories = var.repositories
         } : null, {
         secret = {
-          #argocdServerAdminPassword      = ""
-          #argocdServerAdminPasswordMtime = "2020-07-23T11:31:23Z"
           extra = {
-            "accounts.pipeline.tokens" = "${replace(local.argocd.accounts_pipeline_tokens, "\\\"", "\"")}"
-            "server.secretkey"         = "${replace(local.argocd.server_secretkey, "\\\"", "\"")}"
+            "accounts.pipeline.tokens" = "${replace(var.argocd["accounts_pipeline_tokens"], "\\\"", "\"")}"
+            "server.secretkey"         = "${replace(var.argocd["server_secretkey"], "\\\"", "\"")}"
           }
         }
       })
@@ -41,10 +29,20 @@ locals {
           "--insecure",
         ]
         config = {
-          "admin.enabled"           = "${local.argocd.admin_enabled}"
+          url                       = "https://${var.argocd["domain"]}"
+          "admin.enabled"           = "${var.argocd["admin_enabled"]}"
           "accounts.pipeline"       = "apiKey"
+          "configManagementPlugins" = <<-EOT
+            - name: kustomized-helm # prometheus requirement
+              init:
+                command: ["/bin/sh", "-c"]
+                args: ["helm dependency build]
+              generate:
+                command: ["/bin/sh", "-c"]
+                args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
+          EOT
           "resource.customizations" = <<-EOT
-            argoproj.io/Application:
+            argoproj.io/Application: # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app
               health.lua: |
                 hs = {}
                 hs.status = "Progressing"
@@ -58,22 +56,12 @@ locals {
                   end
                 end
                 return hs
-            networking.k8s.io/Ingress:
+            networking.k8s.io/Ingress: # https://argo-cd.readthedocs.io/en/stable/faq/#why-is-my-application-stuck-in-progressing-state
               health.lua: |
                 hs = {}
                 hs.status = "Healthy"
                 return hs
-                EOT
-          configManagementPlugins   = <<-EOT
-                - name: kustomized-helm
-                  init:
-                    command: ["/bin/sh", "-c"]
-                    args: ["helm dependency build || true"]
-                  generate:
-                    command: ["/bin/sh", "-c"]
-                    args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
-                        EOT
-          url                       = "https://${local.argocd.domain}"
+          EOT
         }
         ingress = {
           enabled = true
@@ -86,14 +74,14 @@ locals {
             "kubernetes.io/ingress.allow-http"                 = "false"
           }
           hosts = [
-            "${local.argocd.domain}",
+            "${var.argocd["domain"]}",
             "argocd.apps.${var.base_domain}",
           ]
           tls = [
             {
               secretName = "argocd-tls"
               hosts = [
-                "${local.argocd.domain}",
+                "${var.argocd["domain"]}",
                 "argocd.apps.${var.base_domain}",
               ]
             },

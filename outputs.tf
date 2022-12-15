@@ -10,4 +10,3 @@ output "values" {
   value     = [yamldecode(data.utils_deep_merge_yaml.values.output)]
   sensitive = true
 }
-

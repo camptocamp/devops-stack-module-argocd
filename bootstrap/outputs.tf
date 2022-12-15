@@ -8,6 +8,7 @@ output "argocd_namespace" {
 #   value = local.argocd.domain
 # }
 
+# may be used for configuring argocd terraform provider
 output "argocd_auth_token" {
   description = "The token to set in ARGOCD_AUTH_TOKEN environment variable."
   value       = jwt_hashed_token.argocd.token
@@ -15,7 +16,7 @@ output "argocd_auth_token" {
 
 
 output "argocd_accounts_pipeline_tokens" {
-  description = "The ArgoCD accounts pipeline tokens."
+  description = "The ArgoCD account pipeline tokens."
   sensitive   = true
   value       = local.argocd_accounts_pipeline_tokens
 }

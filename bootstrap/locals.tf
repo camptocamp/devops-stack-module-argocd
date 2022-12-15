@@ -1,7 +1,5 @@
 
 locals {
-  argocd_server_secretkey = var.argocd_server_secretkey == null ? random_password.argocd_server_secretkey.result : var.argocd_server_secretkey
-
   jwt_token_payload = {
     jti = random_uuid.jti.result
     iat = time_static.iat.unix
@@ -9,6 +7,8 @@ locals {
     nbf = time_static.iat.unix
     sub = "pipeline"
   }
+
+  argocd_server_secretkey = var.argocd_server_secretkey == null ? random_password.argocd_server_secretkey.result : var.argocd_server_secretkey
 
   argocd_accounts_pipeline_tokens = jsonencode(
     [
@@ -42,13 +42,13 @@ locals {
           "--insecure",
         ]
         config = {
-          "admin.enabled"         = "true"
-          "accounts.pipeline"     = "apiKey"
+          "admin.enabled" = "true"
+          #"accounts.pipeline"       = "apiKey" 
           "configManagementPlugins" = <<-EOT
             - name: kustomized-helm # prometheus requirement
               init:
                 command: ["/bin/sh", "-c"]
-                args: ["helm dependency build || true"]
+                args: ["helm dependency build]
               generate:
                 command: ["/bin/sh", "-c"]
                 args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
@@ -85,19 +85,19 @@ locals {
       configs = {
         secret = {
           extra = {
-            "accounts.pipeline.tokens" = "${replace(local.argocd_accounts_pipeline_tokens, "\\\"", "\"")}"
-            "server.secretkey"         = "${replace(local.argocd_server_secretkey, "\\\"", "\"")}"
+            #"accounts.pipeline.tokens" = "${replace(local.argocd_accounts_pipeline_tokens, "\\\"", "\"")}"
+            "server.secretkey" = "${replace(local.argocd_server_secretkey, "\\\"", "\"")}"
           }
         }
       }
-      rbacConfig = {
-        scopes           = "[groups, cognito:groups, roles]"
-        "policy.default" = ""
-        "policy.csv"     = <<-EOT
-                          g, pipeline, role:admin
-                          g, argocd-admin, role:admin
-                          EOT
-      }
+      # rbacConfig = {
+      #   scopes           = "[groups, cognito:groups, roles]"
+      #   "policy.default" = ""
+      #   "policy.csv"     = <<-EOT
+      #                     g, pipeline, role:admin
+      #                     g, argocd-admin, role:admin
+      #                     EOT
+      # }
     }
   }]
 }
