@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.2](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-12-16)
+
+
+### Features
+
+* introduce a variable to set auto sync on the Argo CD application resource ([#18](https://github.com/camptocamp/devops-stack-module-argocd/issues/18)) ([b8b60e6](https://github.com/camptocamp/devops-stack-module-argocd/commit/b8b60e67a9f4dd10fa49efc01bdf22c1f8df746e))
+
 ## 1.0.0-alpha.1 (2022-11-18)
 
 
