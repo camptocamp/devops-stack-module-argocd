@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.3](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-12-20)
+
+
+### Features
+
+* **wait:** add dependency to var app_autosync ([#20](https://github.com/camptocamp/devops-stack-module-argocd/issues/20)) ([bc53496](https://github.com/camptocamp/devops-stack-module-argocd/commit/bc53496e36aa3f2364a8011b3823a3712539c299))
+
 ## [1.0.0-alpha.2](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.1...v1.0.0-alpha.2) (2022-12-16)
 
 
