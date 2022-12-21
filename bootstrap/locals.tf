@@ -1,10 +1,10 @@
 #############################################################
-# [bootstrap] ArgoCD config:
+# # [bootstrap] ArgoCD:
 #
-# - admin enabled for debugging while creating cluster
-# - admin credentials can be found in k8s secret
-# - admin credentials to be disabled on final argocd install
-# - pipeline account used for argocd provider config
+# * user should be able to login as admin for debugging purposes
+# * admin should be disabled on final argocd install
+# * user should have credential to configure `pipeline` account
+#   for argocd provider
 #
 
 locals {
@@ -25,6 +25,7 @@ locals {
     ]
   )
 
+  # TODO drop this local and use absolute resource ref instead ?
   argocd_server_secretkey = random_password.argocd_server_secretkey.result
 
   helm_values = [{
@@ -59,7 +60,7 @@ locals {
           enabled = false
         }
         config = {
-          "admin.enabled"           = "true" # autogen password
+          "admin.enabled"           = "true" # autogenerates password, see `argocd-initial-admin-secret`
           "accounts.pipeline"       = "apiKey"
           "configManagementPlugins" = <<-EOT
             - name: kustomized-helm # prometheus requirement
@@ -114,13 +115,13 @@ locals {
   }]
 }
 
-# bootstrap secret key
+# argocd secret key for token generation, to be passed to next argocd generation
 resource "random_password" "argocd_server_secretkey" {
   length  = 32
   special = false
 }
 
-# jwt for argocd auth token (used e.g for argocd's provider config)
+# jwt token for `pipeline` account (e.g for provider config)
 resource "jwt_hashed_token" "argocd" {
   algorithm   = "HS256"
   secret      = local.argocd_server_secretkey

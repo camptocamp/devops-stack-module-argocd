@@ -1,14 +1,16 @@
 #############################################################
-# [final] ArgoCD config:
+# # [final] ArgoCD:
 #
-# - admin credentials should be disabled on final ArgoCD install
-# - pipeline account used for argocd provider config
+# * admin credentials should be disabled or regenereted by user on final ArgoCD install
+# * pipeline account used for argocd provider config
 #
+#
+
 locals {
   helm_values = [{
     argo-cd = {
       crds = {
-        install = false # do not re-install
+        install = false # already done during bootstrap
       }
       configs = merge(length(var.repositories) > 0 ? {
         repositories = var.repositories
