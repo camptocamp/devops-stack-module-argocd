@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.4](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-12-21)
+
+
+### Features
+
+* **chart:** update Argo CD chart to v5.14.1 ([#22](https://github.com/camptocamp/devops-stack-module-argocd/issues/22)) ([ebd91b0](https://github.com/camptocamp/devops-stack-module-argocd/commit/ebd91b0e283ab35c705fa6e135c26f2ef55cc3df))
+
 ## [1.0.0-alpha.3](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.2...v1.0.0-alpha.3) (2022-12-20)
 
 
