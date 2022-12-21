@@ -1,9 +1,9 @@
 #############################################################
-# ArgoCD bootstrap config:
+# [bootstrap] ArgoCD config:
 #
 # - admin enabled for debugging while creating cluster
 # - admin credentials can be found in k8s secret
-# - admin credentials to be disabled on second argocd install
+# - admin credentials to be disabled on final argocd install
 # - pipeline account used for argocd provider config
 #
 
@@ -38,7 +38,7 @@ locals {
         enabled = false
       }
       redis = {
-        enabled = true
+        enabled = false
       }
       repoServer = {
         metrics = {
@@ -96,6 +96,7 @@ locals {
       configs = {
         rbac = {
           scopes           = "[groups, cognito:groups, roles]"
+          # scopes         = "[groups]" # TODO test me! https://github.com/argoproj/argo-helm/blob/main/charts/argo-cd/values.yaml#L241
           "policy.default" = ""
           "policy.csv"     = <<-EOT
                               g, pipeline, role:admin
