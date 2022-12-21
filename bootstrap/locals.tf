@@ -1,3 +1,11 @@
+#############################################################
+# ArgoCD bootstrap config:
+#
+# - admin enabled for debugging while creating cluster
+# - admin credentials can be found in k8s secret
+# - admin credentials to be disabled on second argocd install
+# - pipeline account used for argocd provider config
+#
 
 locals {
   jwt_token_payload = {
@@ -8,8 +16,6 @@ locals {
     sub = "pipeline"
   }
 
-  argocd_server_secretkey = var.argocd_server_secretkey == null ? random_password.argocd_server_secretkey.result : var.argocd_server_secretkey
-
   argocd_accounts_pipeline_tokens = jsonencode(
     [
       {
@@ -18,6 +24,8 @@ locals {
       }
     ]
   )
+
+  argocd_server_secretkey = random_password.argocd_server_secretkey.result
 
   helm_values = [{
     argo-cd = {
@@ -41,17 +49,26 @@ locals {
         extraArgs = [
           "--insecure",
         ]
+        certificate = {
+          enabled = false
+        }
+        ingress = {
+          enabled = false
+        }
+        metrics = {
+          enabled = false
+        }
         config = {
-          "admin.enabled" = "true"
-          #"accounts.pipeline"       = "apiKey" 
+          "admin.enabled"           = "true" # autogen password
+          "accounts.pipeline"       = "apiKey"
           "configManagementPlugins" = <<-EOT
             - name: kustomized-helm # prometheus requirement
               init:
                 command: ["/bin/sh", "-c"]
-                args: ["helm dependency build]
+                args: ["helm dependency build"]
               generate:
                 command: ["/bin/sh", "-c"]
-                args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
+                args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
           EOT
           "resource.customizations" = <<-EOT
             argoproj.io/Application: # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app
@@ -75,47 +92,34 @@ locals {
                 return hs
           EOT
         }
-        ingress = {
-          enabled = false
-        }
-        metrics = {
-          enabled = false
-        }
       }
       configs = {
+        rbac = {
+          scopes           = "[groups, cognito:groups, roles]"
+          "policy.default" = ""
+          "policy.csv"     = <<-EOT
+                              g, pipeline, role:admin
+                              g, argocd-admin, role:admin
+                              EOT
+        }
         secret = {
           extra = {
-            #"accounts.pipeline.tokens" = "${replace(local.argocd_accounts_pipeline_tokens, "\\\"", "\"")}"
-            "server.secretkey" = "${replace(local.argocd_server_secretkey, "\\\"", "\"")}"
+            "accounts.pipeline.tokens" = "${replace(local.argocd_accounts_pipeline_tokens, "\\\"", "\"")}"
+            "server.secretkey"         = "${replace(local.argocd_server_secretkey, "\\\"", "\"")}"
           }
         }
       }
-      # rbacConfig = {
-      #   scopes           = "[groups, cognito:groups, roles]"
-      #   "policy.default" = ""
-      #   "policy.csv"     = <<-EOT
-      #                     g, pipeline, role:admin
-      #                     g, argocd-admin, role:admin
-      #                     EOT
-      # }
     }
   }]
 }
 
-resource "htpasswd_password" "argocd_server_admin" {
-  password = random_password.argocd_server_admin.result
-}
-
-resource "random_password" "argocd_server_admin" {
-  length  = 16
-  special = false
-}
-
+# bootstrap secret key
 resource "random_password" "argocd_server_secretkey" {
   length  = 32
   special = false
 }
 
+# jwt for argocd auth token (used e.g for argocd's provider config)
 resource "jwt_hashed_token" "argocd" {
   algorithm   = "HS256"
   secret      = local.argocd_server_secretkey

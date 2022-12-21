@@ -1,25 +1,5 @@
-
-
 output "argocd_namespace" {
   value = helm_release.argocd.metadata.0.namespace
-}
-
-# output "argocd_domain" {
-#   value = local.argocd.domain
-# }
-
-# may be used for configuring argocd terraform provider
-output "argocd_auth_token" {
-  description = "The token to set in ARGOCD_AUTH_TOKEN environment variable."
-  value       = jwt_hashed_token.argocd.token
-  sensitive   = true
-}
-
-
-output "argocd_accounts_pipeline_tokens" {
-  description = "The ArgoCD account pipeline tokens."
-  sensitive   = true
-  value       = local.argocd_accounts_pipeline_tokens
 }
 
 output "values" {
@@ -37,8 +17,8 @@ output "argocd_server_secretkey" {
   value       = local.argocd_server_secretkey
 }
 
-output "argocd_server_admin_password" {
-  description = "The ArgoCD admin password."
+output "argocd_auth_token" {
+  description = "The token to set in ARGOCD_AUTH_TOKEN environment variable. May be used for configuring argocd terraform provider"
+  value       = jwt_hashed_token.argocd.token
   sensitive   = true
-  value       = random_password.argocd_server_admin.result
 }

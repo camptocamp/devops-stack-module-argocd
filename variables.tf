@@ -74,8 +74,8 @@ variable "app_autosync" {
     allow_empty = optional(bool)
     prune       = optional(bool)
     self_heal   = optional(bool)
-  })  
-  default = { 
+  })
+  default = {
     allow_empty = false
     prune       = true
     self_heal   = true

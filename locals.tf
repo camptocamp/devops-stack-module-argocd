@@ -36,7 +36,7 @@ locals {
             - name: kustomized-helm # prometheus requirement
               init:
                 command: ["/bin/sh", "-c"]
-                args: ["helm dependency build]
+                args: ["helm dependency build"]
               generate:
                 command: ["/bin/sh", "-c"]
                 args: ["echo \"$HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
