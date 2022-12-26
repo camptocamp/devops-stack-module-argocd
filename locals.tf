@@ -25,8 +25,8 @@ locals {
         }
         secret = {
           extra = {
-            "accounts.pipeline.tokens" = "${replace(var.argocd["accounts_pipeline_tokens"], "\\\"", "\"")}"
-            "server.secretkey"         = "${replace(var.argocd["server_secretkey"], "\\\"", "\"")}"
+            "accounts.pipeline.tokens"  = "${replace(var.argocd["accounts_pipeline_tokens"], "\\\"", "\"")}"
+            "server.secretkey"          = "${replace(var.argocd["server_secretkey"], "\\\"", "\"")}"
             "oidc.default.clientSecret" = "${replace(var.oidc.clientSecret, "\\\"", "\"")}"
           }
         }
@@ -56,7 +56,7 @@ locals {
             url                       = "https://${var.argocd["domain"]}"
             "admin.enabled"           = "${var.argocd["admin_enabled"]}"
             "accounts.pipeline"       = "apiKey"
-            "oidc.config" = <<-EOT
+            "oidc.config"             = <<-EOT
               ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
               EOT
             "configManagementPlugins" = <<-EOT
@@ -134,7 +134,7 @@ locals {
               }
             }
           ]
-        } : null )
+      } : null)
     }
   }]
 }
