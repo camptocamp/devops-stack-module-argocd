@@ -39,7 +39,7 @@ locals {
         enabled = false
       }
       redis = {
-        enabled = false
+        enabled = true
       }
       repoServer = {
         metrics = {
