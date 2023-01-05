@@ -62,7 +62,9 @@ Default:
 [source,json]
 ----
 [
-  {}
+  {
+    "argo-cd": {}
+  }
 ]
 ----
 
@@ -151,7 +153,9 @@ Description: n/a
 [source]
 ----
 [
-  {}
+  {
+    "argo-cd": {}
+  }
 ]
 ----
 

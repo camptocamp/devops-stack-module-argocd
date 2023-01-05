@@ -138,7 +138,9 @@ Default:
 [source,json]
 ----
 [
-  {}
+  {
+    "argo-cd": {}
+  }
 ]
 ----
 
@@ -300,7 +302,9 @@ object({
 [source]
 ----
 [
-  {}
+  {
+    "argo-cd": {}
+  }
 ]
 ----
 
