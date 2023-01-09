@@ -3,21 +3,15 @@
 
 The following requirements are needed by this module:
 
-- [[requirement_terraform]] <<requirement_terraform,terraform>> (>= 0.13)
+- [[requirement_terraform]] <<requirement_terraform,terraform>> (>= 1.2)
 
 - [[requirement_helm]] <<requirement_helm,helm>> (~> 2.0)
 
 - [[requirement_htpasswd]] <<requirement_htpasswd,htpasswd>> (~> 0.9)
 
-- [[requirement_jwt]] <<requirement_jwt,jwt>> (>= 0.0.3)
+- [[requirement_jwt]] <<requirement_jwt,jwt>> (~> 1.1)
 
-- [[requirement_kubernetes]] <<requirement_kubernetes,kubernetes>> (~> 2.0)
-
-- [[requirement_null]] <<requirement_null,null>> (~> 3.0)
-
-- [[requirement_random]] <<requirement_random,random>> (~> 3.0)
-
-- [[requirement_time]] <<requirement_time,time>> (~> 0.6)
+- [[requirement_utils]] <<requirement_utils,utils>> (~> 1.6)
 
 === Providers
 
@@ -25,17 +19,15 @@ The following providers are used by this module:
 
 - [[provider_helm]] <<provider_helm,helm>> (~> 2.0)
 
-- [[provider_htpasswd]] <<provider_htpasswd,htpasswd>> (~> 0.9)
+- [[provider_jwt]] <<provider_jwt,jwt>> (~> 1.1)
 
-- [[provider_jwt]] <<provider_jwt,jwt>> (>= 0.0.3)
+- [[provider_null]] <<provider_null,null>>
 
-- [[provider_null]] <<provider_null,null>> (~> 3.0)
+- [[provider_random]] <<provider_random,random>>
 
-- [[provider_random]] <<provider_random,random>> (~> 3.0)
+- [[provider_time]] <<provider_time,time>>
 
-- [[provider_time]] <<provider_time,time>> (~> 0.6)
-
-- [[provider_utils]] <<provider_utils,utils>>
+- [[provider_utils]] <<provider_utils,utils>> (~> 1.6)
 
 === Modules
 
@@ -46,12 +38,9 @@ No modules.
 The following resources are used by this module:
 
 - https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release[helm_release.argocd] (resource)
-- https://registry.terraform.io/providers/loafoe/htpasswd/latest/docs/resources/password[htpasswd_password.argocd_server_admin] (resource)
 - https://registry.terraform.io/providers/camptocamp/jwt/latest/docs/resources/hashed_token[jwt_hashed_token.argocd] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] (resource)
-- https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.argocd_server_admin] (resource)
 - https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.argocd_server_secretkey] (resource)
-- https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.oauth2_cookie_secret] (resource)
 - https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid[random_uuid.jti] (resource)
 - https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/static[time_static.iat] (resource)
 - https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] (data source)
@@ -63,46 +52,6 @@ No required inputs.
 
 The following input variables are optional (have default values):
 
-==== [[input_argocd]] <<input_argocd,argocd>>
-
-Description: ArgoCD settings
-
-Type: `any`
-
-Default: `{}`
-
-==== [[input_argocd_server_secretkey]] <<input_argocd_server_secretkey,argocd_server_secretkey>>
-
-Description: ArgoCD Server Secert Key to avoid regenerate token on redeploy.
-
-Type: `string`
-
-Default: `null`
-
-==== [[input_base_domain]] <<input_base_domain,base_domain>>
-
-Description: The base domain used for Ingresses.
-
-Type: `string`
-
-Default: `""`
-
-==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
-
-Description: Cluster Issuer
-
-Type: `string`
-
-Default: `""`
-
-==== [[input_cluster_name]] <<input_cluster_name,cluster_name>>
-
-Description: The name of the cluster to create.
-
-Type: `string`
-
-Default: `""`
-
 ==== [[input_helm_values]] <<input_helm_values,helm_values>>
 
 Description: Helm values, passed as a list of HCL structures.
@@ -113,17 +62,19 @@ Default:
 [source,json]
 ----
 [
-  {}
+  {
+    "argo-cd": {}
+  }
 ]
 ----
 
-==== [[input_repositories]] <<input_repositories,repositories>>
+==== [[input_namespace]] <<input_namespace,namespace>>
 
-Description: A list of repositories to add to ArgoCD.
+Description: n/a
 
-Type: `map(map(string))`
+Type: `string`
 
-Default: `{}`
+Default: `"argocd"`
 
 === Outputs
 
@@ -135,27 +86,15 @@ Description: The ArgoCD accounts pipeline tokens.
 
 ==== [[output_argocd_auth_token]] <<output_argocd_auth_token,argocd_auth_token>>
 
-Description: The token to set in ARGOCD_AUTH_TOKEN environment variable.
-
-==== [[output_argocd_domain]] <<output_argocd_domain,argocd_domain>>
-
-Description: n/a
+Description: The token to set in ARGOCD_AUTH_TOKEN environment variable. May be used for configuring argocd terraform provider
 
 ==== [[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>>
 
 Description: n/a
 
-==== [[output_argocd_server_admin_password]] <<output_argocd_server_admin_password,argocd_server_admin_password>>
-
-Description: The ArgoCD admin password.
-
 ==== [[output_argocd_server_secretkey]] <<output_argocd_server_secretkey,argocd_server_secretkey>>
 
 Description: The ArgoCD server secret key.
-
-==== [[output_bootstrap_values]] <<output_bootstrap_values,bootstrap_values>>
-
-Description: n/a
 
 ==== [[output_id]] <<output_id,id>>
 
@@ -167,14 +106,11 @@ Description: n/a
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[requirement_terraform]] <<requirement_terraform,terraform>> |>= 0.13
+|[[requirement_terraform]] <<requirement_terraform,terraform>> |>= 1.2
 |[[requirement_helm]] <<requirement_helm,helm>> |~> 2.0
 |[[requirement_htpasswd]] <<requirement_htpasswd,htpasswd>> |~> 0.9
-|[[requirement_jwt]] <<requirement_jwt,jwt>> |>= 0.0.3
-|[[requirement_kubernetes]] <<requirement_kubernetes,kubernetes>> |~> 2.0
-|[[requirement_null]] <<requirement_null,null>> |~> 3.0
-|[[requirement_random]] <<requirement_random,random>> |~> 3.0
-|[[requirement_time]] <<requirement_time,time>> |~> 0.6
+|[[requirement_jwt]] <<requirement_jwt,jwt>> |~> 1.1
+|[[requirement_utils]] <<requirement_utils,utils>> |~> 1.6
 |===
 
 = Providers
@@ -183,12 +119,11 @@ Description: n/a
 |===
 |Name |Version
 |[[provider_helm]] <<provider_helm,helm>> |~> 2.0
-|[[provider_htpasswd]] <<provider_htpasswd,htpasswd>> |~> 0.9
-|[[provider_jwt]] <<provider_jwt,jwt>> |>= 0.0.3
-|[[provider_null]] <<provider_null,null>> |~> 3.0
-|[[provider_random]] <<provider_random,random>> |~> 3.0
-|[[provider_time]] <<provider_time,time>> |~> 0.6
-|[[provider_utils]] <<provider_utils,utils>> |n/a
+|[[provider_jwt]] <<provider_jwt,jwt>> |~> 1.1
+|[[provider_null]] <<provider_null,null>> |n/a
+|[[provider_random]] <<provider_random,random>> |n/a
+|[[provider_time]] <<provider_time,time>> |n/a
+|[[provider_utils]] <<provider_utils,utils>> |~> 1.6
 |===
 
 = Resources
@@ -197,12 +132,9 @@ Description: n/a
 |===
 |Name |Type
 |https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release[helm_release.argocd] |resource
-|https://registry.terraform.io/providers/loafoe/htpasswd/latest/docs/resources/password[htpasswd_password.argocd_server_admin] |resource
 |https://registry.terraform.io/providers/camptocamp/jwt/latest/docs/resources/hashed_token[jwt_hashed_token.argocd] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] |resource
-|https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.argocd_server_admin] |resource
 |https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.argocd_server_secretkey] |resource
-|https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/password[random_password.oauth2_cookie_secret] |resource
 |https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/uuid[random_uuid.jti] |resource
 |https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/static[time_static.iat] |resource
 |https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] |data source
@@ -213,36 +145,6 @@ Description: n/a
 [cols="a,a,a,a,a",options="header,autowidth"]
 |===
 |Name |Description |Type |Default |Required
-|[[input_argocd]] <<input_argocd,argocd>>
-|ArgoCD settings
-|`any`
-|`{}`
-|no
-
-|[[input_argocd_server_secretkey]] <<input_argocd_server_secretkey,argocd_server_secretkey>>
-|ArgoCD Server Secert Key to avoid regenerate token on redeploy.
-|`string`
-|`null`
-|no
-
-|[[input_base_domain]] <<input_base_domain,base_domain>>
-|The base domain used for Ingresses.
-|`string`
-|`""`
-|no
-
-|[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
-|Cluster Issuer
-|`string`
-|`""`
-|no
-
-|[[input_cluster_name]] <<input_cluster_name,cluster_name>>
-|The name of the cluster to create.
-|`string`
-|`""`
-|no
-
 |[[input_helm_values]] <<input_helm_values,helm_values>>
 |Helm values, passed as a list of HCL structures.
 |`any`
@@ -251,16 +153,18 @@ Description: n/a
 [source]
 ----
 [
-  {}
+  {
+    "argo-cd": {}
+  }
 ]
 ----
 
 |no
 
-|[[input_repositories]] <<input_repositories,repositories>>
-|A list of repositories to add to ArgoCD.
-|`map(map(string))`
-|`{}`
+|[[input_namespace]] <<input_namespace,namespace>>
+|n/a
+|`string`
+|`"argocd"`
 |no
 
 |===
@@ -271,12 +175,9 @@ Description: n/a
 |===
 |Name |Description
 |[[output_argocd_accounts_pipeline_tokens]] <<output_argocd_accounts_pipeline_tokens,argocd_accounts_pipeline_tokens>> |The ArgoCD accounts pipeline tokens.
-|[[output_argocd_auth_token]] <<output_argocd_auth_token,argocd_auth_token>> |The token to set in ARGOCD_AUTH_TOKEN environment variable.
-|[[output_argocd_domain]] <<output_argocd_domain,argocd_domain>> |n/a
+|[[output_argocd_auth_token]] <<output_argocd_auth_token,argocd_auth_token>> |The token to set in ARGOCD_AUTH_TOKEN environment variable. May be used for configuring argocd terraform provider
 |[[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>> |n/a
-|[[output_argocd_server_admin_password]] <<output_argocd_server_admin_password,argocd_server_admin_password>> |The ArgoCD admin password.
 |[[output_argocd_server_secretkey]] <<output_argocd_server_secretkey,argocd_server_secretkey>> |The ArgoCD server secret key.
-|[[output_bootstrap_values]] <<output_bootstrap_values,bootstrap_values>> |n/a
 |[[output_id]] <<output_id,id>> |n/a
 |===
 // END_TF_TABLES

@@ -1,39 +1,25 @@
-output "argocd_auth_token" {
-  description = "The token to set in ARGOCD_AUTH_TOKEN environment variable."
-  value       = jwt_hashed_token.argocd.token
-}
-
-output "argocd_server_admin_password" {
-  description = "The ArgoCD admin password."
-  sensitive   = true
-  value       = random_password.argocd_server_admin.result
-}
-
-output "argocd_server_secretkey" {
-  description = "The ArgoCD server secret key."
-  sensitive   = true
-  value       = local.argocd_server_secretkey
-}
-
-output "argocd_accounts_pipeline_tokens" {
-  description = "The ArgoCD accounts pipeline tokens."
-  sensitive   = true
-  value       = local.argocd_accounts_pipeline_tokens
-}
-
 output "argocd_namespace" {
   value = helm_release.argocd.metadata.0.namespace
 }
 
-output "argocd_domain" {
-  value = local.argocd.domain
-}
-
-output "bootstrap_values" {
-  value     = [yamldecode(data.utils_deep_merge_yaml.values.output)]
-  sensitive = true
-}
-
 output "id" {
   value = resource.null_resource.this.id
+}
+
+output "argocd_server_secretkey" {
+  sensitive   = true
+  description = "The ArgoCD server secret key."
+  value       = random_password.argocd_server_secretkey.result
+}
+
+output "argocd_auth_token" {
+  sensitive   = true
+  description = "The token to set in ARGOCD_AUTH_TOKEN environment variable. May be used for configuring argocd terraform provider"
+  value       = jwt_hashed_token.argocd.token
+}
+
+output "argocd_accounts_pipeline_tokens" {
+  description = "The ArgoCD accounts pipeline tokens."
+  value       = local.argocd_accounts_pipeline_tokens
+  sensitive   = true
 }

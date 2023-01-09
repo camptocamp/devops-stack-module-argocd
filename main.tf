@@ -32,7 +32,7 @@ resource "argocd_project" "this" {
 }
 
 data "utils_deep_merge_yaml" "values" {
-  input = [for i in concat(var.bootstrap_values, local.helm_values, var.helm_values) : yamlencode(i)]
+  input = [for i in concat(local.helm_values, var.helm_values) : yamlencode(i)]
 }
 
 resource "argocd_application" "this" {
@@ -41,16 +41,15 @@ resource "argocd_application" "this" {
     namespace = var.argocd_namespace
   }
 
-  wait = var.app_autosync == { "allow_empty" = tobool(null), "prune" = tobool(null), "self_heal" = tobool(null) } ? false : true
+  wait    = var.app_autosync == { "allow_empty" = tobool(null), "prune" = tobool(null), "self_heal" = tobool(null) } ? false : true
   cascade = false
-
 
   spec {
     project = argocd_project.this.metadata.0.name
 
     source {
-      repo_url        = "https://github.com/camptocamp/devops-stack-module-argocd.git"
       path            = "charts/argocd"
+      repo_url        = "https://github.com/camptocamp/devops-stack-module-argocd.git"
       target_revision = var.target_revision
       helm {
         values = data.utils_deep_merge_yaml.values.output
@@ -89,3 +88,4 @@ resource "null_resource" "this" {
     resource.argocd_application.this,
   ]
 }
+
