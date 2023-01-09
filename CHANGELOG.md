@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0-alpha.4](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.4...v2.0.0-alpha.4) (2023-01-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* refactor bootstrap interface ([#24](https://github.com/camptocamp/devops-stack-module-argocd/issues/24))
+
+### Features
+
+* refactor bootstrap interface ([#24](https://github.com/camptocamp/devops-stack-module-argocd/issues/24)) ([2e2802c](https://github.com/camptocamp/devops-stack-module-argocd/commit/2e2802ce4fc409e1d6d9ce939000a660a0207639))
+
 ## [1.0.0-alpha.4](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-12-21)
 
 
