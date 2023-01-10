@@ -1,19 +1,11 @@
 variable "cluster_name" {
   description = "The name of the cluster to create."
   type        = string
-  default     = ""
-}
-
-variable "base_domain" {
-  description = "The base domain used for Ingresses."
-  type        = string
-  default     = ""
 }
 
 variable "cluster_issuer" {
   description = "Cluster Issuer"
   type        = string
-  default     = ""
 }
 
 variable "oidc" {
@@ -22,10 +14,9 @@ variable "oidc" {
   default     = null
 }
 
-variable "argocd" {
-  description = "ArgoCD settings"
-  type        = any
-  default     = {}
+variable "base_domain" {
+  description = "The base domain for building Ingress following DevOps Stack convention, e.g. argocd.apps.<cluster_name>.<base_domain>"
+  type        = string
 }
 
 variable "repositories" {
@@ -42,20 +33,16 @@ variable "helm_values" {
   }]
 }
 
-variable "argocd_server_secretkey" {
-  description = "ArgoCD Server Secert Key to avoid regenerate token on redeploy."
-  type        = string
-  default     = null
-}
-
 variable "namespace" {
-  type    = string
-  default = "argocd"
+  description = "Destination Namespace for Application child resources."
+  type        = string
+  default     = "argocd"
 }
 
 variable "argocd_namespace" {
-  type    = string
-  default = "argocd"
+  description = "Namespace for the resources AppProject and Application."
+  type        = string
+  default     = "argocd"
 }
 
 variable "dependency_ids" {
@@ -81,4 +68,22 @@ variable "app_autosync" {
     prune       = true
     self_heal   = true
   }
+}
+
+variable "admin_enabled" {
+  description = "Flag to indicate whether to enable admin user."
+  type        = bool
+  default     = false
+}
+
+variable "accounts_pipeline_tokens" {
+  description = "API token for pipeline account."
+  type        = string
+  sensitive   = true
+}
+
+variable "server_secretkey" {
+  description = "Signature key for session validation. Must reuse bootstrap secretkey."
+  type        = string
+  sensitive   = false
 }
