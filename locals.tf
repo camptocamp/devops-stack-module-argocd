@@ -1,5 +1,7 @@
 
 locals {
+  argocd_hostname_withclustername = format("argocd.apps.%s.%s", var.cluster_name, var.base_domain)
+  argocd_hostname                 = format("argocd.apps.%s", var.base_domain)
   helm_values = [{
     argo-cd = {
       configs = merge(length(var.repositories) > 0 ? {
@@ -15,8 +17,8 @@ locals {
         }
         secret = {
           extra = {
-            "accounts.pipeline.tokens"  = "${replace(var.argocd["accounts_pipeline_tokens"], "\\\"", "\"")}"
-            "server.secretkey"          = "${replace(var.argocd["server_secretkey"], "\\\"", "\"")}"
+            "accounts.pipeline.tokens"  = "${replace(var.accounts_pipeline_tokens, "\\\"", "\"")}"
+            "server.secretkey"          = "${replace(var.server_secretkey, "\\\"", "\"")}"
             "oidc.default.clientSecret" = "${replace(var.oidc.clientSecret, "\\\"", "\"")}"
           }
         }
@@ -40,8 +42,8 @@ locals {
             "--insecure",
           ]
           config = {
-            url                       = "https://${var.argocd["domain"]}"
-            "admin.enabled"           = "${var.argocd["admin_enabled"]}"
+            "url"                     = "https://${local.argocd_hostname_withclustername}"
+            "admin.enabled"           = tostring(var.admin_enabled)
             "accounts.pipeline"       = "apiKey"
             "oidc.config"             = <<-EOT
               ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
@@ -88,15 +90,15 @@ locals {
               "kubernetes.io/ingress.allow-http"                 = "false"
             }
             hosts = [
-              "${var.argocd["domain"]}",
-              "argocd.apps.${var.base_domain}",
+              local.argocd_hostname_withclustername,
+              local.argocd_hostname
             ]
             tls = [
               {
                 secretName = "argocd-tls"
                 hosts = [
-                  "${var.argocd["domain"]}",
-                  "argocd.apps.${var.base_domain}",
+                  local.argocd_hostname_withclustername,
+                  local.argocd_hostname
                 ]
               },
             ]
