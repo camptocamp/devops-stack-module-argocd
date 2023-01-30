@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.0.0-alpha.5](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2023-01-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* refact main argocd module ([#28](https://github.com/camptocamp/devops-stack-module-argocd/issues/28))
+
+### Features
+
+* refact main argocd module ([#28](https://github.com/camptocamp/devops-stack-module-argocd/issues/28)) ([62ddac7](https://github.com/camptocamp/devops-stack-module-argocd/commit/62ddac7319142e3f74faf346bd5bbaf930dab615))
+
+
+### Miscellaneous Chores
+
+* release 1.0.0-alpha.5 ([#30](https://github.com/camptocamp/devops-stack-module-argocd/issues/30)) ([fe79dbe](https://github.com/camptocamp/devops-stack-module-argocd/commit/fe79dbe2239e2a66e5f0bea297c6a31bb003f157))
+
 ## [1.0.0-alpha.4](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.3...v1.0.0-alpha.4) (2022-12-21)
 
 
