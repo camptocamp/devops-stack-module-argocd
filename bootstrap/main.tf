@@ -1,5 +1,5 @@
 locals {
-  argocd_chart = yamldecode(file("${path.module}/../charts/argocd/Chart.yaml")).dependencies.0
+  argocd_chart = yamldecode(file("${path.module}/../charts/argocd/Chart.lock")).dependencies.0
 }
 
 # argocd secret key for token generation, it should be passed to next argocd generation
