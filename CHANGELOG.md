@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.0-alpha.6](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2023-02-07)
+
+
+### Bug Fixes
+
+* **bootstrap:** get chart version from Chart.lock ([#31](https://github.com/camptocamp/devops-stack-module-argocd/issues/31)) ([0a449a9](https://github.com/camptocamp/devops-stack-module-argocd/commit/0a449a921784afa74fa67294cd62f66478ab6c3e))
+
+
+### Miscellaneous Chores
+
+* release 1.0.0-alpha.6 ([#33](https://github.com/camptocamp/devops-stack-module-argocd/issues/33)) ([5ea7e9c](https://github.com/camptocamp/devops-stack-module-argocd/commit/5ea7e9c4b531bb41ca46f7423c58f70b9e1b84fa))
+
 ## [1.0.0-alpha.5](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.4...v1.0.0-alpha.5) (2023-01-30)
 
 
