@@ -5,27 +5,27 @@ The following requirements are needed by this module:
 
 - [[requirement_terraform]] <<requirement_terraform,terraform>> (>= 1.2)
 
-- [[requirement_argocd]] <<requirement_argocd,argocd>> (~> 4.2)
+- [[requirement_argocd]] <<requirement_argocd,argocd>> (>= 4.2)
 
-- [[requirement_htpasswd]] <<requirement_htpasswd,htpasswd>> (~> 0.9)
+- [[requirement_htpasswd]] <<requirement_htpasswd,htpasswd>> (>= 1)
 
-- [[requirement_jwt]] <<requirement_jwt,jwt>> (~> 1.1)
+- [[requirement_jwt]] <<requirement_jwt,jwt>> (>= 1.1)
 
-- [[requirement_random]] <<requirement_random,random>> (~> 3.0)
+- [[requirement_random]] <<requirement_random,random>> (>= 3)
 
-- [[requirement_time]] <<requirement_time,time>> (~> 0.9)
+- [[requirement_time]] <<requirement_time,time>> (>= 0.9)
 
-- [[requirement_utils]] <<requirement_utils,utils>> (~> 1.6)
+- [[requirement_utils]] <<requirement_utils,utils>> (>= 1.6)
 
 === Providers
 
 The following providers are used by this module:
 
-- [[provider_argocd]] <<provider_argocd,argocd>> (~> 4.2)
+- [[provider_argocd]] <<provider_argocd,argocd>> (>= 4.2)
 
 - [[provider_null]] <<provider_null,null>>
 
-- [[provider_utils]] <<provider_utils,utils>> (~> 1.6)
+- [[provider_utils]] <<provider_utils,utils>> (>= 1.6)
 
 === Modules
 
@@ -173,7 +173,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v1.0.0-alpha.5"`
+Default: `"v1.0.0-alpha.6"`
 
 === Outputs
 
@@ -190,12 +190,12 @@ Description: n/a
 |===
 |Name |Version
 |[[requirement_terraform]] <<requirement_terraform,terraform>> |>= 1.2
-|[[requirement_argocd]] <<requirement_argocd,argocd>> |~> 4.2
-|[[requirement_htpasswd]] <<requirement_htpasswd,htpasswd>> |~> 0.9
-|[[requirement_jwt]] <<requirement_jwt,jwt>> |~> 1.1
-|[[requirement_random]] <<requirement_random,random>> |~> 3.0
-|[[requirement_time]] <<requirement_time,time>> |~> 0.9
-|[[requirement_utils]] <<requirement_utils,utils>> |~> 1.6
+|[[requirement_argocd]] <<requirement_argocd,argocd>> |>= 4.2
+|[[requirement_htpasswd]] <<requirement_htpasswd,htpasswd>> |>= 1
+|[[requirement_jwt]] <<requirement_jwt,jwt>> |>= 1.1
+|[[requirement_random]] <<requirement_random,random>> |>= 3
+|[[requirement_time]] <<requirement_time,time>> |>= 0.9
+|[[requirement_utils]] <<requirement_utils,utils>> |>= 1.6
 |===
 
 = Providers
@@ -203,9 +203,9 @@ Description: n/a
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_argocd]] <<provider_argocd,argocd>> |~> 4.2
+|[[provider_argocd]] <<provider_argocd,argocd>> |>= 4.2
 |[[provider_null]] <<provider_null,null>> |n/a
-|[[provider_utils]] <<provider_utils,utils>> |~> 1.6
+|[[provider_utils]] <<provider_utils,utils>> |>= 1.6
 |===
 
 = Resources
@@ -336,7 +336,7 @@ object({
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v1.0.0-alpha.5"`
+|`"v1.0.0-alpha.6"`
 |no
 
 |===
