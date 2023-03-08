@@ -5,11 +5,11 @@ terraform {
       version = ">= 2"
     }
     utils = {
-      source = "cloudposse/utils"
+      source  = "cloudposse/utils"
       version = ">= 1.6"
     }
     htpasswd = {
-      source = "loafoe/htpasswd"
+      source  = "loafoe/htpasswd"
       version = ">= 1"
     }
     jwt = {
