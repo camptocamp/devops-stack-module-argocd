@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.7](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2023-03-10)
+
+
+### Bug Fixes
+
+* **terraform:** change to looser versions constraints as per best practices ([#34](https://github.com/camptocamp/devops-stack-module-argocd/issues/34)) ([857f793](https://github.com/camptocamp/devops-stack-module-argocd/commit/857f7932db65947af6e76d52b2cb90b4d3085eca))
+
 ## [1.0.0-alpha.6](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.5...v1.0.0-alpha.6) (2023-02-07)
 
 
