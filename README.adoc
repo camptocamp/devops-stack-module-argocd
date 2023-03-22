@@ -27,10 +27,6 @@ The following providers are used by this module:
 
 - [[provider_utils]] <<provider_utils,utils>> (>= 1.6)
 
-=== Modules
-
-No modules.
-
 === Resources
 
 The following resources are used by this module:

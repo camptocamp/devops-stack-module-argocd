@@ -29,10 +29,6 @@ The following providers are used by this module:
 
 - [[provider_utils]] <<provider_utils,utils>> (>= 1.6)
 
-=== Modules
-
-No modules.
-
 === Resources
 
 The following resources are used by this module:
@@ -45,9 +41,6 @@ The following resources are used by this module:
 - https://registry.terraform.io/providers/hashicorp/time/latest/docs/resources/static[time_static.iat] (resource)
 - https://registry.terraform.io/providers/cloudposse/utils/latest/docs/data-sources/deep_merge_yaml[utils_deep_merge_yaml.values] (data source)
 
-=== Required Inputs
-
-No required inputs.
 === Optional Inputs
 
 The following input variables are optional (have default values):
