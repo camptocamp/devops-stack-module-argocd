@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.8](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2023-03-22)
+
+
+### Features
+
+* add new default administrator group ([#36](https://github.com/camptocamp/devops-stack-module-argocd/issues/36)) ([4b66416](https://github.com/camptocamp/devops-stack-module-argocd/commit/4b664163745eaca9d5701e43eb1e4b669f3e939e))
+
 ## [1.0.0-alpha.7](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.6...v1.0.0-alpha.7) (2023-03-10)
 
 
