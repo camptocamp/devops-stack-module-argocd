@@ -53,7 +53,7 @@ variable "dependency_ids" {
 variable "target_revision" {
   description = "Override of target revision of the application chart."
   type        = string
-  default     = "v1.0.0-alpha.7" # x-release-please-version
+  default     = "v1.0.0-alpha.8" # x-release-please-version
 }
 
 variable "app_autosync" {
