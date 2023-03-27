@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0-alpha.9](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2023-03-27)
+
+
+### Documentation
+
+* add docs structure and PR template ([#39](https://github.com/camptocamp/devops-stack-module-argocd/issues/39)) ([7dc0991](https://github.com/camptocamp/devops-stack-module-argocd/commit/7dc0991af84cc3386943535859aed6a9f66d5f68))
+
 ## [1.0.0-alpha.8](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.7...v1.0.0-alpha.8) (2023-03-22)
 
 
