@@ -1,0 +1,5 @@
+* xref:ROOT:README.adoc[Home]
+* Module Variants
+** xref:ROOT:bootstrap/README.adoc[Bootstrap]
+* https://github.com/camptocamp/devops-stack-module-argocd[Repository,window=_blank]
+* xref:ROOT:ROOT:index.adoc[_Return to DevOps Stack docs_]
