@@ -1,0 +1,7 @@
+---
+name: "argocd"
+title: "Argo CD Module"
+version: true
+start_page: README.adoc
+nav:
+  - "modules/ROOT/nav.adoc"
