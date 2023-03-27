@@ -1,5 +1,6 @@
 
 locals {
+  argocd_version                  = "v2.6.6"
   argocd_hostname_withclustername = format("argocd.apps.%s.%s", var.cluster_name, var.base_domain)
   argocd_hostname                 = format("argocd.apps.%s", var.base_domain)
   helm_values = [{
@@ -36,7 +37,66 @@ locals {
         metrics = {
           enabled = true
         }
+        volumes = [
+          {
+            configMap = {
+              name = "kustomized-helm-cm"
+            }
+            name = "kustomized-helm-volume"
+          }
+        ]
+        extraContainers = [
+          {
+            name    = "kustomized-helm-cmp"
+            command = ["/var/run/argocd/argocd-cmp-server"]
+            # Note: Argo CD official image ships Helm and Kustomize. No need to build a custom image to use "kustomized-helm" plugin.
+            image = "quay.io/argoproj/argocd:${local.argocd_version}"
+            securityContext = {
+              runAsNonRoot = true
+              runAsUser    = 999
+            }
+            volumeMounts = [
+              {
+                mountPath = "/var/run/argocd"
+                name      = "var-files"
+              },
+              {
+                mountPath = "/home/argocd/cmp-server/plugins"
+                name      = "plugins"
+              },
+              {
+                mountPath = "/home/argocd/cmp-server/config/plugin.yaml"
+                subPath   = "plugin.yaml"
+                name      = "kustomized-helm-volume"
+              }
+            ]
+          }
+        ]
       }
+      extraObjects = [
+        {
+          apiVersion = "v1"
+          kind       = "ConfigMap"
+          metadata = {
+            name = "kustomized-helm-cm"
+          }
+          data = {
+            "plugin.yaml" = <<-EOT
+              apiVersion: argoproj.io/v1alpha1
+              kind: ConfigManagementPlugin
+              metadata:
+                name: kustomized-helm
+              spec:
+                init:
+                  command: ["/bin/sh", "-c"]
+                  args: ["helm dependency build || true"]
+                generate:
+                  command: ["/bin/sh", "-c"]
+                  args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
+            EOT
+          }
+        }
+      ]
       server = merge(
         {
           extraArgs = [
@@ -48,15 +108,6 @@ locals {
             "accounts.pipeline"       = "apiKey"
             "oidc.config"             = <<-EOT
               ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
-              EOT
-            "configManagementPlugins" = <<-EOT
-              - name: kustomized-helm
-                init:
-                  command: ["/bin/sh", "-c"]
-                  args: ["helm dependency build || true"]
-                generate:
-                  command: ["/bin/sh", "-c"]
-                  args: ["echo \"$ARGOCD_ENV_HELM_VALUES\" | helm template . --name-template $ARGOCD_APP_NAME --namespace $ARGOCD_APP_NAMESPACE $ARGOCD_ENV_HELM_ARGS -f - --include-crds > all.yaml && kustomize build"]
               EOT
             "resource.customizations" = <<-EOT
               argoproj.io/Application: # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app

@@ -32,7 +32,8 @@ resource "argocd_project" "this" {
 }
 
 data "utils_deep_merge_yaml" "values" {
-  input = [for i in concat(local.helm_values, var.helm_values) : yamlencode(i)]
+  input       = [for i in concat(local.helm_values, var.helm_values) : yamlencode(i)]
+  append_list = true
 }
 
 resource "argocd_application" "this" {
