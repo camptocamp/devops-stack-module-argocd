@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.9...v1.0.0) (2023-04-06)
+
+
+### Features
+
+* upgrade argocd helm chart 5.27.1 ([#37](https://github.com/camptocamp/devops-stack-module-argocd/issues/37)) ([e2c5f0c](https://github.com/camptocamp/devops-stack-module-argocd/commit/e2c5f0c818daa6024f2504ee38a48d6148d4eac7))
+
 ## [1.0.0-alpha.9](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.8...v1.0.0-alpha.9) (2023-03-27)
 
 
