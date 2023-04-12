@@ -3,6 +3,24 @@ locals {
   argocd_version                  = "v2.6.6"
   argocd_hostname_withclustername = format("argocd.apps.%s.%s", var.cluster_name, var.base_domain)
   argocd_hostname                 = format("argocd.apps.%s", var.base_domain)
+
+  jwt_tokens = {
+    for account in var.extra_accounts : account => {
+      jti = random_uuid.jti[account].result
+      iat = time_static.iat[account].unix
+      iss = "argocd"
+      nbf = time_static.iat[account].unix
+      sub = account
+    }
+  }
+
+  extra_accounts_tokens = {for account in var.extra_accounts : format("accounts.%s.tokens", account) => replace(jsonencode([
+    {
+      id = random_uuid.jti[account].result
+      iat = time_static.iat[account].unix
+    }
+  ]), "\\\"", "\"")}
+
   helm_values = [{
     argo-cd = {
       configs = merge(length(var.repositories) > 0 ? {
@@ -18,11 +36,11 @@ locals {
                             EOT
         }
         secret = {
-          extra = {
+          extra = merge({
             "accounts.pipeline.tokens"  = "${replace(var.accounts_pipeline_tokens, "\\\"", "\"")}"
             "server.secretkey"          = "${replace(var.server_secretkey, "\\\"", "\"")}"
             "oidc.default.clientSecret" = "${replace(var.oidc.clientSecret, "\\\"", "\"")}"
-          }
+          }, local.extra_accounts_tokens)
         }
       })
       controller = {
@@ -102,7 +120,7 @@ locals {
           extraArgs = [
             "--insecure",
           ]
-          config = {
+          config = merge({for account in var.extra_accounts : format("accounts.%s", account) => "apiKey"}, {
             "url"                     = "https://${local.argocd_hostname_withclustername}"
             "admin.enabled"           = tostring(var.admin_enabled)
             "accounts.pipeline"       = "apiKey"
@@ -130,7 +148,7 @@ locals {
                   hs.status = "Healthy"
                   return hs
               EOT
-          }
+          })
           ingress = {
             enabled = true
             annotations = {
