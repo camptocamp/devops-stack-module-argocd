@@ -2,6 +2,22 @@ resource "null_resource" "dependencies" {
   triggers = var.dependency_ids
 }
 
+resource "jwt_hashed_token" "tokens" {
+  for_each = toset(var.extra_accounts)
+
+  algorithm   = "HS256"
+  secret      = var.server_secretkey
+  claims_json = jsonencode(local.jwt_tokens[each.value])
+}
+
+resource "time_static" "iat" {
+  for_each = toset(var.extra_accounts)
+}
+
+resource "random_uuid" "jti" {
+  for_each = toset(var.extra_accounts)
+}
+
 resource "argocd_project" "this" {
   metadata {
     name      = "argocd"

@@ -87,3 +87,9 @@ variable "server_secretkey" {
   type        = string
   sensitive   = false
 }
+
+variable "extra_accounts" {
+  description = "List of accounts for which tokens will be generated."
+  type        = list(string)
+  default     = []
+}
