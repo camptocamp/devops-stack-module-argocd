@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0...v1.1.0) (2023-04-13)
+
+
+### Features
+
+* support extra accounts token generation ([#42](https://github.com/camptocamp/devops-stack-module-argocd/issues/42)) ([762ce3e](https://github.com/camptocamp/devops-stack-module-argocd/commit/762ce3ea2327ac4804aad04fdb36afe63595355a))
+
 ## [1.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0-alpha.9...v1.0.0) (2023-04-06)
 
 
