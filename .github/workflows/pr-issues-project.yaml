@@ -1,0 +1,19 @@
+---
+name: "pr-issues-project"
+
+on:
+  issues:
+    types:
+    - opened
+    - reopened
+
+  pull_request:
+    types:
+    - opened
+    - reopened
+
+jobs:
+  add-to-project:
+    uses: camptocamp/devops-stack/.github/workflows/pr-issues-project.yaml@main
+    secrets:
+      PROJECT_APP_PRIVATE_KEY: ${{ secrets.PROJECT_APP_PRIVATE_KEY }}
