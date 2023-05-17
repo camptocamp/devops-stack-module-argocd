@@ -1,3 +1,125 @@
+= devops-stack-module-argocd
+
+A https://devops-stack.io[DevOps Stack] module to deploy https://argo-cd.readthedocs.io/[ArgoCD].
+
+
+== Usage
+
+The module can be used first creating a minimal version of ArgoCD for bootstrapping https://devops-stack.io[DevOps Stack] modules.
+
+
+The ArgoCD/bootstrap module can be used as:
+
+[source,terraform]
+---
+module "argocd_bootstrap" {
+
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git//bootstrap?ref=v1.0.0-alpha.7"
+
+}
+---
+
+
+An ArgoCD provider can be configured as:
+
+[source,terraform]
+---
+provider "argocd" {
+  alias = "argocd_pipeline"
+
+  server_addr                 = "127.0.0.1:8080"
+  auth_token                  = module.argocd_bootstrap.argocd_auth_token
+  insecure                    = true
+  plain_text                  = true
+  port_forward                = true
+  port_forward_with_namespace = "argocd"
+
+  kubernetes {
+    ...
+  }
+}
+---
+
+
+The provider can be used for deploying any DevOps Stack module (including ArgoCD module itself) as:
+
+[source,terraform]
+---
+module "argocd" {
+
+  providers = {
+    argocd = argocd.argocd_pipeline
+  }
+
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=v1.0.0"
+
+  base_domain    = local.base_domain
+  cluster_name   = local.cluster_name
+  cluster_issuer = local.cluster_issuer
+
+  repositories = {
+    cluster-apps = {
+      ...
+    }
+    user-apps = {
+      ...
+    }
+  }
+
+  admin_enabled            = "true" # honors bootstrap's argocd-initial-admin-secret
+  namespace                = "argocd"
+  accounts_pipeline_tokens = module.argocd_bootstrap.argocd_accounts_pipeline_tokens
+  server_secretkey         = module.argocd_bootstrap.argocd_server_secretkey
+
+  oidc = {
+      ...
+  }
+}
+---
+
+== Troubleshooting
+
+When deploying second install of ArgoCD you may experience connection errors (which is normal given that argocd-server pod could have been redeployed), which leaves the terraform resources as a tainted resource. Untainting it solves this situation.
+
+The error:
+
+```
+│ Error: Error while waiting for application argocd to be created
+│
+│   with module.argocd.argocd_application.this,
+│   on .terraform/modules/argocd/main.tf line 55, in resource "argocd_application" "this":
+│   55: resource "argocd_application" "this" {
+│
+│ error while waiting for application argocd to be synced and healthy: rpc error: code = Unavailable desc = connection error: desc = "transport: error while dialing: dial tcp 127.0.0.1:44461: connect:
+│ connection refused"
+```
+
+Which puts the leaves the terraform resource as tainted:
+
+```
+`terraform plan
+  # module.devops_stack_blue.module.argocd.argocd_application.this is tainted, so must be replaced
+-/+ resource "argocd_application" "this" {
+      ~ id      = "argocd:argocd" -> (known after apply)
+        # (2 unchanged attributes hidden)
+
+      ~ metadata {
+        ...
+        }
+
+      ~ spec {
+        ...
+        }
+    }
+
+Plan: 1 to add, 1 to change, 1 to destroy.
+```
+
+```
+terraform untaint 'module.argocd.argocd_application.this'
+```
+
+
 // BEGIN_TF_DOCS
 === Requirements
 
