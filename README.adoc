@@ -3,7 +3,7 @@
 :chart-version: 5.27.1
 :chart-url: https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
 
-A https://devops-stack.io[DevOps Stack] module to deploy https://argo-cd.readthedocs.io/[ArgoCD].
+A https://devops-stack.io[DevOps Stack] module to deploy and configure https://argo-cd.readthedocs.io/[Argo CD].
 
 The Argo CD chart used by this module is shipped in this repository as well, in order to avoid any unwanted behaviors caused by unsupported versions. 
 
