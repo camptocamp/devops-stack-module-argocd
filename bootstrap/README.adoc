@@ -87,7 +87,7 @@ The following input variables are optional (have default values):
 
 ==== [[input_namespace]] <<input_namespace,namespace>>
 
-Description: n/a
+Description: Namespace where to deploy Argo CD.
 
 Type: `string`
 
@@ -95,7 +95,7 @@ Default: `"argocd"`
 
 ==== [[input_helm_values]] <<input_helm_values,helm_values>>
 
-Description: Helm values, passed as a list of HCL structures.
+Description: Helm chart value overrides. They should be passed as a list of HCL structures.
 
 Type: `any`
 
@@ -115,23 +115,23 @@ The following outputs are exported:
 
 ==== [[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>>
 
-Description: n/a
+Description: The names
 
 ==== [[output_id]] <<output_id,id>>
 
-Description: n/a
+Description: ID to pass other modules in order to refer to this module as a dependency.
 
 ==== [[output_argocd_server_secretkey]] <<output_argocd_server_secretkey,argocd_server_secretkey>>
 
-Description: The ArgoCD server secret key.
+Description: The Argo CD server secret key.
 
 ==== [[output_argocd_auth_token]] <<output_argocd_auth_token,argocd_auth_token>>
 
-Description: The token to set in ARGOCD_AUTH_TOKEN environment variable. May be used for configuring argocd terraform provider
+Description: The token to set in `ARGOCD_AUTH_TOKEN` environment variable. May be used for configuring Argo CD Terraform provider.
 
 ==== [[output_argocd_accounts_pipeline_tokens]] <<output_argocd_accounts_pipeline_tokens,argocd_accounts_pipeline_tokens>>
 
-Description: The ArgoCD accounts pipeline tokens.
+Description: The Argo CD accounts pipeline tokens.
 // END_TF_DOCS
 
 === Reference in table format 
@@ -185,13 +185,13 @@ Description: The ArgoCD accounts pipeline tokens.
 |===
 |Name |Description |Type |Default |Required
 |[[input_namespace]] <<input_namespace,namespace>>
-|n/a
+|Namespace where to deploy Argo CD.
 |`string`
 |`"argocd"`
 |no
 
 |[[input_helm_values]] <<input_helm_values,helm_values>>
-|Helm values, passed as a list of HCL structures.
+|Helm chart value overrides. They should be passed as a list of HCL structures.
 |`any`
 |
 
@@ -213,10 +213,10 @@ Description: The ArgoCD accounts pipeline tokens.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Description
-|[[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>> |n/a
-|[[output_id]] <<output_id,id>> |n/a
-|[[output_argocd_server_secretkey]] <<output_argocd_server_secretkey,argocd_server_secretkey>> |The ArgoCD server secret key.
-|[[output_argocd_auth_token]] <<output_argocd_auth_token,argocd_auth_token>> |The token to set in ARGOCD_AUTH_TOKEN environment variable. May be used for configuring argocd terraform provider
-|[[output_argocd_accounts_pipeline_tokens]] <<output_argocd_accounts_pipeline_tokens,argocd_accounts_pipeline_tokens>> |The ArgoCD accounts pipeline tokens.
+|[[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>> |The names
+|[[output_id]] <<output_id,id>> |ID to pass other modules in order to refer to this module as a dependency.
+|[[output_argocd_server_secretkey]] <<output_argocd_server_secretkey,argocd_server_secretkey>> |The Argo CD server secret key.
+|[[output_argocd_auth_token]] <<output_argocd_auth_token,argocd_auth_token>> |The token to set in `ARGOCD_AUTH_TOKEN` environment variable. May be used for configuring Argo CD Terraform provider.
+|[[output_argocd_accounts_pipeline_tokens]] <<output_argocd_accounts_pipeline_tokens,argocd_accounts_pipeline_tokens>> |The Argo CD accounts pipeline tokens.
 |===
 // END_TF_TABLES
