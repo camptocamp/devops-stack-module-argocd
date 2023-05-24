@@ -1,3 +1,43 @@
+= Argo CD Bootstrap module
+
+This module is used to bootstrap the Argo CD that will deploy the rest of the DevOps Stack modules on a first deployment of a cluster.
+
+The Argo CD installed is the same as the one deployed by the Argo CD module, however *this module deploys it using the Helm provider for Terraform*, since the Argo CD provider cannot be obviously used until it installed.
+
+== Usage
+
+To do that, on your Terraform configuration you can declare the module as such:
+
+[source,terraform]
+----
+module "argocd_bootstrap" {
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git//bootstrap?ref=v1.1.0"
+
+  # Note here that you should mark the module as depending on the module that deployed the cluster
+  depends_on = [module.eks]
+}
+----
+
+Do not forget to add the Argo CD provider settings, which is needed to deploy all the other modules, since they use the Argo CD provider: 
+
+[source,terraform]
+----
+provider "argocd" {
+  server_addr                 = "127.0.0.1:8080"
+  auth_token                  = module.argocd_bootstrap.argocd_auth_token
+  insecure                    = true
+  plain_text                  = true
+  port_forward                = true
+  port_forward_with_namespace = "argocd"
+
+  kubernetes {
+    ...
+  }
+}
+----
+
+== Technical Documentation
+
 // BEGIN_TF_DOCS
 === Requirements
 
@@ -93,6 +133,12 @@ Description: The token to set in ARGOCD_AUTH_TOKEN environment variable. May be 
 
 Description: The ArgoCD accounts pipeline tokens.
 // END_TF_DOCS
+
+=== Reference in table format 
+
+.Show tables
+[%collapsible]
+====
 // BEGIN_TF_TABLES
 = Requirements
 

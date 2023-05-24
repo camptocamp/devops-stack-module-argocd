@@ -1,61 +1,71 @@
 = devops-stack-module-argocd
+// Document attributes to replace along the document
+:chart-version: 5.27.1
+:chart-url: https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
 
 A https://devops-stack.io[DevOps Stack] module to deploy https://argo-cd.readthedocs.io/[ArgoCD].
 
+The Argo CD chart used by this module is shipped in this repository as well, in order to avoid any unwanted behaviors caused by unsupported versions. 
+
+[cols="1,1,1",options="autowidth,header"]
+|===
+|Current Chart Version |Original Repository |Default Values
+|*{chart-version}* |{chart-url}[Chart] |https://artifacthub.io/packages/helm/argo/argo-cd?modal=values[`values.yaml`]
+|===
 
 == Usage
 
-The module can be used first creating a minimal version of ArgoCD for bootstrapping https://devops-stack.io[DevOps Stack] modules.
+IMPORTANT: The root of this repository contains the final Argo CD module to be deployed, which uses a [Terraform provider for Argo CD] to deploy the Argo CD chart. On the first deployment of a cluster, you'll want to use the bootstrap module instead. Check the xref:ROOT:bootstrap/README.adoc[bootstrap module's documentation] for more information.
 
-
-The ArgoCD/bootstrap module can be used as:
-
-[source,terraform]
----
-module "argocd_bootstrap" {
-
-  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git//bootstrap?ref=v1.0.0-alpha.7"
-
-}
----
-
-
-An ArgoCD provider can be configured as:
+To deploy the final Argo CD module, you'll need to add the following declaration on your Terraform configuration:
 
 [source,terraform]
----
-provider "argocd" {
-  alias = "argocd_pipeline"
-
-  server_addr                 = "127.0.0.1:8080"
-  auth_token                  = module.argocd_bootstrap.argocd_auth_token
-  insecure                    = true
-  plain_text                  = true
-  port_forward                = true
-  port_forward_with_namespace = "argocd"
-
-  kubernetes {
-    ...
-  }
-}
----
-
-
-The provider can be used for deploying any DevOps Stack module (including ArgoCD module itself) as:
-
-[source,terraform]
----
+----
 module "argocd" {
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=v1.1.0"
 
-  providers = {
-    argocd = argocd.argocd_pipeline
-  }
-
-  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=v1.0.0"
-
-  base_domain    = local.base_domain
   cluster_name   = local.cluster_name
+  base_domain    = local.base_domain
   cluster_issuer = local.cluster_issuer
+
+  admin_enabled            = "true"
+  namespace                = module.argocd_bootstrap.argocd_namespace
+  accounts_pipeline_tokens = module.argocd_bootstrap.argocd_accounts_pipeline_tokens
+  server_secretkey         = module.argocd_bootstrap.argocd_server_secretkey
+
+  dependency_ids = {
+    argocd                = module.argocd_bootstrap.id
+    traefik               = module.traefik.id
+    cert-manager          = module.cert-manager.id
+    oidc                  = module.oidc.id
+    kube-prometheus-stack = module.kube-prometheus-stack.id
+  }
+}
+----
+
+A more complex declaration, that includes a OIDC configuration for the login (this way you avoid having to login using the admin password found on a Kubernetes secret) and the configuration of some other source repositories, would be:
+
+[source,terraform]
+----
+module "argocd" {
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=v1.1.0"
+
+  ...
+
+  oidc = {
+    name         = "OIDC"
+    issuer       = module.oidc.oidc.issuer_url
+    clientID     = module.oidc.oidc.client_id
+    clientSecret = module.oidc.oidc.client_secret
+    requestedIDTokenClaims = {
+      groups = {
+        essential = true
+      }
+    }
+    requestedScopes = [
+      "openid", "profile", "email"
+    ]
+  }
 
   repositories = {
     cluster-apps = {
@@ -66,24 +76,50 @@ module "argocd" {
     }
   }
 
-  admin_enabled            = "true" # honors bootstrap's argocd-initial-admin-secret
-  namespace                = "argocd"
-  accounts_pipeline_tokens = module.argocd_bootstrap.argocd_accounts_pipeline_tokens
-  server_secretkey         = module.argocd_bootstrap.argocd_server_secretkey
-
-  oidc = {
-      ...
-  }
+  ...
 }
----
+----
+
+TIP: The sources can also be configured using the xref:application:ROOT:README.adoc[Application] and xref:applicationset:ROOT:README.adoc[ApplicationSet] modules.
+
+You can also overload the `policy.csv` as shown in the following example:
+
+[source,terraform]
+----
+module "argocd" {
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=v1.1.0"
+
+  ...
+
+  helm_values = [{
+    argo-cd = {
+      configs = {
+        rbac = {
+          "policy.csv" = <<-EOT
+          g, pipeline, role:admin
+          g, argocd-admin, role:admin
+          p, role:read-sync, applications, get, */*, allow
+          p, role:read-sync, applications, sync, */*, allow
+          p, role:read-sync, repositories, get, *, allow
+          p, role:read-sync, projects, get, *, allow
+          EOT
+        }
+      }
+    }
+  }]
+
+  ...
+}
+----
+
+NOTE: By default, this module has a `policy.csv` that is configured to give administrator access to any user belonging to the groups `argocd-admin` or `devops-stack-admins`.
 
 == Troubleshooting
 
-When deploying second install of ArgoCD you may experience connection errors (which is normal given that argocd-server pod could have been redeployed), which leaves the terraform resources as a tainted resource. Untainting it solves this situation.
+When deploying this module of Argo CD you may experience connection errors (which is normal given that argocd-server pod could have been redeployed).
 
-The error:
-
-```
+[source]
+----
 │ Error: Error while waiting for application argocd to be created
 │
 │   with module.argocd.argocd_application.this,
@@ -92,12 +128,15 @@ The error:
 │
 │ error while waiting for application argocd to be synced and healthy: rpc error: code = Unavailable desc = connection error: desc = "transport: error while dialing: dial tcp 127.0.0.1:44461: connect:
 │ connection refused"
-```
+----
 
-Which puts the leaves the terraform resource as tainted:
+When bootstrapping a cluster for the first time, you can simply run `terraform apply` again and the deployment should finish correctly.
 
-```
-`terraform plan
+However, on some cases (notably when upgrading the Argo CD module), this error could leave the Terraform resource tainted.
+
+[source]
+----
+terraform plan
   # module.devops_stack_blue.module.argocd.argocd_application.this is tainted, so must be replaced
 -/+ resource "argocd_application" "this" {
       ~ id      = "argocd:argocd" -> (known after apply)
@@ -113,12 +152,33 @@ Which puts the leaves the terraform resource as tainted:
     }
 
 Plan: 1 to add, 1 to change, 1 to destroy.
-```
+----
 
-```
-terraform untaint 'module.argocd.argocd_application.this'
-```
+*Untainting the resource with the command `terraform untaint module.argocd.argocd_application.this` should solve the issue*.
 
+== Technical Documentation
+
+=== Dependencies
+
+==== `module.argocd_bootstrap.id`
+
+Obviously, this module needs an already working Argo CD (the bootstrap), so it depends on `module.argocd_bootstrap`.
+
+==== `module.traefik.id`
+
+Since there is an ingress deployed with this module, it needs to be deployed after Traefik so it depends on `module.ingress`.
+
+==== `module.traefik.id`
+
+For the same reason as the previous dependency, it needs to be deployed after cert-manager so it depends on `module.cert-manager`.
+
+==== `module.oidc.id`
+
+Only for the platforms that deploy a cluster module, such as EKS or KinD, there is also a the dependency on `module.oidc.id`.
+
+==== `module.kube-prometheus-stack.id`
+
+Finally, the kube-prometheus-stack is a requirement because this Argo CD module requires the ServiceMonitor CRD so it depends on `module.kube-prometheus-stack`.
 
 // BEGIN_TF_DOCS
 === Requirements
@@ -322,6 +382,12 @@ Description: n/a
 
 Description: Map of extra accounts and their tokens.
 // END_TF_DOCS
+
+=== Reference in table format 
+
+.Show tables
+[%collapsible]
+====
 // BEGIN_TF_TABLES
 = Requirements
 
@@ -501,3 +567,4 @@ object({
 |[[output_extra_tokens]] <<output_extra_tokens,extra_tokens>> |Map of extra accounts and their tokens.
 |===
 // END_TF_TABLES
+====
