@@ -57,11 +57,11 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- [[provider_random]] <<provider_random,random>>
-
 - [[provider_jwt]] <<provider_jwt,jwt>> (>= 1.1)
 
 - [[provider_time]] <<provider_time,time>>
+
+- [[provider_random]] <<provider_random,random>>
 
 - [[provider_helm]] <<provider_helm,helm>> (>= 2)
 
@@ -115,7 +115,7 @@ The following outputs are exported:
 
 ==== [[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>>
 
-Description: The names
+Description: The namespace where to deploy Argo CD.
 
 ==== [[output_id]] <<output_id,id>>
 
@@ -157,9 +157,9 @@ Description: The Argo CD accounts pipeline tokens.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
+|[[provider_random]] <<provider_random,random>> |n/a
 |[[provider_jwt]] <<provider_jwt,jwt>> |>= 1.1
 |[[provider_time]] <<provider_time,time>> |n/a
-|[[provider_random]] <<provider_random,random>> |n/a
 |[[provider_helm]] <<provider_helm,helm>> |>= 2
 |[[provider_utils]] <<provider_utils,utils>> |>= 1.6
 |[[provider_null]] <<provider_null,null>> |n/a
@@ -213,7 +213,7 @@ Description: The Argo CD accounts pipeline tokens.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Description
-|[[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>> |The names
+|[[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>> |The namespace where to deploy Argo CD.
 |[[output_id]] <<output_id,id>> |ID to pass other modules in order to refer to this module as a dependency.
 |[[output_argocd_server_secretkey]] <<output_argocd_server_secretkey,argocd_server_secretkey>> |The Argo CD server secret key.
 |[[output_argocd_auth_token]] <<output_argocd_auth_token,argocd_auth_token>> |The token to set in `ARGOCD_AUTH_TOKEN` environment variable. May be used for configuring Argo CD Terraform provider.
