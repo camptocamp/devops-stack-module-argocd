@@ -15,9 +15,9 @@ argo-cd:
             labels:
               severity: critical
             annotations:
-              summary: "[ArgoCD] No reported applications"
+              summary: "[Argo CD] No reported applications"
               description: >
-                ArgoCD has not reported any applications data for the past 15 minutes which
+                Argo CD has not reported any applications data for the past 15 minutes which
                 means that it must be down or not functioning properly.  This needs to be
                 resolved for this cloud to continue to maintain state.
           - alert: ArgoAppNotSynced

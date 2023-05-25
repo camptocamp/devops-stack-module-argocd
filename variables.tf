@@ -1,59 +1,47 @@
+#######################
+## Standard variables
+#######################
+
 variable "cluster_name" {
-  description = "The name of the cluster to create."
+  description = "Name given to the cluster. Value used for the ingress' URL of the application."
   type        = string
-}
-
-variable "cluster_issuer" {
-  description = "Cluster Issuer"
-  type        = string
-}
-
-variable "oidc" {
-  description = "OIDC Settings"
-  type        = any
-  default     = null
 }
 
 variable "base_domain" {
-  description = "The base domain for building Ingress following DevOps Stack convention, e.g. argocd.apps.<cluster_name>.<base_domain>"
+  description = "Base domain of the cluster. Value used for the ingress' URL of the application."
   type        = string
-}
-
-variable "repositories" {
-  description = "A list of repositories to add to ArgoCD."
-  type        = map(map(string))
-  default     = {}
-}
-
-variable "helm_values" {
-  description = "Helm values, passed as a list of HCL structures."
-  type        = any
-  default = [{
-    argo-cd = {}
-  }]
-}
-
-variable "namespace" {
-  description = "Destination Namespace for Application child resources."
-  type        = string
-  default     = "argocd"
 }
 
 variable "argocd_namespace" {
-  description = "Namespace for the resources AppProject and Application."
+  description = "Namespace used by Argo CD where the Application and AppProject resources should be created. Normally, it should take the outputof the namespace from the bootstrap module."
   type        = string
   default     = "argocd"
-}
-
-variable "dependency_ids" {
-  type    = map(string)
-  default = {}
 }
 
 variable "target_revision" {
   description = "Override of target revision of the application chart."
   type        = string
   default     = "v1.1.0" # x-release-please-version
+}
+
+variable "cluster_issuer" {
+  description = "SSL certificate issuer to use. Usually you would configure this value as `letsencrypt-staging` or `letsencrypt-prod` on your root `*.tf` files."
+  type        = string
+  default     = "ca-issuer"
+}
+
+variable "namespace" {
+  description = "Namespace where to deploy Argo CD."
+  type        = string
+  default     = "argocd"
+}
+
+variable "helm_values" {
+  description = "Helm chart value overrides. They should be passed as a list of HCL structures."
+  type        = any
+  default = [{
+    argo-cd = {}
+  }]
 }
 
 variable "app_autosync" {
@@ -70,6 +58,26 @@ variable "app_autosync" {
   }
 }
 
+variable "dependency_ids" {
+  type    = map(string)
+  default = {}
+}
+
+#######################
+## Module variables
+#######################
+
+variable "oidc" {
+  description = "OIDC settings for logging to the Argo CD web interface."
+  type        = any
+  default     = null
+}
+
+variable "repositories" {
+  description = "List of repositories to add to Argo CD."
+  type        = map(map(string))
+  default     = {}
+}
 variable "admin_enabled" {
   description = "Flag to indicate whether to enable admin user."
   type        = bool
@@ -83,7 +91,7 @@ variable "accounts_pipeline_tokens" {
 }
 
 variable "server_secretkey" {
-  description = "Signature key for session validation. Must reuse bootstrap secretkey."
+  description = "Signature key for session validation. *Must reuse the bootstrap output containing the secretkey.*"
   type        = string
   sensitive   = false
 }
