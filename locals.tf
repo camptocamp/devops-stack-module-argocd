@@ -14,12 +14,12 @@ locals {
     }
   }
 
-  extra_accounts_tokens = {for account in var.extra_accounts : format("accounts.%s.tokens", account) => replace(jsonencode([
+  extra_accounts_tokens = { for account in var.extra_accounts : format("accounts.%s.tokens", account) => replace(jsonencode([
     {
-      id = random_uuid.jti[account].result
+      id  = random_uuid.jti[account].result
       iat = time_static.iat[account].unix
     }
-  ]), "\\\"", "\"")}
+  ]), "\\\"", "\"") }
 
   helm_values = [{
     argo-cd = {
@@ -120,7 +120,7 @@ locals {
           extraArgs = [
             "--insecure",
           ]
-          config = merge({for account in var.extra_accounts : format("accounts.%s", account) => "apiKey"}, {
+          config = merge({ for account in var.extra_accounts : format("accounts.%s", account) => "apiKey" }, {
             "url"                     = "https://${local.argocd_hostname_withclustername}"
             "admin.enabled"           = tostring(var.admin_enabled)
             "accounts.pipeline"       = "apiKey"

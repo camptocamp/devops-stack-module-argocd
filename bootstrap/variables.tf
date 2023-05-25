@@ -1,10 +1,11 @@
 variable "namespace" {
-  type    = string
-  default = "argocd"
+  description = "Namespace where to deploy Argo CD."
+  type        = string
+  default     = "argocd"
 }
 
 variable "helm_values" {
-  description = "Helm values, passed as a list of HCL structures."
+  description = "Helm chart value overrides. They should be passed as a list of HCL structures."
   type        = any
   default = [{
     argo-cd = {}
