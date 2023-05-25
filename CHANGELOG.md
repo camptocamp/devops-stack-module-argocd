@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.1.0...v1.1.1) (2023-05-25)
+
+
+### Documentation
+
+* add usage and troubleshooting sections ([#45](https://github.com/camptocamp/devops-stack-module-argocd/issues/45)) ([c23fd1b](https://github.com/camptocamp/devops-stack-module-argocd/commit/c23fd1b451c3cbd42385f54e7e2f66833d8f71cd))
+
 ## [1.1.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.0.0...v1.1.0) (2023-04-13)
 
 
