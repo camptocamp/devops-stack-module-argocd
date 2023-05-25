@@ -1,5 +1,5 @@
 output "argocd_namespace" {
-  description = "The names"
+  description = "The namespace where to deploy Argo CD."
   value       = helm_release.argocd.metadata.0.namespace
 }
 
