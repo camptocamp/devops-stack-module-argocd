@@ -16,6 +16,14 @@ terraform {
       source  = "camptocamp/jwt"
       version = ">= 1.1"
     }
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3"
+    }
+    time = {
+      source  = "hashicorp/time"
+      version = ">= 0.9"
+    }
   }
   required_version = ">= 1.2"
 }
