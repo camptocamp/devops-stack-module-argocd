@@ -28,7 +28,7 @@ resource "argocd_project" "this" {
   }
 
   spec {
-    description  = "argocd application project"
+    description  = "Argo CD application project"
     source_repos = ["https://github.com/camptocamp/devops-stack-module-argocd.git"]
 
     destination {
