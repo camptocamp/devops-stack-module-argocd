@@ -177,12 +177,12 @@ locals {
             enabled = true
           }
         },
-        var.cluster_issuer == "ca-issuer" ? {
+        var.cluster_issuer == "ca-issuer" || var.cluster_issuer == "letsencrypt-staging" ? {
           volumeMounts = [
             {
               name      = "certificate"
-              mountPath = "/etc/ssl/certs/ca.crt"
-              subPath   = "ca.crt"
+              mountPath = format("/etc/ssl/certs/%s", var.ssl_secret_key)
+              subPath   = var.ssl_secret_key
             },
           ]
           volumes = [
