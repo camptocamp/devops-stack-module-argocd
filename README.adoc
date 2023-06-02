@@ -374,14 +374,6 @@ Type: `list(string)`
 
 Default: `[]`
 
-==== [[input_ssl_secret_key]] <<input_ssl_secret_key,ssl_secret_key>>
-
-Description: Key of the `argocd-tls` secret containing a CA certificate to be accepted by Argo CD.
-
-Type: `string`
-
-Default: `"ca.crt"`
-
 === Outputs
 
 The following outputs are exported:
@@ -567,12 +559,6 @@ object({
 |List of accounts for which tokens will be generated.
 |`list(string)`
 |`[]`
-|no
-
-|[[input_ssl_secret_key]] <<input_ssl_secret_key,ssl_secret_key>>
-|Key of the `argocd-tls` secret containing a CA certificate to be accepted by Argo CD.
-|`string`
-|`"ca.crt"`
 |no
 
 |===
