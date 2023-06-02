@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.1.1...v1.1.2) (2023-06-02)
+
+
+### Bug Fixes
+
+* mount ca cert also for letsencrypt-staging and parameterize secret key ([#49](https://github.com/camptocamp/devops-stack-module-argocd/issues/49)) ([06a180d](https://github.com/camptocamp/devops-stack-module-argocd/commit/06a180d22d4569f0eac9d4818c6afc868b6e3e08))
+
 ## [1.1.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.1.0...v1.1.1) (2023-05-25)
 
 
