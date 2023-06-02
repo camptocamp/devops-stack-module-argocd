@@ -181,8 +181,8 @@ locals {
           volumeMounts = [
             {
               name      = "certificate"
-              mountPath = format("/etc/ssl/certs/%s", var.ssl_secret_key)
-              subPath   = var.ssl_secret_key
+              mountPath = format("/etc/ssl/certs/%s", var.cluster_issuer == "letsencrypt-staging" ? "tls.crt" : "ca.crt")
+              subPath   = var.cluster_issuer == "letsencrypt-staging" ? "tls.crt" : "ca.crt"
             },
           ]
           volumes = [

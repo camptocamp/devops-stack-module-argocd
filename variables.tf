@@ -101,9 +101,3 @@ variable "extra_accounts" {
   type        = list(string)
   default     = []
 }
-
-variable "ssl_secret_key" {
-  description = "Key of the `argocd-tls` secret containing a CA certificate to be accepted by Argo CD."
-  type        = string
-  default     = "ca.crt"
-}
