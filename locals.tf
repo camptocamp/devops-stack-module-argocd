@@ -121,10 +121,14 @@ locals {
   ]
 
   repo_server_service_account_annotations = merge(
-    var.repo_server_iam_role_arn != null ? { "eks.amazonaws.com/role-arn" = var.repo_server_iam_role_arn } : {}
+    var.repo_server_iam_role_arn != null ? { "eks.amazonaws.com/role-arn" = var.repo_server_iam_role_arn } : {},
+    var.repo_server_azure_workload_identity_clientid != null ? { "azure.workload.identity/client-id" = var.repo_server_azure_workload_identity_clientid } : {}
   )
 
+  repo_server_service_account_labels = var.repo_server_azure_workload_identity_clientid != null ? { "azure.workload.identity/use" : "true" } : {}
+
   repo_server_pod_labels = merge(
+    var.repo_server_azure_workload_identity_clientid != null ? { "azure.workload.identity/use" : "true" } : {},
     var.repo_server_aadpodidbinding != null ? { "aadpodidbinding" : var.repo_server_aadpodidbinding } : {}
   )
 
@@ -167,6 +171,7 @@ locals {
         podLabels       = local.repo_server_pod_labels
         serviceAccount = {
           annotations = local.repo_server_service_account_annotations
+          labels      = local.repo_server_service_account_labels
         }
       }
       extraObjects = local.extra_objects
