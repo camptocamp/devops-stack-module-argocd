@@ -114,6 +114,15 @@ module "argocd" {
 
 NOTE: By default, this module has a `policy.csv` that is configured to give administrator access to any user belonging to the groups `argocd-admin` or `devops-stack-admins`.
 
+== Custom Plugins
+
+This module installs two custom plugins:
+
+1. "kustomized-helm" is just a combination of Kustomize and Helm that allows using Helm charts and then applying Kustomize overrides to the result.
+2. "helmfile-sops" adds support for Helmfile managed applications, and integrates the support for SOPS. This is a custom plugin developped by Camptocamp: https://github.com/camptocamp/docker-argocd-cmp-helmfile
+
+NOTE: When using SOPS, you will want to give it access to an external secrets management or encryption service. For this, you an attach an AWS IAM role to the argocd-repo-server ServiceAccount or an Azzre AAD Pod Identity using the variables `repo_server_iam_role_arn` or `repo_server_aadpodidbinding`.
+
 == Troubleshooting
 
 When deploying this module of Argo CD you may experience connection errors (which is normal given that argocd-server pod could have been redeployed).
