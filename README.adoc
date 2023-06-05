@@ -391,6 +391,14 @@ Type: `string`
 
 Default: `null`
 
+==== [[input_repo_server_azure_workload_identity_clientid]] <<input_repo_server_azure_workload_identity_clientid,repo_server_azure_workload_identity_clientid>>
+
+Description: Azure AD Workload Identity Client-ID to associate with argocd-repo-server. This role can be used to give SOPS access to a Key Vault.
+
+Type: `string`
+
+Default: `null`
+
 ==== [[input_repo_server_aadpodidbinding]] <<input_repo_server_aadpodidbinding,repo_server_aadpodidbinding>>
 
 Description: Azure AAD Pod Identity to associate with the argocd-repo-server Pod. This role can be used to give SOPS access to a Key Vault.
@@ -588,6 +596,12 @@ object({
 
 |[[input_repo_server_iam_role_arn]] <<input_repo_server_iam_role_arn,repo_server_iam_role_arn>>
 |IAM role ARN to associate with the argocd-repo-server ServiceAccount. This role can be used to give SOPS access to AWS KMS.
+|`string`
+|`null`
+|no
+
+|[[input_repo_server_azure_workload_identity_clientid]] <<input_repo_server_azure_workload_identity_clientid,repo_server_azure_workload_identity_clientid>>
+|Azure AD Workload Identity Client-ID to associate with argocd-repo-server. This role can be used to give SOPS access to a Key Vault.
 |`string`
 |`null`
 |no
