@@ -119,7 +119,7 @@ NOTE: By default, this module has a `policy.csv` that is configured to give admi
 This module installs two custom plugins:
 
 1. "kustomized-helm" is just a combination of Kustomize and Helm that allows using Helm charts and then applying Kustomize overrides to the result.
-2. "helmfile-sops" adds support for Helmfile managed applications, and integrates the support for SOPS. This is a custom plugin developped by Camptocamp: https://github.com/camptocamp/docker-argocd-cmp-helmfile
+2. "helmfile-sops" adds support for Helmfile managed applications, and integrates the support for https://github.com/mozilla/sops[SOPS]. This is a custom plugin developed by Camptocamp (source code available https://github.com/camptocamp/docker-argocd-cmp-helmfile[here]).
 
 NOTE: When using SOPS, you will want to give it access to an external secrets management or encryption service. For this, you will want to pass an AWS IAM role, and Azure Workload Identity Client-ID, or an Azure AAD Pod Identity using the variables `repo_server_iam_role_arn`, repo_server_azure_workload_identity_clientid`, or `repo_server_aadpodidbinding`.
 
