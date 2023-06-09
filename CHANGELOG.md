@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.1.2...v2.0.0) (2023-06-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* add helmfile-sops custom plugin installation ([#51](https://github.com/camptocamp/devops-stack-module-argocd/issues/51))
+
+### Features
+
+* add helmfile-sops custom plugin installation ([#51](https://github.com/camptocamp/devops-stack-module-argocd/issues/51)) ([56cc3b4](https://github.com/camptocamp/devops-stack-module-argocd/commit/56cc3b4581421b420ffcccc9d6d301bfdb11a174))
+
 ## [1.1.2](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.1.1...v1.1.2) (2023-06-02)
 
 
