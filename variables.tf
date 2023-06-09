@@ -101,3 +101,21 @@ variable "extra_accounts" {
   type        = list(string)
   default     = []
 }
+
+variable "repo_server_iam_role_arn" {
+  description = "IAM role ARN to associate with the argocd-repo-server ServiceAccount. This role can be used to give SOPS access to AWS KMS."
+  type        = string
+  default     = null
+}
+
+variable "repo_server_azure_workload_identity_clientid" {
+  description = "Azure AD Workload Identity Client-ID to associate with argocd-repo-server. This role can be used to give SOPS access to a Key Vault."
+  type        = string
+  default     = null
+}
+
+variable "repo_server_aadpodidbinding" {
+  description = "Azure AAD Pod Identity to associate with the argocd-repo-server Pod. This role can be used to give SOPS access to a Key Vault."
+  type        = string
+  default     = null
+}

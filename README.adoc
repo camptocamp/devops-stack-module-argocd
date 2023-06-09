@@ -114,6 +114,15 @@ module "argocd" {
 
 NOTE: By default, this module has a `policy.csv` that is configured to give administrator access to any user belonging to the groups `argocd-admin` or `devops-stack-admins`.
 
+== Custom Plugins
+
+This module installs two custom plugins:
+
+1. "kustomized-helm" is just a combination of Kustomize and Helm that allows using Helm charts and then applying Kustomize overrides to the result.
+2. "helmfile-sops" adds support for Helmfile managed applications, and integrates the support for https://github.com/mozilla/sops[SOPS]. This is a custom plugin developed by Camptocamp (source code available https://github.com/camptocamp/docker-argocd-cmp-helmfile[here]).
+
+NOTE: When using SOPS, you will want to give it access to an external secrets management or encryption service. For this, you will want to pass an AWS IAM role, and Azure Workload Identity Client-ID, or an Azure AAD Pod Identity using the variables `repo_server_iam_role_arn`, repo_server_azure_workload_identity_clientid`, or `repo_server_aadpodidbinding`.
+
 == Troubleshooting
 
 When deploying this module of Argo CD you may experience connection errors (which is normal given that argocd-server pod could have been redeployed).
@@ -276,7 +285,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v1.1.1"`
+Default: `"v1.1.2"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -374,6 +383,30 @@ Type: `list(string)`
 
 Default: `[]`
 
+==== [[input_repo_server_iam_role_arn]] <<input_repo_server_iam_role_arn,repo_server_iam_role_arn>>
+
+Description: IAM role ARN to associate with the argocd-repo-server ServiceAccount. This role can be used to give SOPS access to AWS KMS.
+
+Type: `string`
+
+Default: `null`
+
+==== [[input_repo_server_azure_workload_identity_clientid]] <<input_repo_server_azure_workload_identity_clientid,repo_server_azure_workload_identity_clientid>>
+
+Description: Azure AD Workload Identity Client-ID to associate with argocd-repo-server. This role can be used to give SOPS access to a Key Vault.
+
+Type: `string`
+
+Default: `null`
+
+==== [[input_repo_server_aadpodidbinding]] <<input_repo_server_aadpodidbinding,repo_server_aadpodidbinding>>
+
+Description: Azure AAD Pod Identity to associate with the argocd-repo-server Pod. This role can be used to give SOPS access to a Key Vault.
+
+Type: `string`
+
+Default: `null`
+
 === Outputs
 
 The following outputs are exported:
@@ -462,7 +495,7 @@ Description: Map of extra accounts and their tokens.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v1.1.1"`
+|`"v1.1.2"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -559,6 +592,24 @@ object({
 |List of accounts for which tokens will be generated.
 |`list(string)`
 |`[]`
+|no
+
+|[[input_repo_server_iam_role_arn]] <<input_repo_server_iam_role_arn,repo_server_iam_role_arn>>
+|IAM role ARN to associate with the argocd-repo-server ServiceAccount. This role can be used to give SOPS access to AWS KMS.
+|`string`
+|`null`
+|no
+
+|[[input_repo_server_azure_workload_identity_clientid]] <<input_repo_server_azure_workload_identity_clientid,repo_server_azure_workload_identity_clientid>>
+|Azure AD Workload Identity Client-ID to associate with argocd-repo-server. This role can be used to give SOPS access to a Key Vault.
+|`string`
+|`null`
+|no
+
+|[[input_repo_server_aadpodidbinding]] <<input_repo_server_aadpodidbinding,repo_server_aadpodidbinding>>
+|Azure AAD Pod Identity to associate with the argocd-repo-server Pod. This role can be used to give SOPS access to a Key Vault.
+|`string`
+|`null`
 |no
 
 |===
