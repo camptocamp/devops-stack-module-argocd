@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v2.0.0...v2.1.0) (2023-06-29)
+
+
+### Features
+
+* upgrade helmfile cmp with latest helm-sops ([#54](https://github.com/camptocamp/devops-stack-module-argocd/issues/54)) ([fa33d7c](https://github.com/camptocamp/devops-stack-module-argocd/commit/fa33d7c5a5e8b0c652599bc80c5ad71530becc35))
+
 ## [2.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v1.1.2...v2.0.0) (2023-06-09)
 
 
