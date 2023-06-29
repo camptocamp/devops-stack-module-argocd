@@ -214,8 +214,6 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- [[provider_null]] <<provider_null,null>> (>= 3)
-
 - [[provider_jwt]] <<provider_jwt,jwt>> (>= 1.1)
 
 - [[provider_time]] <<provider_time,time>> (>= 0.9)
@@ -225,6 +223,8 @@ The following providers are used by this module:
 - [[provider_utils]] <<provider_utils,utils>> (>= 1.6)
 
 - [[provider_argocd]] <<provider_argocd,argocd>> (>= 4.2)
+
+- [[provider_null]] <<provider_null,null>> (>= 3)
 
 === Resources
 
@@ -285,7 +285,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v1.1.2"`
+Default: `"v2.0.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -446,12 +446,12 @@ Description: Map of extra accounts and their tokens.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
-|[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_jwt]] <<provider_jwt,jwt>> |>= 1.1
 |[[provider_time]] <<provider_time,time>> |>= 0.9
 |[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1.6
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 4.2
+|[[provider_null]] <<provider_null,null>> |>= 3
 |===
 
 = Resources
@@ -495,7 +495,7 @@ Description: Map of extra accounts and their tokens.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v1.1.2"`
+|`"v2.0.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
