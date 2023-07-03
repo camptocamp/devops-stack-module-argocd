@@ -19,6 +19,27 @@ resource "time_static" "iat" {}
 
 resource "random_uuid" "jti" {}
 
+resource "kubernetes_namespace" "namespace" {
+  count = var.avp_config != null ? 1 : 0
+  metadata {
+    name = var.namespace
+  }
+}
+
+resource "kubernetes_secret_v1" "avp_config" {
+  count = var.avp_config != null ? 1 : 0
+  metadata {
+    name      = "avp-config"
+    namespace = var.namespace
+  }
+
+  data = var.avp_config
+
+  depends_on = [
+    kubernetes_namespace.namespace
+  ]
+}
+
 resource "helm_release" "argocd" {
   name       = "argocd"
   repository = local.argocd_chart.repository
@@ -27,17 +48,17 @@ resource "helm_release" "argocd" {
 
   namespace         = var.namespace
   dependency_update = true
-  create_namespace  = true
+  create_namespace  = nonsensitive(var.avp_config == null)
   timeout           = 10800
-  values            = [data.utils_deep_merge_yaml.values.output]
+  values            = [data.utils_deep_merge_yaml.values.output, sensitive(yamlencode(local.sensitive_values.0.argo-cd))]
 
-  lifecycle {
-    ignore_changes = all
-  }
+  # lifecycle {
+  #   ignore_changes = all
+  # }
 }
 
 data "utils_deep_merge_yaml" "values" {
-  input       = [for i in concat([local.helm_values.0.argo-cd], [var.helm_values.0.argo-cd]) : yamlencode(i)]
+  input       = [for i in concat(local.helm_values, var.helm_values) : yamlencode(i.argo-cd)]
   append_list = true
 }
 
