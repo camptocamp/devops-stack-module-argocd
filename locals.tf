@@ -79,7 +79,8 @@ locals {
     {
       name    = "helmfile-cmp"
       command = ["/var/run/argocd/argocd-cmp-server"]
-      image   = "ghcr.io/camptocamp/docker-argocd-cmp-helmfile:0.1.0"
+      image   = "ghcr.io/camptocamp/docker-argocd-cmp-helmfile:${var.helmfile_cmp_version}"
+      env     = var.helmfile_cmp_env_variables
       securityContext = {
         runAsNonRoot = true
         runAsUser    = 999
