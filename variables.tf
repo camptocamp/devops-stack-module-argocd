@@ -119,3 +119,24 @@ variable "repo_server_aadpodidbinding" {
   type        = string
   default     = null
 }
+
+variable "helmfile_cmp_version" {
+  description = "Version of the helmfile-cmp plugin."
+  type        = string
+  default     = "0.1.1"
+}
+
+variable "helmfile_cmp_env_variables" {
+  description = "List of environment variables to attach to the helmfile-cmp plugin, usually used to pass authentication credentials. Use a an https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/[explicit format] or take the values from a https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#define-container-environment-variables-using-secret-data[Kubernetes secret]."
+  type = list(object({
+    name  = optional(string)
+    value = optional(string)
+    valueFrom = optional(object({
+      secretKeyRef = optional(object({
+        name = optional(string)
+        key  = optional(string)
+      }))
+    }))
+  }))
+  default = []
+}
