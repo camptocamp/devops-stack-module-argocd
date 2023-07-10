@@ -1,5 +1,16 @@
 # Changelog
 
+## [3.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v2.1.0...v3.0.0) (2023-07-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* add support to oboukili/argocd >= v5 ([#57](https://github.com/camptocamp/devops-stack-module-argocd/issues/57))
+
+### Features
+
+* add support to oboukili/argocd &gt;= v5 ([#57](https://github.com/camptocamp/devops-stack-module-argocd/issues/57)) ([886689b](https://github.com/camptocamp/devops-stack-module-argocd/commit/886689b8fb9132c8a6f27896a24eee4b38b1c38e))
+
 ## [2.1.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v2.0.0...v2.1.0) (2023-06-29)
 
 
