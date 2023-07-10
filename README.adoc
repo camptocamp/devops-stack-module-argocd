@@ -255,6 +255,25 @@ Description: Base domain of the cluster. Value used for the ingress' URL of the 
 
 Type: `string`
 
+==== [[input_rbac]] <<input_rbac,rbac>>
+
+Description: RBAC settings for the Argo CD users.
+
+Type:
+[source,hcl]
+----
+object({
+    scopes         = optional(string, "[groups, cognito:groups, roles]")
+    policy_default = optional(string, "")
+    policy_csv = optional(string, <<-EOT
+                                    g, pipeline, role:admin
+                                    g, argocd-admin, role:admin
+                                    g, devops-stack-admins, role:admin
+                                  EOT
+    )
+  })
+----
+
 ==== [[input_accounts_pipeline_tokens]] <<input_accounts_pipeline_tokens,accounts_pipeline_tokens>>
 
 Description: API token for pipeline account.
@@ -353,7 +372,7 @@ Default: `{}`
 
 ==== [[input_oidc]] <<input_oidc,oidc>>
 
-Description: OIDC settings for logging to the Argo CD web interface.
+Description: OIDC settings for the log in to the Argo CD web interface.
 
 Type: `any`
 
@@ -367,9 +386,25 @@ Type: `map(map(string))`
 
 Default: `{}`
 
+==== [[input_ssh_known_hosts]] <<input_ssh_known_hosts,ssh_known_hosts>>
+
+Description: List of SSH known hosts to add to Argo CD. Check the official `values.yaml` to get the format to pass this value.
+
+Type: `string`
+
+Default: `""`
+
+==== [[input_exec_enabled]] <<input_exec_enabled,exec_enabled>>
+
+Description: Flag to enable the web-based terminal on Argo CD. Do not forget to set the appropriate RBAC configuration to your users/groups.
+
+Type: `bool`
+
+Default: `false`
+
 ==== [[input_admin_enabled]] <<input_admin_enabled,admin_enabled>>
 
-Description: Flag to indicate whether to enable admin user.
+Description: Flag to indicate whether to enable the administrator user.
 
 Type: `bool`
 
@@ -407,17 +442,46 @@ Type: `string`
 
 Default: `null`
 
+==== [[input_helmfile_cmp_version]] <<input_helmfile_cmp_version,helmfile_cmp_version>>
+
+Description: Version of the helmfile-cmp plugin.
+
+Type: `string`
+
+Default: `"0.1.1"`
+
+==== [[input_helmfile_cmp_env_variables]] <<input_helmfile_cmp_env_variables,helmfile_cmp_env_variables>>
+
+Description: List of environment variables to attach to the helmfile-cmp plugin, usually used to pass authentication credentials. Use a an https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/[explicit format] or take the values from a https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#define-container-environment-variables-using-secret-data[Kubernetes secret].
+
+Type:
+[source,hcl]
+----
+list(object({
+    name  = optional(string)
+    value = optional(string)
+    valueFrom = optional(object({
+      secretKeyRef = optional(object({
+        name = optional(string)
+        key  = optional(string)
+      }))
+    }))
+  }))
+----
+
+Default: `[]`
+
 === Outputs
 
 The following outputs are exported:
 
 ==== [[output_id]] <<output_id,id>>
 
-Description: n/a
+Description: ID to pass other modules in order to refer to this module as a dependency.
 
 ==== [[output_extra_tokens]] <<output_extra_tokens,extra_tokens>>
 
-Description: Map of extra accounts and their tokens.
+Description: Map of extra accounts that were created and their tokens.
 // END_TF_DOCS
 
 === Reference in table format 
@@ -559,10 +623,31 @@ object({
 |no
 
 |[[input_oidc]] <<input_oidc,oidc>>
-|OIDC settings for logging to the Argo CD web interface.
+|OIDC settings for the log in to the Argo CD web interface.
 |`any`
 |`null`
 |no
+
+|[[input_rbac]] <<input_rbac,rbac>>
+|RBAC settings for the Argo CD users.
+|
+
+[source]
+----
+object({
+    scopes         = optional(string, "[groups, cognito:groups, roles]")
+    policy_default = optional(string, "")
+    policy_csv = optional(string, <<-EOT
+                                    g, pipeline, role:admin
+                                    g, argocd-admin, role:admin
+                                    g, devops-stack-admins, role:admin
+                                  EOT
+    )
+  })
+----
+
+|n/a
+|yes
 
 |[[input_repositories]] <<input_repositories,repositories>>
 |List of repositories to add to Argo CD.
@@ -570,8 +655,20 @@ object({
 |`{}`
 |no
 
+|[[input_ssh_known_hosts]] <<input_ssh_known_hosts,ssh_known_hosts>>
+|List of SSH known hosts to add to Argo CD. Check the official `values.yaml` to get the format to pass this value.
+|`string`
+|`""`
+|no
+
+|[[input_exec_enabled]] <<input_exec_enabled,exec_enabled>>
+|Flag to enable the web-based terminal on Argo CD. Do not forget to set the appropriate RBAC configuration to your users/groups.
+|`bool`
+|`false`
+|no
+
 |[[input_admin_enabled]] <<input_admin_enabled,admin_enabled>>
-|Flag to indicate whether to enable admin user.
+|Flag to indicate whether to enable the administrator user.
 |`bool`
 |`false`
 |no
@@ -612,6 +709,33 @@ object({
 |`null`
 |no
 
+|[[input_helmfile_cmp_version]] <<input_helmfile_cmp_version,helmfile_cmp_version>>
+|Version of the helmfile-cmp plugin.
+|`string`
+|`"0.1.1"`
+|no
+
+|[[input_helmfile_cmp_env_variables]] <<input_helmfile_cmp_env_variables,helmfile_cmp_env_variables>>
+|List of environment variables to attach to the helmfile-cmp plugin, usually used to pass authentication credentials. Use a an https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/[explicit format] or take the values from a https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#define-container-environment-variables-using-secret-data[Kubernetes secret].
+|
+
+[source]
+----
+list(object({
+    name  = optional(string)
+    value = optional(string)
+    valueFrom = optional(object({
+      secretKeyRef = optional(object({
+        name = optional(string)
+        key  = optional(string)
+      }))
+    }))
+  }))
+----
+
+|`[]`
+|no
+
 |===
 
 = Outputs
@@ -619,8 +743,8 @@ object({
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Description
-|[[output_id]] <<output_id,id>> |n/a
-|[[output_extra_tokens]] <<output_extra_tokens,extra_tokens>> |Map of extra accounts and their tokens.
+|[[output_id]] <<output_id,id>> |ID to pass other modules in order to refer to this module as a dependency.
+|[[output_extra_tokens]] <<output_extra_tokens,extra_tokens>> |Map of extra accounts that were created and their tokens.
 |===
 // END_TF_TABLES
 ====
