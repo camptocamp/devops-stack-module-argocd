@@ -1,4 +1,6 @@
 locals {
+  argocd_version = yamldecode(file("${path.module}/../charts/argocd/charts/Chart.yaml")).appVersion
+
   jwt_token_payload = {
     jti = random_uuid.jti.result
     iat = time_static.iat.unix
@@ -15,10 +17,6 @@ locals {
       }
     ]
   )
-
-  # TODO fix later: use app version read from Chart.yaml
-  # argocd_version = yamldecode(file("${path.module}/../charts/argocd/charts/argo-cd/Chart.yaml")).appVersion
-  argocd_version = "v2.6.6"
 
   helm_values = [{
     argo-cd = {
