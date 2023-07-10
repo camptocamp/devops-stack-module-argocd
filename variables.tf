@@ -73,11 +73,38 @@ variable "oidc" {
   default     = null
 }
 
+variable "rbac" {
+  description = "RBAC settings for the Argo CD users."
+  type = object({
+    scopes         = optional(string, "[groups, cognito:groups, roles]")
+    policy_default = optional(string, "")
+    policy_csv = optional(string, <<-EOT
+                                    g, pipeline, role:admin
+                                    g, argocd-admin, role:admin
+                                    g, devops-stack-admins, role:admin
+                                  EOT
+    )
+  })
+}
+
 variable "repositories" {
   description = "List of repositories to add to Argo CD."
   type        = map(map(string))
   default     = {}
 }
+
+variable "ssh_known_hosts" {
+  description = "List of SSH known hosts to add to Argo CD. Check the official `values.yaml` to get the format to pass this value."
+  type        = string
+  default     = ""
+}
+
+variable "exec_enabled" {
+  description = "Flag to enable the web-based terminal on Argo CD. Do not forget to set the appropriate RBAC configuration to your users/groups."
+  type        = bool
+  default     = false
+}
+
 variable "admin_enabled" {
   description = "Flag to indicate whether to enable the administrator user."
   type        = bool
