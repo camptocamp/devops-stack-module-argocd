@@ -176,85 +176,68 @@ locals {
         }
       }
       extraObjects = local.extra_objects
-      server = merge(
-        {
-          extraArgs = [
-            "--insecure",
-          ]
-          config = merge({ for account in var.extra_accounts : format("accounts.%s", account) => "apiKey" }, {
-            "url"                     = "https://${local.argocd_hostname_withclustername}"
-            "admin.enabled"           = tostring(var.admin_enabled)
-            "accounts.pipeline"       = "apiKey"
-            "oidc.config"             = <<-EOT
-              ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
-              EOT
-            "resource.customizations" = <<-EOT
-              argoproj.io/Application: # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app
-                health.lua: |
-                  hs = {}
-                  hs.status = "Progressing"
-                  hs.message = ""
-                  if obj.status ~= nil then
-                    if obj.status.health ~= nil then
-                      hs.status = obj.status.health.status
-                      if obj.status.health.message ~= nil then
-                        hs.message = obj.status.health.message
-                      end
+      server = {
+        extraArgs = [
+          "--insecure",
+        ]
+        config = merge({ for account in var.extra_accounts : format("accounts.%s", account) => "apiKey" }, {
+          "url"                           = "https://${local.argocd_hostname_withclustername}"
+          "admin.enabled"                 = tostring(var.admin_enabled)
+          "accounts.pipeline"             = "apiKey"
+          "oidc.config"                   = <<-EOT
+            ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
+          EOT
+          "oidc.tls.insecure.skip.verify" = tostring(var.cluster_issuer == "ca-issuer" || var.cluster_issuer == "letsencrypt-staging")
+          "resource.customizations"       = <<-EOT
+            argoproj.io/Application: # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app
+              health.lua: |
+                hs = {}
+                hs.status = "Progressing"
+                hs.message = ""
+                if obj.status ~= nil then
+                  if obj.status.health ~= nil then
+                    hs.status = obj.status.health.status
+                    if obj.status.health.message ~= nil then
+                      hs.message = obj.status.health.message
                     end
                   end
-                  return hs
-              networking.k8s.io/Ingress: # https://argo-cd.readthedocs.io/en/stable/faq/#why-is-my-application-stuck-in-progressing-state
-                health.lua: |
-                  hs = {}
-                  hs.status = "Healthy"
-                  return hs
-              EOT
-          })
-          ingress = {
-            enabled = true
-            annotations = {
-              "cert-manager.io/cluster-issuer"                   = "${var.cluster_issuer}"
-              "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
-              "traefik.ingress.kubernetes.io/router.middlewares" = "traefik-withclustername@kubernetescrd"
-              "traefik.ingress.kubernetes.io/router.tls"         = "true"
-              "ingress.kubernetes.io/ssl-redirect"               = "true"
-              "kubernetes.io/ingress.allow-http"                 = "false"
-            }
-            hosts = [
-              local.argocd_hostname_withclustername,
-              local.argocd_hostname
-            ]
-            tls = [
-              {
-                secretName = "argocd-tls"
-                hosts = [
-                  local.argocd_hostname_withclustername,
-                  local.argocd_hostname
-                ]
-              },
-            ]
+                end
+                return hs
+            networking.k8s.io/Ingress: # https://argo-cd.readthedocs.io/en/stable/faq/#why-is-my-application-stuck-in-progressing-state
+              health.lua: |
+                hs = {}
+                hs.status = "Healthy"
+                return hs
+          EOT
+        })
+        ingress = {
+          enabled = true
+          annotations = {
+            "cert-manager.io/cluster-issuer"                   = "${var.cluster_issuer}"
+            "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
+            "traefik.ingress.kubernetes.io/router.middlewares" = "traefik-withclustername@kubernetescrd"
+            "traefik.ingress.kubernetes.io/router.tls"         = "true"
+            "ingress.kubernetes.io/ssl-redirect"               = "true"
+            "kubernetes.io/ingress.allow-http"                 = "false"
           }
-          metrics = {
-            enabled = true
-          }
-        },
-        var.cluster_issuer == "ca-issuer" || var.cluster_issuer == "letsencrypt-staging" ? {
-          volumeMounts = [
+          hosts = [
+            local.argocd_hostname_withclustername,
+            local.argocd_hostname
+          ]
+          tls = [
             {
-              name      = "certificate"
-              mountPath = format("/etc/ssl/certs/%s", var.cluster_issuer == "letsencrypt-staging" ? "tls.crt" : "ca.crt")
-              subPath   = var.cluster_issuer == "letsencrypt-staging" ? "tls.crt" : "ca.crt"
+              secretName = "argocd-tls"
+              hosts = [
+                local.argocd_hostname_withclustername,
+                local.argocd_hostname
+              ]
             },
           ]
-          volumes = [
-            {
-              name = "certificate"
-              secret = {
-                secretName = "argocd-tls"
-              }
-            }
-          ]
-      } : null)
+        }
+        metrics = {
+          enabled = true
+        }
+      }
     }
   }]
 }
