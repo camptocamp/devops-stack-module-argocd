@@ -68,7 +68,7 @@ variable "dependency_ids" {
 #######################
 
 variable "oidc" {
-  description = "OIDC settings for logging to the Argo CD web interface."
+  description = "OIDC settings for the log in to the Argo CD web interface."
   type        = any
   default     = null
 }
@@ -79,7 +79,7 @@ variable "repositories" {
   default     = {}
 }
 variable "admin_enabled" {
-  description = "Flag to indicate whether to enable admin user."
+  description = "Flag to indicate whether to enable the administrator user."
   type        = bool
   default     = false
 }
