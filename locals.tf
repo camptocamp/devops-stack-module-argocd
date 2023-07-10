@@ -138,14 +138,16 @@ locals {
       configs = merge(length(var.repositories) > 0 ? {
         repositories = var.repositories
         } : null, {
+        ssh = {
+          knownHosts = var.ssh_known_hosts
+        }
+        cm = {
+          "exec.enabled"  = var.exec_enabled
+        }
         rbac = {
-          scopes           = "[groups, cognito:groups, roles]"
-          "policy.default" = ""
-          "policy.csv"     = <<-EOT
-                              g, pipeline, role:admin
-                              g, argocd-admin, role:admin
-                              g, devops-stack-admins, role:admin
-                            EOT
+          scopes           = var.rbac.scopes
+          "policy.default" = var.rbac.policy_default
+          "policy.csv"     = var.rbac.policy_csv
         }
         secret = {
           extra = merge({
