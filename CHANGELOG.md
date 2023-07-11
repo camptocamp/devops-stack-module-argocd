@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.1.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.0.0...v3.1.0) (2023-07-11)
+
+
+### Features
+
+* add validation to the helmfile_cmp variable ([8fc31b7](https://github.com/camptocamp/devops-stack-module-argocd/commit/8fc31b7175bb2bd62b6b405bd002453ad8fb2f8a))
+* upgrade Argo CD chart ([d99bf8b](https://github.com/camptocamp/devops-stack-module-argocd/commit/d99bf8bdc14a7895fd76b8c64454b32b083f3b3f))
+* variabilize env variables + version for the helmfile-cmp plugin ([8fc31b7](https://github.com/camptocamp/devops-stack-module-argocd/commit/8fc31b7175bb2bd62b6b405bd002453ad8fb2f8a))
+* variabilize RBAC, SSH known hosts and web terminal activation ([c8d6440](https://github.com/camptocamp/devops-stack-module-argocd/commit/c8d64406316774c9d78313894b56d403b9f66b35))
+
+
+### Bug Fixes
+
+* get Argo CD version from Chart.yaml ([51c0786](https://github.com/camptocamp/devops-stack-module-argocd/commit/51c078663353d44294c4a42b4287d7d613125f89))
+
 ## [3.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v2.1.0...v3.0.0) (2023-07-10)
 
 
