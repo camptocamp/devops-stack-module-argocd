@@ -1,6 +1,6 @@
 
 locals {
-  argocd_version                  = yamldecode(file("${path.module}/charts/argocd/charts/Chart.yaml")).appVersion
+  argocd_version                  = yamldecode(file("${path.module}/charts/argocd/charts/manifest.yaml")).appVersion
   argocd_hostname_withclustername = format("argocd.apps.%s.%s", var.cluster_name, var.base_domain)
   argocd_hostname                 = format("argocd.apps.%s", var.base_domain)
 
