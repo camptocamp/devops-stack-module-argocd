@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.1.0...v3.1.1) (2023-07-12)
+
+
+### Bug Fixes
+
+* add default value to the rbac variable ([#60](https://github.com/camptocamp/devops-stack-module-argocd/issues/60)) ([31dcef0](https://github.com/camptocamp/devops-stack-module-argocd/commit/31dcef0d9ee40e711852c7feb70442474f11380e))
+
 ## [3.1.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.0.0...v3.1.0) (2023-07-11)
 
 
