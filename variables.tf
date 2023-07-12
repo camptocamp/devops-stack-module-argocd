@@ -39,9 +39,7 @@ variable "namespace" {
 variable "helm_values" {
   description = "Helm chart value overrides. They should be passed as a list of HCL structures."
   type        = any
-  default = [{
-    argo-cd = {}
-  }]
+  default     = []
 }
 
 variable "app_autosync" {
@@ -85,6 +83,7 @@ variable "rbac" {
                                   EOT
     )
   })
+  default = {}
 }
 
 variable "repositories" {
