@@ -93,9 +93,9 @@ variable "repositories" {
 }
 
 variable "ssh_known_hosts" {
-  description = "List of SSH known hosts to add to Argo CD. Check the official `values.yaml` to get the format to pass this value."
+  description = "List of SSH known hosts to add to Argo CD. Check the official `values.yaml` to get the format to pass this value. **If you set this variable, the default known hosts will be overridden by this value, so you might want to consider adding the ones you need here.**"
   type        = string
-  default     = ""
+  default     = null
 }
 
 variable "exec_enabled" {
