@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.2](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.1.1...v3.1.2) (2023-07-19)
+
+
+### Bug Fixes
+
+* change default to null to not remove the default known_hosts ([#62](https://github.com/camptocamp/devops-stack-module-argocd/issues/62)) ([08c39c4](https://github.com/camptocamp/devops-stack-module-argocd/commit/08c39c47d242455c681d0b43b74695a4edf4388f))
+
 ## [3.1.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.1.0...v3.1.1) (2023-07-12)
 
 
