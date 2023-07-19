@@ -285,7 +285,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v3.1.0"`
+Default: `"v3.1.1"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -382,11 +382,11 @@ Default: `{}`
 
 ==== [[input_ssh_known_hosts]] <<input_ssh_known_hosts,ssh_known_hosts>>
 
-Description: List of SSH known hosts to add to Argo CD. Check the official `values.yaml` to get the format to pass this value.
+Description: List of SSH known hosts to add to Argo CD. Check the official `values.yaml` to get the format to pass this value. **If you set this variable, the default known hosts will be overridden by this value, so you might want to consider adding the ones you need here.**
 
 Type: `string`
 
-Default: `""`
+Default: `null`
 
 ==== [[input_exec_enabled]] <<input_exec_enabled,exec_enabled>>
 
@@ -553,7 +553,7 @@ Description: Map of extra accounts that were created and their tokens.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v3.1.0"`
+|`"v3.1.1"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -640,9 +640,9 @@ object({
 |no
 
 |[[input_ssh_known_hosts]] <<input_ssh_known_hosts,ssh_known_hosts>>
-|List of SSH known hosts to add to Argo CD. Check the official `values.yaml` to get the format to pass this value.
+|List of SSH known hosts to add to Argo CD. Check the official `values.yaml` to get the format to pass this value. **If you set this variable, the default known hosts will be overridden by this value, so you might want to consider adding the ones you need here.**
 |`string`
-|`""`
+|`null`
 |no
 
 |[[input_exec_enabled]] <<input_exec_enabled,exec_enabled>>
