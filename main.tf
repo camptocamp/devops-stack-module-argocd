@@ -79,10 +79,13 @@ resource "argocd_application" "this" {
     }
 
     sync_policy {
-      automated {
-        prune       = var.app_autosync.prune
-        self_heal   = var.app_autosync.self_heal
-        allow_empty = var.app_autosync.allow_empty
+      dynamic "automated" {
+        for_each = toset(var.app_autosync == { "allow_empty" = tobool(null), "prune" = tobool(null), "self_heal" = tobool(null) } ? [] : [var.app_autosync])
+        content {
+          prune       = automated.value.prune
+          self_heal   = automated.value.self_heal
+          allow_empty = automated.value.allow_empty
+        }
       }
 
       retry {
