@@ -1,1 +1,188 @@
-# TODO
+---
+name: "chart-update"
+
+on:
+  schedule:
+  - cron: "0 7 * * 1-5"
+  
+  workflow_dispatch:
+    inputs:
+      update-strategy:
+        description: "Update strategy to use. Valid values are 'patch', 'minor' or 'major'"
+        type: choice
+        options:
+        - "patch"
+        - "minor"
+        - "major"
+        required: true
+      excluded-dependencies:
+        description: "Comma-separated list of dependencies to exclude from the update (i.e. 'dependency1,dependency2,dependency3')"
+        type: string
+        required: false
+        default: ""
+      dry-run:
+        description: "Activate dry-run mode"
+        type: boolean
+        required: false
+        default: true
+
+# Define global settings for all the steps.
+env:
+  author: "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
+
+# The duplication of code between the two steps is not ideal, but we did not find a way to reuse the centralized 
+# workflow or by using a strategy matrix to workaround the problem.
+jobs:
+  chart-update-schedule:
+    runs-on: ubuntu-latest
+    
+    if: ${{ github.event_name == 'schedule' }}
+
+    strategy:
+      matrix:
+        update-strategy: ["minor", "major"]
+
+    steps:
+    - name: "Check out the repository"
+      uses: actions/checkout@v3
+
+    - name: "Upgrade Helm chart dependencies"
+      id: deps-update
+      uses: camptocamp/helm-dependency-update-action@v0.4.0
+      with:
+        chart-path: "charts/argocd"
+        readme-path: "README.adoc"
+        update-strategy: "${{ matrix.update-strategy }}"
+
+    - name: "Extract the Chart.yaml file from the upgraded chart"
+      if: ${{ steps.deps-update.outputs.update-type != 'none' }}
+      run: |
+        tar -zxvf charts/argocd/charts/argo-cd-*.tgz argo-cd/Chart.yaml
+        mv argo-cd/Chart.yaml chart-version.yaml
+        rm -r argo-cd
+
+    - name: "Create Pull Request for a minor/patch update"
+      if: ${{ steps.deps-update.outputs.update-type != 'none' && steps.deps-update.outputs.update-type != 'major' }}
+      id: minor-pr
+      uses: peter-evans/create-pull-request@v5
+      env:
+        pr-title: "feat(chart): ${{ steps.deps-update.outputs.update-type }} update of dependencies on argocd chart"
+        branch: "chart-autoupdate-${{ steps.deps-update.outputs.update-type }}-argocd"
+        labels: "chart-autoupdate-${{ steps.deps-update.outputs.update-type }}"
+      with:
+        commit-message: ${{ env.pr-title }}
+        author: ${{ env.author }}
+        committer: ${{ env.author }}
+        branch: "chart-autoupdate-${{ steps.deps-update.outputs.update-type }}-argocd"
+        title: ${{ env.pr-title }}
+        labels: "chart-autoupdate-${{ steps.deps-update.outputs.update-type }}"
+        body: |
+          :robot: I have updated the chart *beep* *boop*
+          ---
+
+          ## Description of the changes
+
+          This PR updates the dependencies of the **argocd** Helm chart.
+          
+          The maximum version bump was a **${{ steps.deps-update.outputs.update-type }}** step.
+
+    - name: "Create Pull Request for a major update"
+      if: ${{ steps.deps-update.outputs.update-type != 'none' && steps.deps-update.outputs.update-type == 'major' }}
+      id: major-pr
+      uses: peter-evans/create-pull-request@v5
+      env:
+        # This step does not have a branch and labels environment variable, because it is forcefully a major update, 
+        # unlike the previous step, which can either be a patch, minor or major update.
+        pr-title: "feat!(chart): major update of dependencies on argocd chart"
+      with:
+        commit-message: ${{ env.pr-title }}
+        author: ${{ env.author }}
+        committer: ${{ env.author }}
+        branch: "chart-autoupdate-major-argocd"
+        title: ${{ env.pr-title }}
+        labels: "chart-autoupdate-major"
+        body: |
+          :robot: I have updated the chart *beep* *boop*
+          ---
+
+          ## Description of the changes
+
+          This PR updates the dependencies of the **argocd** Helm chart. .
+
+          :warning: This was a **major** update! Please check the changelog of the updated dependencies and **take notice of any breaking changes before merging**. :warning:
+        
+  chart-update-manual:
+    runs-on: ubuntu-latest
+    
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+
+    steps:
+    - name: "Check out the repository"
+      uses: actions/checkout@v3
+
+    - name: "Upgrade Helm chart dependencies"
+      id: deps-update
+      uses: camptocamp/helm-dependency-update-action@v0.4.0
+      with:
+        chart-path: "charts/argocd"
+        readme-path: "README.adoc"
+        excluded-dependencies: ${{ inputs.excluded-dependencies }}
+        update-strategy: "${{ inputs.update-strategy }}"
+        dry-run: "${{ inputs.dry-run }}"
+
+    - name: "Extract the Chart.yaml file from the upgraded chart"
+      if: ${{ steps.deps-update.outputs.update-type != 'none' }}
+      run: |
+        tar -zxvf charts/argocd/charts/argo-cd-*.tgz argo-cd/Chart.yaml
+        mv argo-cd/Chart.yaml chart-version.yaml
+        rm -r argo-cd
+
+    - name: "Create Pull Request for a minor/patch update"
+      if: ${{ !inputs.dry-run && steps.deps-update.outputs.update-type != 'none' && steps.deps-update.outputs.update-type != 'major' }}
+      id: minor-pr
+      uses: peter-evans/create-pull-request@v5
+      env:
+        pr-title: "feat(chart): ${{ steps.deps-update.outputs.update-type }} update of dependencies on argocd chart"
+        branch: "chart-autoupdate-${{ steps.deps-update.outputs.update-type }}-argocd"
+        labels: "chart-autoupdate-${{ steps.deps-update.outputs.update-type }}"
+      with:
+        commit-message: ${{ env.pr-title }}
+        author: ${{ env.author }}
+        committer: ${{ env.author }}
+        branch: "chart-autoupdate-${{ steps.deps-update.outputs.update-type }}-argocd"
+        title: ${{ env.pr-title }}
+        labels: "chart-autoupdate-${{ steps.deps-update.outputs.update-type }}"
+        body: |
+          :robot: I have updated the chart *beep* *boop*
+          ---
+
+          ## Description of the changes
+
+          This PR updates the dependencies of the **argocd** Helm chart.
+          
+          The maximum version bump was a **${{ steps.deps-update.outputs.update-type }}** step.
+
+    - name: "Create Pull Request for a major update"
+      if: ${{ !inputs.dry-run && steps.deps-update.outputs.update-type != 'none' && steps.deps-update.outputs.update-type == 'major' }}
+      id: major-pr
+      uses: peter-evans/create-pull-request@v5
+      env:
+        # This step does not have a branch and labels environment variable, because it is forcefully a major update, 
+        # unlike the previous step, which can either be a patch, minor or major update.
+        pr-title: "feat!(chart): major update of dependencies on argocd chart"
+      with:
+        commit-message: ${{ env.pr-title }}
+        author: ${{ env.author }}
+        committer: ${{ env.author }}
+        branch: "chart-autoupdate-major-argocd"
+        title: ${{ env.pr-title }}
+        labels: "chart-autoupdate-major"
+        body: |
+          :robot: I have updated the chart *beep* *boop*
+          ---
+
+          ## Description of the changes
+
+          This PR updates the dependencies of the **argocd** Helm chart. .
+
+          :warning: This was a **major** update! Please check the changelog of the updated dependencies and **take notice of any breaking changes before merging**. :warning:
