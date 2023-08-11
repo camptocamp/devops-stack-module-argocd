@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.3](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.1.2...v3.1.3) (2023-08-11)
+
+
+### Bug Fixes
+
+* readd support to deactivate auto-sync which was broken by [#57](https://github.com/camptocamp/devops-stack-module-argocd/issues/57) ([b6cc545](https://github.com/camptocamp/devops-stack-module-argocd/commit/b6cc5458f4c7b70cc07323a1f34bd0ea4552c18c))
+
 ## [3.1.2](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.1.1...v3.1.2) (2023-07-19)
 
 
