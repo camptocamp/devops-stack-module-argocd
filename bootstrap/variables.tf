@@ -11,3 +11,8 @@ variable "helm_values" {
     argo-cd = {}
   }]
 }
+
+variable "avp_config" {
+  description = "Backend config of ArgoCD Vault plugin."
+  type        = any # Note type is any for the moment. TODO check how define per provider object. Submodules ?
+}
