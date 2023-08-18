@@ -137,7 +137,12 @@ When deploying this module of Argo CD you may experience connection errors (whic
 
 When bootstrapping a cluster for the first time, you can simply run `terraform apply` again and the deployment should finish correctly.
 
-NOTE: There are some settings that force the automatic redeployment of the `argocd-server` pod during the first bootstrap of the cluster. A good example is the `admin_enabled` variable which is set as `true`` for the bootstrap but not for the final Argo CD module. If you pass the `admin_enabled = true` to the final Argo CD module you will most likely not encounter this error on the first deployment of you cluster, however you could run into the error of the interface looping whenever you click login (see the other troubleshoot sections).
+[NOTE]
+====
+There are some settings that force the automatic redeployment of the `argocd-server` pod during the first bootstrap of the cluster.
+
+A good example is the `admin_enabled` variable which is set as `true` for the bootstrap but not for the final Argo CD module. If you pass the `admin_enabled = true` to the final Argo CD module you will most likely not encounter this error on the first deployment of you cluster, however you could run into the error of the interface looping whenever you click login (see the other troubleshoot sections).
+====
 
 However, on some cases (notably when upgrading the Argo CD module), this error could leave the Terraform resource tainted.
 
@@ -187,7 +192,7 @@ For the same reason as the previous dependency, it needs to be deployed after ce
 
 ==== `module.oidc.id`
 
-Only for the platforms that deploy a cluster module, such as EKS or KinD, there is also a the dependency on `module.oidc.id`.
+Only for the platforms that deploy a OIDC module, such as EKS, KinD or SKS, there is also a the dependency on `module.oidc.id`.
 
 ==== `module.kube-prometheus-stack.id`
 
