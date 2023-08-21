@@ -294,7 +294,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v3.1.3"`
+Default: `"v3.2.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -562,7 +562,7 @@ Description: Map of extra accounts that were created and their tokens.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v3.1.3"`
+|`"v3.2.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
