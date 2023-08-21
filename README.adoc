@@ -22,7 +22,7 @@ To deploy the final Argo CD module, you'll need to add the following declaration
 [source,terraform]
 ----
 module "argocd" {
-  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=v1.1.0"
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=<RELEASE>"
 
   cluster_name   = local.cluster_name
   base_domain    = local.base_domain
@@ -48,7 +48,7 @@ A more complex declaration, that includes a OIDC configuration for the login (th
 [source,terraform]
 ----
 module "argocd" {
-  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=v1.1.0"
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=<RELEASE>"
 
   ...
 
@@ -87,26 +87,20 @@ You can also overload the `policy.csv` as shown in the following example:
 [source,terraform]
 ----
 module "argocd" {
-  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=v1.1.0"
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git?ref=<RELEASE>"
 
   ...
 
-  helm_values = [{
-    argo-cd = {
-      configs = {
-        rbac = {
-          "policy.csv" = <<-EOT
-          g, pipeline, role:admin
-          g, argocd-admin, role:admin
-          p, role:read-sync, applications, get, */*, allow
-          p, role:read-sync, applications, sync, */*, allow
-          p, role:read-sync, repositories, get, *, allow
-          p, role:read-sync, projects, get, *, allow
-          EOT
-        }
-      }
-    }
-  }]
+  rbac = {
+    policy_csv = <<-EOT
+      g, pipeline, role:admin
+      g, argocd-admin, role:admin
+      p, role:read-sync, applications, get, */*, allow
+      p, role:read-sync, applications, sync, */*, allow
+      p, role:read-sync, repositories, get, *, allow
+      p, role:read-sync, projects, get, *, allow
+    EOT
+  }
 
   ...
 }
@@ -125,7 +119,9 @@ NOTE: When using SOPS, you will want to give it access to an external secrets ma
 
 == Troubleshooting
 
-When deploying this module of Argo CD you may experience connection errors (which is normal given that argocd-server pod could have been redeployed).
+=== `connection_error` during `terraform apply`
+
+When deploying this module of Argo CD you may experience connection errors (which is normal given that `argocd-server` pod could have been redeployed).
 
 [source]
 ----
@@ -140,6 +136,13 @@ When deploying this module of Argo CD you may experience connection errors (whic
 ----
 
 When bootstrapping a cluster for the first time, you can simply run `terraform apply` again and the deployment should finish correctly.
+
+[NOTE]
+====
+There are some settings that force the automatic redeployment of the `argocd-server` pod during the first bootstrap of the cluster.
+
+A good example is the `admin_enabled` variable which is set as `true` for the bootstrap but not for the final Argo CD module. If you pass the `admin_enabled = true` to the final Argo CD module you will most likely not encounter this error on the first deployment of you cluster, however you could run into the error of the interface looping whenever you click login (see the other troubleshoot sections).
+====
 
 However, on some cases (notably when upgrading the Argo CD module), this error could leave the Terraform resource tainted.
 
@@ -165,6 +168,12 @@ Plan: 1 to add, 1 to change, 1 to destroy.
 
 *Untainting the resource with the command `terraform untaint module.argocd.argocd_application.this` should solve the issue*.
 
+=== Argo CD interface reload loop when clicking on login
+
+If you encounter a loop when clicking on the login button on the Argo CD interface, you can try to delete the Argo CD server pod and let it be recreated.
+
+This error usually happens because there are some unapplied settings between the bootstrap Argo CD and the final Argo CD module. If you already encountered the error from the previous step, then this error should not happen, as it means the pod was already recreated.
+
 == Technical Documentation
 
 === Dependencies
@@ -183,7 +192,7 @@ For the same reason as the previous dependency, it needs to be deployed after ce
 
 ==== `module.oidc.id`
 
-Only for the platforms that deploy a cluster module, such as EKS or KinD, there is also a the dependency on `module.oidc.id`.
+Only for the platforms that deploy a OIDC module, such as EKS, KinD or SKS, there is also a the dependency on `module.oidc.id`.
 
 ==== `module.kube-prometheus-stack.id`
 
