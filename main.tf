@@ -18,6 +18,15 @@ resource "random_uuid" "jti" {
   for_each = toset(var.extra_accounts)
 }
 
+resource "vault_generic_secret" "argocd_secrets" {
+  path = "secret/devops-stack/submodules/argocd"
+  data_json = jsonencode({
+    argocd-accounts-pipeline-tokens  = var.accounts_pipeline_tokens
+    argocd-server-secretkey          = var.server_secretkey
+    argocd-oidc-default-clientSecret = var.oidc.clientSecret
+  })
+}
+
 resource "argocd_project" "this" {
   metadata {
     name      = "argocd"
@@ -68,8 +77,12 @@ resource "argocd_application" "this" {
       path            = "charts/argocd"
       repo_url        = "https://github.com/camptocamp/devops-stack-module-argocd.git"
       target_revision = var.target_revision
-      helm {
-        values = data.utils_deep_merge_yaml.values.output
+      plugin {
+        name = "avp-helm"
+        env {
+          name  = "HELM_VALUES"
+          value = data.utils_deep_merge_yaml.values.output
+        }
       }
     }
 

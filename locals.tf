@@ -148,9 +148,9 @@ locals {
         }
         secret = {
           extra = merge({
-            "accounts.pipeline.tokens"  = "${replace(var.accounts_pipeline_tokens, "\\\"", "\"")}"
-            "server.secretkey"          = "${replace(var.server_secretkey, "\\\"", "\"")}"
-            "oidc.default.clientSecret" = "${replace(var.oidc.clientSecret, "\\\"", "\"")}"
+            "accounts.pipeline.tokens"  = "<path:secret/data/devops-stack/submodules/argocd#argocd-accounts-pipeline-tokens>"
+            "server.secretkey"          = "<path:secret/data/devops-stack/submodules/argocd#argocd-server-secretkey>"
+            "oidc.default.clientSecret" = "<path:secret/data/devops-stack/submodules/argocd#argocd-oidc-default-clientSecret>"
           }, local.extra_accounts_tokens)
         }
       })
