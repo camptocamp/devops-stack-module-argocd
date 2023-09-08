@@ -10,7 +10,7 @@ The Argo CD chart used by this module is shipped in this repository as well, in 
 [cols="1,1,1",options="autowidth,header"]
 |===
 |Current Chart Version |Original Repository |Default Values
-|*{argo-cd-chart-version}* |{chart-url}[Chart] |https://artifacthub.io/packages/helm/argo/argo-cd/{chart-version}?modal=values[`values.yaml`]
+|*{argo-cd-chart-version}* |{chart-url}[Chart] |https://artifacthub.io/packages/helm/argo/argo-cd/{argo-cd-chart-version}?modal=values[`values.yaml`]
 |===
 
 == Usage
