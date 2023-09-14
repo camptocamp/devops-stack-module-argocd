@@ -1,4 +1,5 @@
 locals {
+  argocd_chart   = yamldecode(file("${path.module}/../charts/argocd/Chart.lock")).dependencies.0
   argocd_version = yamldecode(file("${path.module}/../chart-version.yaml")).appVersion
 
   jwt_token_payload = {
