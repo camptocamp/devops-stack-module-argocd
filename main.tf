@@ -19,6 +19,8 @@ resource "random_uuid" "jti" {
 }
 
 resource "argocd_project" "this" {
+  count = var.argocd_project == null ? 1 : 0
+
   metadata {
     name      = "argocd"
     namespace = var.argocd_namespace
@@ -62,7 +64,7 @@ resource "argocd_application" "this" {
   cascade = false
 
   spec {
-    project = argocd_project.this.metadata.0.name
+    project = var.argocd_project == null ? argocd_project.this[0].metadata.0.name : var.argocd_project
 
     source {
       path            = "charts/argocd"
