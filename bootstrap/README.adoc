@@ -1,4 +1,4 @@
-= Argo CD Bootstrap module
+= Argo CD Bootstrap Module
 
 This module is used to bootstrap the Argo CD that will deploy the rest of the DevOps Stack modules on a first deployment of a cluster.
 
@@ -11,7 +11,7 @@ To do that, on your Terraform configuration you can declare the module as such:
 [source,terraform]
 ----
 module "argocd_bootstrap" {
-  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git//bootstrap?ref=v1.1.0"
+  source = "git::https://github.com/camptocamp/devops-stack-module-argocd.git//bootstrap?ref=<RELEASE>"
 
   # Note here that you should mark the module as depending on the module that deployed the cluster
   depends_on = [module.eks]
@@ -35,6 +35,24 @@ provider "argocd" {
   }
 }
 ----
+
+=== Unified AppProject
+
+By default, all the modules of the DevOps Stack create their own AppProject to deploy the Argo CD Application deployed by the module. *Since the version 3.5.0* of this module, the bootstrap module now supports creating AppProjects for a given map of projects passed in the variable `argocd_projects`. The DevOps Stack modules then can be configured to use this unified AppProject instead of creating on for each application.
+
+TIP: By default, the AppProjects created by this module do not contain restrictions for the destination namespace or source repositories, but you can change that behavior by configuring the `allowed_source_repos` and `allowed_namespaces` values on the `argocd_projects` map.
+
+==== Migrating from split AppProjects to a unified AppProject
+
+This process requires a few manual steps, because Terraform will try to delete the old AppProjects before referencing the Applications to the new AppProject. To accomplish this, do the following:
+
+1. Create the new AppProject with the `argocd_projects` variable, and apply the changes.
+
+2. Use the Argo CD web interface or edit the Application objects using K9s or `kubectl` and move each Application to the new project you created.
+
+3. Modify the module instantiations for each module and add the `argocd_project` variable to set the Application to use the new AppProject. 
+
+4. Run a `terraform apply` again. This time, the only changes you should see is the deletion of the old AppProjects.
 
 == Technical Documentation
 
