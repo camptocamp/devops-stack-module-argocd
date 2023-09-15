@@ -58,6 +58,10 @@ resource "argocd_application" "this" {
   metadata {
     name      = "argocd"
     namespace = var.argocd_namespace
+    labels = merge({
+      "application" = "argocd"
+      "cluster"     = "in-cluster"
+    }, var.argocd_labels)
   }
 
   wait    = var.app_autosync == { "allow_empty" = tobool(null), "prune" = tobool(null), "self_heal" = tobool(null) } ? false : true
