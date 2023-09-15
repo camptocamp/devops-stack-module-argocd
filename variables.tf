@@ -24,6 +24,12 @@ variable "argocd_project" {
   default     = null
 }
 
+variable "argocd_labels" {
+  description = "Labels to attach to the Argo CD Application resource."
+  type        = map(string)
+  default     = {}
+}
+
 variable "target_revision" {
   description = "Override of target revision of the application chart."
   type        = string
