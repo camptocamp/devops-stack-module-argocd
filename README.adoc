@@ -231,9 +231,9 @@ The following providers are used by this module:
 
 - [[provider_random]] <<provider_random,random>> (>= 3)
 
-- [[provider_utils]] <<provider_utils,utils>> (>= 1.6)
-
 - [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
+
+- [[provider_utils]] <<provider_utils,utils>> (>= 1.6)
 
 === Resources
 
@@ -294,7 +294,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v3.3.0"`
+Default: `"v3.4.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -562,7 +562,7 @@ Description: Map of extra accounts that were created and their tokens.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v3.3.0"`
+|`"v3.4.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
