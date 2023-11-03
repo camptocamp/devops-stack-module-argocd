@@ -141,10 +141,6 @@ locals {
         ssh = {
           knownHosts = var.ssh_known_hosts
         }
-        cm = {
-          "admin.enabled" = var.admin_enabled
-          "exec.enabled"  = var.exec_enabled
-        }
         rbac = {
           scopes           = var.rbac.scopes
           "policy.default" = var.rbac.policy_default
@@ -185,6 +181,8 @@ locals {
         ]
         config = merge({ for account in var.extra_accounts : format("accounts.%s", account) => "apiKey" }, {
           "url"                           = "https://${local.argocd_hostname_withclustername}"
+          "admin.enabled"                 = tostring(var.admin_enabled)
+          "exec.enabled"                  = tostring(var.exec_enabled)
           "accounts.pipeline"             = "apiKey"
           "oidc.config"                   = <<-EOT
             ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
