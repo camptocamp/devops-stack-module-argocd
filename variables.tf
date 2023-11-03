@@ -105,7 +105,13 @@ variable "repositories" {
 }
 
 variable "ssh_known_hosts" {
-  description = "List of SSH known hosts to add to Argo CD. Check the official `values.yaml` to get the format to pass this value. **If you set this variable, the default known hosts will be overridden by this value, so you might want to consider adding the ones you need here.**"
+  description = <<-EOT
+    List of SSH known hosts to add to Argo CD.
+    
+    Check the official `values.yaml` to get the format to pass this value. 
+    
+    IMPORTANT: If you set this variable, the default known hosts will be overridden by this value, so you might want to consider adding the ones you need here."
+  EOT
   type        = string
   default     = null
 }
@@ -165,7 +171,7 @@ variable "helmfile_cmp_version" {
 }
 
 variable "helmfile_cmp_env_variables" {
-  description = "List of environment variables to attach to the helmfile-cmp plugin, usually used to pass authentication credentials. Use a an https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/[explicit format] or take the values from a https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#define-container-environment-variables-using-secret-data[Kubernetes secret]."
+  description = "List of environment variables to attach to the helmfile-cmp plugin, usually used to pass authentication credentials. Use an https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/[explicit format] or take the values from a https://kubernetes.io/docs/tasks/inject-data-application/distribute-credentials-secure/#define-container-environment-variables-using-secret-data[Kubernetes secret]."
   type = list(object({
     name  = optional(string)
     value = optional(string)
