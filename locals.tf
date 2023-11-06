@@ -75,6 +75,9 @@ locals {
           name      = "kustomized-helm-cmp-tmp"
         }
       ]
+      # The extra containers of the repo_server pod must have resource requests/limits in order to allow this component 
+      # to autoscale properly.
+      resources = var.resources.repo_server # TODO Maybe this resources should be different from the repo_server one.
     },
     {
       name    = "helmfile-cmp"
@@ -101,6 +104,9 @@ locals {
           name      = "helmfile-cmp-tmp"
         }
       ]
+      # The extra containers of the repo_server pod must have resource requests/limits in order to allow this component 
+      # to autoscale properly.
+      resources = var.resources.repo_server # TODO Maybe this resources should be different from the repo_server one.
     }
   ]
 
@@ -154,7 +160,13 @@ locals {
           }, local.extra_accounts_tokens)
         }
       })
+      applicationSet = {
+        replicas  = var.high_availability.enabled ? var.high_availability.application_set.replicas : null
+        resources = var.resources.application_set
+      }
       controller = {
+        replicas  = var.high_availability.enabled ? var.high_availability.controller.replicas : null
+        resources = var.resources.controller
         metrics = {
           enabled = true
         }
@@ -163,6 +175,13 @@ locals {
         enabled = false
       }
       repoServer = {
+        replicas = var.high_availability.enabled && !var.high_availability.repo_server.autoscaling.enabled ? var.high_availability.server.replicas : null
+        autoscaling = var.high_availability.repo_server.autoscaling.enabled ? {
+          enabled     = true
+          minReplicas = var.high_availability.repo_server.autoscaling.min_replicas
+          maxReplicas = var.high_availability.repo_server.autoscaling.max_replicas
+        } : null
+        resources = var.resources.repo_server
         metrics = {
           enabled = true
         }
@@ -176,6 +195,13 @@ locals {
       }
       extraObjects = local.extra_objects
       server = {
+        replicas = var.high_availability.enabled && !var.high_availability.server.autoscaling.enabled ? var.high_availability.server.replicas : null
+        autoscaling = var.high_availability.server.autoscaling.enabled ? {
+          enabled     = true
+          minReplicas = var.high_availability.server.autoscaling.min_replicas
+          maxReplicas = var.high_availability.server.autoscaling.max_replicas
+        } : null
+        resources = var.resources.server
         extraArgs = [
           "--insecure",
         ]
@@ -237,6 +263,22 @@ locals {
         metrics = {
           enabled = true
         }
+      }
+      notifications = {
+        resources = var.resources.notifications
+      }
+      # When the Redis HA is enabled, the default Redis chart is not used, so we change the value to null.
+      redis = !var.high_availability.enabled ? {
+        resources = var.resources.redis
+      } : null
+      redis-ha = var.high_availability.enabled ? {
+        enabled = true
+        redis = {
+          resources = var.resources.redis
+        }
+        } : {
+        enabled = false
+        redis   = null
       }
     }
   }]
