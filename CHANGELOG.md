@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.4.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.4.0...v3.4.1) (2023-11-10)
+
+
+### Bug Fixes
+
+* fix the activation of the web-terminal on Argo CD ([#80](https://github.com/camptocamp/devops-stack-module-argocd/issues/80)) ([a23fd8b](https://github.com/camptocamp/devops-stack-module-argocd/commit/a23fd8bac44ce55d226b0ee00269dd1d0871b37c))
+
 ## [3.4.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.3.0...v3.4.0) (2023-09-08)
 
 
