@@ -37,9 +37,9 @@ variable "target_revision" {
 }
 
 variable "cluster_issuer" {
-  description = "SSL certificate issuer to use. Usually you would configure this value as `letsencrypt-staging` or `letsencrypt-prod` on your root `*.tf` files."
+  description = "SSL certificate issuer to use. Usually you would configure this value as `letsencrypt-staging` or `letsencrypt-prod` on your root `*.tf` files. You can use `ca-issuer` when using the self-signed variant of cert-manager."
   type        = string
-  default     = "ca-issuer"
+  default     = "selfsigned-issuer"
 }
 
 variable "namespace" {
@@ -214,6 +214,7 @@ variable "oidc" {
   description = "OIDC settings for the log in to the Argo CD web interface."
   type        = any
   default     = null
+  # TODO Add proper OIDC variable here!
 }
 
 variable "rbac" {
