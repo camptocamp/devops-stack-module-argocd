@@ -1,5 +1,20 @@
 # Changelog
 
+## [3.5.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.4.1...v3.5.0) (2023-11-10)
+
+
+### Features
+
+* add HA configuration and resource requests/limits ([ad6e736](https://github.com/camptocamp/devops-stack-module-argocd/commit/ad6e7367ead43c7752f24a33a54875a173a1fd2f))
+* add standard variables and variable to add labels to Argo CD app ([113d13c](https://github.com/camptocamp/devops-stack-module-argocd/commit/113d13c1f783244b5a8683d9ef33ad24ffd4c1e2))
+* add variable to allow the use of the unified AppProject ([5811d53](https://github.com/camptocamp/devops-stack-module-argocd/commit/5811d53412277dcba92239c5953900e3819d101e))
+* add way to create a unified AppProject to use by all the modules ([6ffd06b](https://github.com/camptocamp/devops-stack-module-argocd/commit/6ffd06b6894bda589e006ee13564d36f8322bf71))
+
+
+### Bug Fixes
+
+* use the cluster issuer created on all cert-manager variants ([53d5286](https://github.com/camptocamp/devops-stack-module-argocd/commit/53d52865636616ee729408f37532a98c8b81dfd4))
+
 ## [3.4.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.4.0...v3.4.1) (2023-11-10)
 
 
