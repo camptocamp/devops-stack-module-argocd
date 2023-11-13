@@ -63,6 +63,8 @@ The following requirements are needed by this module:
 
 - [[requirement_terraform]] <<requirement_terraform,terraform>> (>= 1.2)
 
+- [[requirement_argocd]] <<requirement_argocd,argocd>> (>= 6)
+
 - [[requirement_helm]] <<requirement_helm,helm>> (>= 2)
 
 - [[requirement_htpasswd]] <<requirement_htpasswd,htpasswd>> (>= 1)
@@ -79,13 +81,15 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- [[provider_random]] <<provider_random,random>> (>= 3)
-
 - [[provider_jwt]] <<provider_jwt,jwt>> (>= 1.1)
 
 - [[provider_time]] <<provider_time,time>> (>= 0.9)
 
+- [[provider_random]] <<provider_random,random>> (>= 3)
+
 - [[provider_helm]] <<provider_helm,helm>> (>= 2)
+
+- [[provider_argocd]] <<provider_argocd,argocd>> (>= 6)
 
 - [[provider_utils]] <<provider_utils,utils>> (>= 1.6)
 
@@ -95,6 +99,7 @@ The following providers are used by this module:
 
 The following resources are used by this module:
 
+- https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project[argocd_project.devops_stack_applications] (resource)
 - https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release[helm_release.argocd] (resource)
 - https://registry.terraform.io/providers/camptocamp/jwt/latest/docs/resources/hashed_token[jwt_hashed_token.argocd] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] (resource)
@@ -114,6 +119,26 @@ Description: Namespace where to deploy Argo CD.
 Type: `string`
 
 Default: `"argocd"`
+
+==== [[input_argocd_projects]] <<input_argocd_projects,argocd_projects>>
+
+Description: List of AppProject definitions to be created in Argo CD. By default, no projects are created since this variable defaults to an empty map.  
+
+At a minimum, you need to provide the `destination_cluster` value, so that the destination cluster can be defined in the project. The name of the project is derived from the key of the map.
+
+*The first cluster in the list should always be your main cluster where the Argo CD will be deployed, and the destination cluster for that project must be `in-cluster`.*
+
+Type:
+[source,hcl]
+----
+map(object({
+    destination_cluster  = string
+    allowed_source_repos = optional(list(string), ["*"])
+    allowed_namespaces   = optional(list(string), ["*"])
+  }))
+----
+
+Default: `{}`
 
 ==== [[input_helm_values]] <<input_helm_values,helm_values>>
 
@@ -143,6 +168,10 @@ Description: ID to pass other modules in order to refer to this module as a depe
 
 Description: The namespace where to deploy Argo CD.
 
+==== [[output_argocd_project_names]] <<output_argocd_project_names,argocd_project_names>>
+
+Description: The names of all the Argo CD AppProjects created by the bootstrap module.
+
 ==== [[output_argocd_server_secretkey]] <<output_argocd_server_secretkey,argocd_server_secretkey>>
 
 Description: The Argo CD server secret key.
@@ -168,6 +197,7 @@ Description: The Argo CD accounts pipeline tokens.
 |===
 |Name |Version
 |[[requirement_terraform]] <<requirement_terraform,terraform>> |>= 1.2
+|[[requirement_argocd]] <<requirement_argocd,argocd>> |>= 6
 |[[requirement_helm]] <<requirement_helm,helm>> |>= 2
 |[[requirement_htpasswd]] <<requirement_htpasswd,htpasswd>> |>= 1
 |[[requirement_jwt]] <<requirement_jwt,jwt>> |>= 1.1
@@ -185,6 +215,7 @@ Description: The Argo CD accounts pipeline tokens.
 |[[provider_time]] <<provider_time,time>> |>= 0.9
 |[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_helm]] <<provider_helm,helm>> |>= 2
+|[[provider_argocd]] <<provider_argocd,argocd>> |>= 6
 |[[provider_utils]] <<provider_utils,utils>> |>= 1.6
 |[[provider_null]] <<provider_null,null>> |n/a
 |===
@@ -194,6 +225,7 @@ Description: The Argo CD accounts pipeline tokens.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Type
+|https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project[argocd_project.devops_stack_applications] |resource
 |https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release[helm_release.argocd] |resource
 |https://registry.terraform.io/providers/camptocamp/jwt/latest/docs/resources/hashed_token[jwt_hashed_token.argocd] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] |resource
@@ -212,6 +244,27 @@ Description: The Argo CD accounts pipeline tokens.
 |Namespace where to deploy Argo CD.
 |`string`
 |`"argocd"`
+|no
+
+|[[input_argocd_projects]] <<input_argocd_projects,argocd_projects>>
+|List of AppProject definitions to be created in Argo CD. By default, no projects are created since this variable defaults to an empty map.
+    
+At a minimum, you need to provide the `destination_cluster` value, so that the destination cluster can be defined in the project. The name of the project is derived from the key of the map.
+
+*The first cluster in the list should always be your main cluster where the Argo CD will be deployed, and the destination cluster for that project must be `in-cluster`.*
+
+|
+
+[source]
+----
+map(object({
+    destination_cluster  = string
+    allowed_source_repos = optional(list(string), ["*"])
+    allowed_namespaces   = optional(list(string), ["*"])
+  }))
+----
+
+|`{}`
 |no
 
 |[[input_helm_values]] <<input_helm_values,helm_values>>
@@ -239,6 +292,7 @@ Description: The Argo CD accounts pipeline tokens.
 |Name |Description
 |[[output_id]] <<output_id,id>> |ID to pass other modules in order to refer to this module as a dependency.
 |[[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>> |The namespace where to deploy Argo CD.
+|[[output_argocd_project_names]] <<output_argocd_project_names,argocd_project_names>> |The names of all the Argo CD AppProjects created by the bootstrap module.
 |[[output_argocd_server_secretkey]] <<output_argocd_server_secretkey,argocd_server_secretkey>> |The Argo CD server secret key.
 |[[output_argocd_auth_token]] <<output_argocd_auth_token,argocd_auth_token>> |The token to set in `ARGOCD_AUTH_TOKEN` environment variable. May be used for configuring Argo CD Terraform provider.
 |[[output_argocd_accounts_pipeline_tokens]] <<output_argocd_accounts_pipeline_tokens,argocd_accounts_pipeline_tokens>> |The Argo CD accounts pipeline tokens.
