@@ -1,8 +1,8 @@
 
 locals {
   argocd_version                  = yamldecode(file("${path.module}/chart-version.yaml")).appVersion
-  argocd_hostname_withclustername = format("argocd.apps.%s.%s", var.cluster_name, var.base_domain)
-  argocd_hostname                 = format("argocd.apps.%s", var.base_domain)
+  argocd_hostname_withclustername = format("argocd.%s.%s", trimprefix("${var.subdomain}.${var.cluster_name}", "."), var.base_domain)
+  argocd_hostname                 = format("argocd.%s", trimprefix("${var.subdomain}.${var.base_domain}", "."))
 
   jwt_tokens = {
     for account in var.extra_accounts : account => {
