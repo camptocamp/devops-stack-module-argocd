@@ -12,6 +12,12 @@ variable "base_domain" {
   type        = string
 }
 
+variable "subdomain" {
+  description = "Subdomain of the cluster. Value used for the ingress' URL of the application."
+  type        = string
+  default     = "apps"
+}
+
 variable "argocd_project" {
   description = "Name of the Argo CD AppProject where the Application should be created. If not set, the Application will be created in a new AppProject only for this Application."
   type        = string
