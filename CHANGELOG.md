@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.5.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.5.0...v3.5.1) (2023-11-13)
+
+
+### Bug Fixes
+
+* **bootstrap:** fix the validation of `argocd_projects` when nothing is passed ([#84](https://github.com/camptocamp/devops-stack-module-argocd/issues/84)) ([9dd6b96](https://github.com/camptocamp/devops-stack-module-argocd/commit/9dd6b967b23c9acc36e570b69aefa724a30e4fa8))
+
 ## [3.5.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.4.1...v3.5.0) (2023-11-10)
 
 
