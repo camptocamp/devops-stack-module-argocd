@@ -20,7 +20,7 @@ variable "argocd_projects" {
   default = {}
 
   validation {
-    condition     = length(keys(var.argocd_projects)) > 0 && values(var.argocd_projects)[0].destination_cluster == "in-cluster"
+    condition     = length(keys(var.argocd_projects)) > 0 ? values(var.argocd_projects)[0].destination_cluster == "in-cluster" : true
     error_message = "The first AppProject definition provided must be for the cluster 'in-cluster'."
   }
 }
