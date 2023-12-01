@@ -169,6 +169,9 @@ locals {
         resources = var.resources.controller
         metrics = {
           enabled = true
+          serviceMonitor = {
+            enabled = true
+          }
         }
       }
       dex = {
@@ -184,6 +187,9 @@ locals {
         resources = var.resources.repo_server
         metrics = {
           enabled = true
+          serviceMonitor = {
+            enabled = true
+          }
         }
         volumes         = local.repo_server_volumes
         extraContainers = local.repo_server_extra_containers
@@ -262,6 +268,9 @@ locals {
         }
         metrics = {
           enabled = true
+          serviceMonitor = {
+            enabled = true
+          }
         }
       }
       notifications = {
