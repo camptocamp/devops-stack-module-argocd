@@ -100,12 +100,12 @@ variable "resources" {
 
     controller = optional(object({
       requests = optional(object({
-        cpu    = optional(string, "250m")
-        memory = optional(string, "256Mi")
-      }), {})
-      limits = optional(object({
         cpu    = optional(string, "500m")
         memory = optional(string, "512Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string, "1")
+        memory = optional(string, "2Gi")
       }), {})
     }), {})
 
@@ -122,11 +122,11 @@ variable "resources" {
 
     repo_server = optional(object({
       requests = optional(object({
-        cpu    = optional(string, "50m")
+        cpu    = optional(string, "200m")
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "100m")
+        cpu    = optional(string, "400m")
         memory = optional(string, "256Mi")
       }), {})
     }), {})
