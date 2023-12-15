@@ -15,7 +15,7 @@ The Argo CD chart used by this module is shipped in this repository as well, in 
 
 == Usage
 
-IMPORTANT: The root of this repository contains the final Argo CD module to be deployed, which uses a [Terraform provider for Argo CD] to deploy the Argo CD chart. On the first deployment of a cluster, you'll want to use the bootstrap module instead. Check the xref:ROOT:bootstrap/README.adoc[bootstrap module's documentation] for more information.
+IMPORTANT: The root of this repository contains the final Argo CD module to be deployed, which uses a https://registry.terraform.io/providers/oboukili/argocd/latest/docs[Terraform provider for Argo CD] to deploy the Argo CD chart. On the first deployment of a cluster, you'll want to use the bootstrap module instead. Check the xref:ROOT:bootstrap/README.adoc[bootstrap module's documentation] for more information.
 
 To deploy the final Argo CD module, you'll need to add the following declaration on your Terraform configuration:
 
