@@ -394,12 +394,12 @@ object({
 
     controller = optional(object({
       requests = optional(object({
-        cpu    = optional(string, "250m")
-        memory = optional(string, "256Mi")
-      }), {})
-      limits = optional(object({
         cpu    = optional(string, "500m")
         memory = optional(string, "512Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string, "1")
+        memory = optional(string, "2Gi")
       }), {})
     }), {})
 
@@ -416,11 +416,11 @@ object({
 
     repo_server = optional(object({
       requests = optional(object({
-        cpu    = optional(string, "50m")
+        cpu    = optional(string, "200m")
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "100m")
+        cpu    = optional(string, "400m")
         memory = optional(string, "256Mi")
       }), {})
     }), {})
@@ -676,12 +676,12 @@ Description: Map of extra accounts that were created and their tokens.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
+|[[provider_null]] <<provider_null,null>> |>= 3
 |[[provider_jwt]] <<provider_jwt,jwt>> |>= 1.1
 |[[provider_time]] <<provider_time,time>> |>= 0.9
 |[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_utils]] <<provider_utils,utils>> |>= 1.6
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 5
-|[[provider_null]] <<provider_null,null>> |>= 3
 |===
 
 = Resources
@@ -816,12 +816,12 @@ object({
 
     controller = optional(object({
       requests = optional(object({
-        cpu    = optional(string, "250m")
-        memory = optional(string, "256Mi")
-      }), {})
-      limits = optional(object({
         cpu    = optional(string, "500m")
         memory = optional(string, "512Mi")
+      }), {})
+      limits = optional(object({
+        cpu    = optional(string, "1")
+        memory = optional(string, "2Gi")
       }), {})
     }), {})
 
@@ -838,11 +838,11 @@ object({
 
     repo_server = optional(object({
       requests = optional(object({
-        cpu    = optional(string, "50m")
+        cpu    = optional(string, "200m")
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "100m")
+        cpu    = optional(string, "400m")
         memory = optional(string, "256Mi")
       }), {})
     }), {})
