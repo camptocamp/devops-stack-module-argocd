@@ -1,5 +1,13 @@
 # Changelog
 
+## [3.5.2](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.5.1...v3.5.2) (2023-12-21)
+
+
+### Bug Fixes
+
+* add ServiceMonitors to fix missing metrics on Prometheus ([c48afda](https://github.com/camptocamp/devops-stack-module-argocd/commit/c48afda54c2e667354e01c6fb14252e2caccfb5c))
+* increase default resources for the app controller and repo server ([90d9c50](https://github.com/camptocamp/devops-stack-module-argocd/commit/90d9c509d6c9a1bee1905a9d0c4200fba022b9bd))
+
 ## [3.5.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.5.0...v3.5.1) (2023-11-13)
 
 
