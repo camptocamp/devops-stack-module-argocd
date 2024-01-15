@@ -35,7 +35,7 @@ resource "argocd_project" "this" {
 
     destination {
       name      = "in-cluster"
-      namespace = var.namespace
+      namespace = "argocd"
     }
 
     orphaned_resources {
@@ -82,7 +82,7 @@ resource "argocd_application" "this" {
 
     destination {
       name      = "in-cluster"
-      namespace = var.namespace
+      namespace = "argocd"
     }
 
     sync_policy {

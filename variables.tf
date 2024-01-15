@@ -42,12 +42,6 @@ variable "cluster_issuer" {
   default     = "selfsigned-issuer"
 }
 
-variable "namespace" {
-  description = "Namespace where to deploy Argo CD."
-  type        = string
-  default     = "argocd"
-}
-
 variable "helm_values" {
   description = "Helm chart value overrides. They should be passed as a list of HCL structures."
   type        = any
