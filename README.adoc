@@ -223,8 +223,6 @@ The following requirements are needed by this module:
 
 The following providers are used by this module:
 
-- [[provider_null]] <<provider_null,null>> (>= 3)
-
 - [[provider_jwt]] <<provider_jwt,jwt>> (>= 1.1)
 
 - [[provider_time]] <<provider_time,time>> (>= 0.9)
@@ -234,6 +232,8 @@ The following providers are used by this module:
 - [[provider_utils]] <<provider_utils,utils>> (>= 1.6)
 
 - [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
+
+- [[provider_null]] <<provider_null,null>> (>= 3)
 
 === Resources
 
@@ -280,14 +280,6 @@ Type: `string`
 
 The following input variables are optional (have default values):
 
-==== [[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
-
-Description: Namespace used by Argo CD where the Application and AppProject resources should be created. Normally, it should take the outputof the namespace from the bootstrap module.
-
-Type: `string`
-
-Default: `"argocd"`
-
 ==== [[input_argocd_project]] <<input_argocd_project,argocd_project>>
 
 Description: Name of the Argo CD AppProject where the Application should be created. If not set, the Application will be created in a new AppProject only for this Application.
@@ -310,7 +302,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v3.5.1"`
+Default: `"v3.5.2"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -319,14 +311,6 @@ Description: SSL certificate issuer to use. Usually you would configure this val
 Type: `string`
 
 Default: `"selfsigned-issuer"`
-
-==== [[input_namespace]] <<input_namespace,namespace>>
-
-Description: Namespace where to deploy Argo CD.
-
-Type: `string`
-
-Default: `"argocd"`
 
 ==== [[input_helm_values]] <<input_helm_values,helm_values>>
 
@@ -716,12 +700,6 @@ Description: Map of extra accounts that were created and their tokens.
 |n/a
 |yes
 
-|[[input_argocd_namespace]] <<input_argocd_namespace,argocd_namespace>>
-|Namespace used by Argo CD where the Application and AppProject resources should be created. Normally, it should take the outputof the namespace from the bootstrap module.
-|`string`
-|`"argocd"`
-|no
-
 |[[input_argocd_project]] <<input_argocd_project,argocd_project>>
 |Name of the Argo CD AppProject where the Application should be created. If not set, the Application will be created in a new AppProject only for this Application.
 |`string`
@@ -737,19 +715,13 @@ Description: Map of extra accounts that were created and their tokens.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v3.5.1"`
+|`"v3.5.2"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 |SSL certificate issuer to use. Usually you would configure this value as `letsencrypt-staging` or `letsencrypt-prod` on your root `*.tf` files. You can use `ca-issuer` when using the self-signed variant of cert-manager.
 |`string`
 |`"selfsigned-issuer"`
-|no
-
-|[[input_namespace]] <<input_namespace,namespace>>
-|Namespace where to deploy Argo CD.
-|`string`
-|`"argocd"`
 |no
 
 |[[input_helm_values]] <<input_helm_values,helm_values>>
