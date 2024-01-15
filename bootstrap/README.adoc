@@ -112,14 +112,6 @@ The following resources are used by this module:
 
 The following input variables are optional (have default values):
 
-==== [[input_namespace]] <<input_namespace,namespace>>
-
-Description: Namespace where to deploy Argo CD.
-
-Type: `string`
-
-Default: `"argocd"`
-
 ==== [[input_argocd_projects]] <<input_argocd_projects,argocd_projects>>
 
 Description: List of AppProject definitions to be created in Argo CD. By default, no projects are created since this variable defaults to an empty map.  
@@ -166,7 +158,7 @@ Description: ID to pass other modules in order to refer to this module as a depe
 
 ==== [[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>>
 
-Description: The namespace where to deploy Argo CD.
+Description: The namespace where Argo CD resides. The main use of this output is to create an implicit dependency when passing this attribute to the oboukili/argocd provider settings.
 
 ==== [[output_argocd_project_names]] <<output_argocd_project_names,argocd_project_names>>
 
@@ -211,9 +203,9 @@ Description: The Argo CD accounts pipeline tokens.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Version
+|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_jwt]] <<provider_jwt,jwt>> |>= 1.1
 |[[provider_time]] <<provider_time,time>> |>= 0.9
-|[[provider_random]] <<provider_random,random>> |>= 3
 |[[provider_helm]] <<provider_helm,helm>> |>= 2
 |[[provider_argocd]] <<provider_argocd,argocd>> |>= 6
 |[[provider_utils]] <<provider_utils,utils>> |>= 1.6
@@ -240,12 +232,6 @@ Description: The Argo CD accounts pipeline tokens.
 [cols="a,a,a,a,a",options="header,autowidth"]
 |===
 |Name |Description |Type |Default |Required
-|[[input_namespace]] <<input_namespace,namespace>>
-|Namespace where to deploy Argo CD.
-|`string`
-|`"argocd"`
-|no
-
 |[[input_argocd_projects]] <<input_argocd_projects,argocd_projects>>
 |List of AppProject definitions to be created in Argo CD. By default, no projects are created since this variable defaults to an empty map.
     
@@ -291,7 +277,7 @@ map(object({
 |===
 |Name |Description
 |[[output_id]] <<output_id,id>> |ID to pass other modules in order to refer to this module as a dependency.
-|[[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>> |The namespace where to deploy Argo CD.
+|[[output_argocd_namespace]] <<output_argocd_namespace,argocd_namespace>> |The namespace where Argo CD resides. The main use of this output is to create an implicit dependency when passing this attribute to the oboukili/argocd provider settings.
 |[[output_argocd_project_names]] <<output_argocd_project_names,argocd_project_names>> |The names of all the Argo CD AppProjects created by the bootstrap module.
 |[[output_argocd_server_secretkey]] <<output_argocd_server_secretkey,argocd_server_secretkey>> |The Argo CD server secret key.
 |[[output_argocd_auth_token]] <<output_argocd_auth_token,argocd_auth_token>> |The token to set in `ARGOCD_AUTH_TOKEN` environment variable. May be used for configuring Argo CD Terraform provider.
