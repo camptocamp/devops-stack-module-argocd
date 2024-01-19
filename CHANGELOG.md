@@ -1,5 +1,20 @@
 # Changelog
 
+## [4.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.5.2...v4.0.0) (2024-01-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* remove the ArgoCD namespace variable
+* remove the namespace variable
+* hardcode the release name to remove the destination cluster
+
+### Bug Fixes
+
+* hardcode the release name to remove the destination cluster ([7076e8b](https://github.com/camptocamp/devops-stack-module-argocd/commit/7076e8b7783c0b6c5884980f905d1ad576bc1331))
+* remove the ArgoCD namespace variable ([5dd52e9](https://github.com/camptocamp/devops-stack-module-argocd/commit/5dd52e9b47b23baa857af13730f0b490af53533e))
+* remove the namespace variable ([ee1eeed](https://github.com/camptocamp/devops-stack-module-argocd/commit/ee1eeed6d6a570be145828116b5f53220e524821))
+
 ## [3.5.2](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.5.1...v3.5.2) (2023-12-21)
 
 
