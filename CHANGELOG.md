@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.1.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.0.0...v4.1.0) (2024-02-23)
+
+
+### Features
+
+* add a subdomain variable ([3ec9b23](https://github.com/camptocamp/devops-stack-module-argocd/commit/3ec9b2372be391ea6b90c3ab7a77bce92f5ddaa8))
+
+
+### Bug Fixes
+
+* make subdomain variable non-nullable ([45fbff4](https://github.com/camptocamp/devops-stack-module-argocd/commit/45fbff438b18c6b93d51b3034445d05e0b2f3f5f))
+* remove annotation for the redirection middleware ([94449d0](https://github.com/camptocamp/devops-stack-module-argocd/commit/94449d075dbc5f9760f45149dcd67319292f06ff))
+
 ## [4.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v3.5.2...v4.0.0) (2024-01-19)
 
 
