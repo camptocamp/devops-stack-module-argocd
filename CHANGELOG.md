@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.3.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.2.0...v4.3.0) (2024-03-01)
+
+
+### Features
+
+* make the dashboard deployment dynamic ([caa397b](https://github.com/camptocamp/devops-stack-module-argocd/commit/caa397bee0b5f207e8fdd4e585c997ee2df91dc9))
+
+
+### Bug Fixes
+
+* delete legacy OpenShift template ([533db1f](https://github.com/camptocamp/devops-stack-module-argocd/commit/533db1f9d9c0cf16835f0bdd59fe8c90e187666b))
+* remove legacy ingress annotations ([ae712db](https://github.com/camptocamp/devops-stack-module-argocd/commit/ae712db9ebbac8cc9fbf1fca5fc4a585b5d142ab))
+
 ## [4.2.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.1.0...v4.2.0) (2024-02-23)
 
 
