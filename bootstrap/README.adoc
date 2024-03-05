@@ -18,17 +18,15 @@ module "argocd_bootstrap" {
 }
 ----
 
-Do not forget to add the Argo CD provider settings, which is needed to deploy all the other modules, since they use the Argo CD provider: 
+Do not forget to add the Argo CD provider settings, which is needed to deploy all the other modules, since they this Terraform to deploy the Argo CD applications: 
 
 [source,terraform]
 ----
 provider "argocd" {
-  server_addr                 = "127.0.0.1:8080"
   auth_token                  = module.argocd_bootstrap.argocd_auth_token
+  port_forward_with_namespace = module.argocd_bootstrap.argocd_namespace
   insecure                    = true
   plain_text                  = true
-  port_forward                = true
-  port_forward_with_namespace = "argocd"
 
   kubernetes {
     ...
