@@ -52,6 +52,7 @@ locals {
       command = ["/var/run/argocd/argocd-cmp-server"]
       # Note: Argo CD official image ships Helm and Kustomize. No need to build a custom image to use "kustomized-helm" plugin.
       image = "quay.io/argoproj/argocd:${local.argocd_version}"
+      args  = ["--loglevel=warn"]
       securityContext = {
         runAsNonRoot = true
         runAsUser    = 999
@@ -75,7 +76,7 @@ locals {
           name      = "kustomized-helm-cmp-tmp"
         }
       ]
-      # The extra containers of the repo_server pod must have resource requests/limits in order to allow this component 
+      # The extra containers of the repo_server pod must have resource requests/limits in order to allow this component
       # to autoscale properly.
       resources = var.resources.repo_server # TODO Maybe this resources should be different from the repo_server one.
     },
@@ -83,6 +84,7 @@ locals {
       name    = "helmfile-cmp"
       command = ["/var/run/argocd/argocd-cmp-server"]
       image   = "ghcr.io/camptocamp/docker-argocd-cmp-helmfile:${var.helmfile_cmp_version}"
+      args    = ["--loglevel=warn"]
       env     = var.helmfile_cmp_env_variables
       securityContext = {
         runAsNonRoot = true
@@ -104,7 +106,7 @@ locals {
           name      = "helmfile-cmp-tmp"
         }
       ]
-      # The extra containers of the repo_server pod must have resource requests/limits in order to allow this component 
+      # The extra containers of the repo_server pod must have resource requests/limits in order to allow this component
       # to autoscale properly.
       resources = var.resources.repo_server # TODO Maybe this resources should be different from the repo_server one.
     }
