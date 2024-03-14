@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.3.0...v4.4.0) (2024-03-14)
+
+
+### Features
+
+* **plugins:** set loglevel to warning on helmfile and kustomize ([71c1c50](https://github.com/camptocamp/devops-stack-module-argocd/commit/71c1c506cbd35620400a57eed8d88795a9f84ca8))
+
 ## [4.3.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.2.0...v4.3.0) (2024-03-01)
 
 
