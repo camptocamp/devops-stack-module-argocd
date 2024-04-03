@@ -74,11 +74,13 @@ variable "dependency_ids" {
 
 variable "resources" {
   description = <<-EOT
-    Resource limits and requests for the Argo CD components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
+    Resource limits and requests for Argo CD's components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
 
     NOTE: The `repo_server` requests and limits will be applied to all the extra containers that are deployed with the `argocd-repo-server` component (each container has the same requests and limits as the main container, **so it is cumulative**).
 
     NOTE: If you enable the HA mode using the `high_availability` variable, the values for Redis will be applied to the Redis HA chart instead of the default one.
+
+    IMPORTANT: These are not production values. You should always adjust them to your needs.
   EOT
   type = object({
 
@@ -88,8 +90,8 @@ variable "resources" {
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "100m")
-        memory = optional(string, "128Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -99,8 +101,8 @@ variable "resources" {
         memory = optional(string, "512Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "1")
-        memory = optional(string, "2Gi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -110,8 +112,8 @@ variable "resources" {
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "200m")
-        memory = optional(string, "256Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -121,8 +123,8 @@ variable "resources" {
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "400m")
-        memory = optional(string, "256Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -132,19 +134,19 @@ variable "resources" {
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "100m")
-        memory = optional(string, "256Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
     redis = optional(object({
       requests = optional(object({
         cpu    = optional(string, "200m")
-        memory = optional(string, "64Mi")
+        memory = optional(string, "256Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "300m")
-        memory = optional(string, "128Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
