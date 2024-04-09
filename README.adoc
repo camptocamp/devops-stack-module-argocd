@@ -231,9 +231,9 @@ The following providers are used by this module:
 
 - [[provider_random]] <<provider_random,random>> (>= 3)
 
-- [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
-
 - [[provider_utils]] <<provider_utils,utils>> (>= 1.6)
+
+- [[provider_argocd]] <<provider_argocd,argocd>> (>= 5)
 
 === Resources
 
@@ -310,7 +310,7 @@ Description: Override of target revision of the application chart.
 
 Type: `string`
 
-Default: `"v4.3.0"`
+Default: `"v4.4.0"`
 
 ==== [[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
 
@@ -362,11 +362,13 @@ Default: `{}`
 
 ==== [[input_resources]] <<input_resources,resources>>
 
-Description: Resource limits and requests for the Argo CD components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
+Description: Resource limits and requests for Argo CD's components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
 
 NOTE: The `repo_server` requests and limits will be applied to all the extra containers that are deployed with the `argocd-repo-server` component (each container has the same requests and limits as the main container, **so it is cumulative**).
 
 NOTE: If you enable the HA mode using the `high_availability` variable, the values for Redis will be applied to the Redis HA chart instead of the default one.
+
+IMPORTANT: These are not production values. You should always adjust them to your needs.
 
 Type:
 [source,hcl]
@@ -379,8 +381,8 @@ object({
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "100m")
-        memory = optional(string, "128Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -390,8 +392,8 @@ object({
         memory = optional(string, "512Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "1")
-        memory = optional(string, "2Gi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -401,8 +403,8 @@ object({
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "200m")
-        memory = optional(string, "256Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -412,8 +414,8 @@ object({
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "400m")
-        memory = optional(string, "256Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -423,19 +425,19 @@ object({
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "100m")
-        memory = optional(string, "256Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
     redis = optional(object({
       requests = optional(object({
         cpu    = optional(string, "200m")
-        memory = optional(string, "64Mi")
+        memory = optional(string, "256Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "300m")
-        memory = optional(string, "128Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -729,7 +731,7 @@ Description: Map of extra accounts that were created and their tokens.
 |[[input_target_revision]] <<input_target_revision,target_revision>>
 |Override of target revision of the application chart.
 |`string`
-|`"v4.3.0"`
+|`"v4.4.0"`
 |no
 
 |[[input_cluster_issuer]] <<input_cluster_issuer,cluster_issuer>>
@@ -777,11 +779,13 @@ object({
 |no
 
 |[[input_resources]] <<input_resources,resources>>
-|Resource limits and requests for the Argo CD components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
+|Resource limits and requests for Argo CD's components. Follow the style on https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/[official documentation] to understand the format of the values.
 
 NOTE: The `repo_server` requests and limits will be applied to all the extra containers that are deployed with the `argocd-repo-server` component (each container has the same requests and limits as the main container, **so it is cumulative**).
 
 NOTE: If you enable the HA mode using the `high_availability` variable, the values for Redis will be applied to the Redis HA chart instead of the default one.
+
+IMPORTANT: These are not production values. You should always adjust them to your needs.
 
 |
 
@@ -795,8 +799,8 @@ object({
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "100m")
-        memory = optional(string, "128Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -806,8 +810,8 @@ object({
         memory = optional(string, "512Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "1")
-        memory = optional(string, "2Gi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -817,8 +821,8 @@ object({
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "200m")
-        memory = optional(string, "256Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -828,8 +832,8 @@ object({
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "400m")
-        memory = optional(string, "256Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
@@ -839,19 +843,19 @@ object({
         memory = optional(string, "128Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "100m")
-        memory = optional(string, "256Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
     redis = optional(object({
       requests = optional(object({
         cpu    = optional(string, "200m")
-        memory = optional(string, "64Mi")
+        memory = optional(string, "256Mi")
       }), {})
       limits = optional(object({
-        cpu    = optional(string, "300m")
-        memory = optional(string, "128Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
     }), {})
 
