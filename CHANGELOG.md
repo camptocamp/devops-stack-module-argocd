@@ -1,5 +1,13 @@
 # Changelog
 
+## [4.4.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.4.0...v4.4.1) (2024-04-16)
+
+
+### Bug Fixes
+
+* adjust the resources and remove default limits ([6818519](https://github.com/camptocamp/devops-stack-module-argocd/commit/6818519d86d381edba3efbff69915899e0028ac5))
+* **aks:** remove deprecated label from repo server service account for workload id ([cc58a8a](https://github.com/camptocamp/devops-stack-module-argocd/commit/cc58a8abe4b6949535d9cf1e24cb0df98c5e7311))
+
 ## [4.4.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.3.0...v4.4.0) (2024-03-14)
 
 
