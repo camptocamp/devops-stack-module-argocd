@@ -119,8 +119,8 @@ variable "resources" {
 
     repo_server = optional(object({
       requests = optional(object({
-        cpu    = optional(string, "200m")
-        memory = optional(string, "128Mi")
+        cpu    = optional(string)
+        memory = optional(string)
       }), {})
       limits = optional(object({
         cpu    = optional(string)
