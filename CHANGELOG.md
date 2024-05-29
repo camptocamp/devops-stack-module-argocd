@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.5.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.4.1...v4.5.0) (2024-05-29)
+
+
+### Features
+
+* add variables to set resource requests/limits on plugins ([#104](https://github.com/camptocamp/devops-stack-module-argocd/issues/104)) ([9f6789e](https://github.com/camptocamp/devops-stack-module-argocd/commit/9f6789ec95fc9cd8841606f45b6f94d3ecf1dfb5))
+
 ## [4.4.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.4.0...v4.4.1) (2024-04-16)
 
 
