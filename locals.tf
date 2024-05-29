@@ -78,9 +78,9 @@ locals {
       ]
       # The extra containers of the repo_server pod must have resource requests/limits in order to allow this component
       # to autoscale properly.
-      resources = { # TODO Maybe these resources should be different from the repo_server one.
-        requests = { for k, v in var.resources.repo_server.requests : k => v if v != null }
-        limits   = { for k, v in var.resources.repo_server.limits : k => v if v != null }
+      resources = {
+        requests = { for k, v in var.resources.kustomized_helm_cmp.requests : k => v if v != null }
+        limits   = { for k, v in var.resources.kustomized_helm_cmp.limits : k => v if v != null }
       }
     },
     {
@@ -111,9 +111,9 @@ locals {
       ]
       # The extra containers of the repo_server pod must have resource requests/limits in order to allow this component
       # to autoscale properly.
-      resources = { # TODO Maybe these resources should be different from the repo_server one.
-        requests = { for k, v in var.resources.repo_server.requests : k => v if v != null }
-        limits   = { for k, v in var.resources.repo_server.limits : k => v if v != null }
+      resources = {
+        requests = { for k, v in var.resources.helmfile_cmp.requests : k => v if v != null }
+        limits   = { for k, v in var.resources.helmfile_cmp.limits : k => v if v != null }
       }
     }
   ]
