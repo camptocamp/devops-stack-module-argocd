@@ -150,6 +150,40 @@ locals {
       configs = merge(length(var.repositories) > 0 ? {
         repositories = var.repositories
         } : null, {
+        cm = merge({ for account in var.extra_accounts : format("accounts.%s", account) => "apiKey" }, {
+          "url"                           = "https://${local.argocd_hostname_withclustername}"
+          "accounts.pipeline"             = "apiKey"
+          "admin.enabled"                 = var.admin_enabled
+          "exec.enabled"                  = var.exec_enabled
+          "oicd.config"                   = <<-EOT
+            ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
+          EOT
+          "oidc.tls.insecure.skip.verify" = tostring(var.cluster_issuer != "letsencrypt-prod")
+          "resource.customizations"       = <<-EOT
+            argoproj.io/Application: # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app
+              health.lua: |
+                hs = {}
+                hs.status = "Progressing"
+                hs.message = ""
+                if obj.status ~= nil then
+                  if obj.status.health ~= nil then
+                    hs.status = obj.status.health.status
+                    if obj.status.health.message ~= nil then
+                      hs.message = obj.status.health.message
+                    end
+                  end
+                end
+                return hs
+            networking.k8s.io/Ingress: # https://argo-cd.readthedocs.io/en/stable/faq/#why-is-my-application-stuck-in-progressing-state
+              health.lua: |
+                hs = {}
+                hs.status = "Healthy"
+                return hs
+          EOT
+        })
+        params = {
+          "server.insecure" = true # We terminate the SSL connection at the Traefik Ingress Controller
+        }
         ssh = {
           knownHosts = var.ssh_known_hosts
         }
@@ -225,40 +259,6 @@ locals {
           requests = { for k, v in var.resources.server.requests : k => v if v != null }
           limits   = { for k, v in var.resources.server.limits : k => v if v != null }
         }
-        extraArgs = [
-          "--insecure",
-        ]
-        config = merge({ for account in var.extra_accounts : format("accounts.%s", account) => "apiKey" }, {
-          "url"                           = "https://${local.argocd_hostname_withclustername}"
-          "admin.enabled"                 = tostring(var.admin_enabled)
-          "exec.enabled"                  = tostring(var.exec_enabled)
-          "accounts.pipeline"             = "apiKey"
-          "oidc.config"                   = <<-EOT
-            ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
-          EOT
-          "oidc.tls.insecure.skip.verify" = tostring(var.cluster_issuer != "letsencrypt-prod")
-          "resource.customizations"       = <<-EOT
-            argoproj.io/Application: # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app
-              health.lua: |
-                hs = {}
-                hs.status = "Progressing"
-                hs.message = ""
-                if obj.status ~= nil then
-                  if obj.status.health ~= nil then
-                    hs.status = obj.status.health.status
-                    if obj.status.health.message ~= nil then
-                      hs.message = obj.status.health.message
-                    end
-                  end
-                end
-                return hs
-            networking.k8s.io/Ingress: # https://argo-cd.readthedocs.io/en/stable/faq/#why-is-my-application-stuck-in-progressing-state
-              health.lua: |
-                hs = {}
-                hs.status = "Healthy"
-                return hs
-          EOT
-        })
         ingress = {
           enabled = true
           annotations = {
@@ -266,18 +266,21 @@ locals {
             "traefik.ingress.kubernetes.io/router.entrypoints" = "websecure"
             "traefik.ingress.kubernetes.io/router.tls"         = "true"
           }
-          hosts = [
-            local.argocd_hostname_withclustername,
-            local.argocd_hostname
-          ]
-          tls = [
+          hostname = local.argocd_hostname_withclustername
+          extraHosts = [
             {
-              secretName = "argocd-tls"
+              name = local.argocd_hostname
+              path = "/"
+            }
+          ]
+          extraTls = [
+            {
               hosts = [
-                local.argocd_hostname_withclustername,
-                local.argocd_hostname
+                local.argocd_hostname,
+                local.argocd_hostname_withclustername
               ]
-            },
+              secretName = "argocd-tls"
+            }
           ]
         }
         metrics = {
