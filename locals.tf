@@ -155,7 +155,7 @@ locals {
           "accounts.pipeline"             = "apiKey"
           "admin.enabled"                 = var.admin_enabled
           "exec.enabled"                  = var.exec_enabled
-          "oicd.config"                   = <<-EOT
+          "oidc.config"                   = <<-EOT
             ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
           EOT
           "oidc.tls.insecure.skip.verify" = var.cluster_issuer != "letsencrypt-prod"
