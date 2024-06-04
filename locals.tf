@@ -158,7 +158,7 @@ locals {
           "oicd.config"                   = <<-EOT
             ${yamlencode(merge(var.oidc, { clientSecret = "$oidc.default.clientSecret" }))}
           EOT
-          "oidc.tls.insecure.skip.verify" = tostring(var.cluster_issuer != "letsencrypt-prod")
+          "oidc.tls.insecure.skip.verify" = var.cluster_issuer != "letsencrypt-prod"
           "resource.customizations"       = <<-EOT
             argoproj.io/Application: # https://argo-cd.readthedocs.io/en/stable/operator-manual/health/#argocd-app
               health.lua: |
