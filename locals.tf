@@ -147,6 +147,9 @@ locals {
 
   helm_values = [{
     argo-cd = {
+      global = {
+        domain = local.argocd_hostname
+      }
       configs = merge(length(var.repositories) > 0 ? {
         repositories = var.repositories
         } : null, {
