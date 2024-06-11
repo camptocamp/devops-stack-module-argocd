@@ -5,7 +5,13 @@
 
 ### ⚠ BREAKING CHANGES
 
-* **chart:** major update of dependencies on argocd chart
+* **chart:** major update of dependencies on argocd chart:
+  * The upstream chart has removed multiple configurations that should not affect you unless you overload any of the following attributes using the `helm_values` variable:
+    * deprecated component options `logLevel` and `logFormat`
+    * deprecated component arguments `<components>.args.<feature>` that were replaced with `configs.params`
+    * deprecated configuration `server.config` that was replaced with `configs.cm`
+    * deprecated configuration `server.rbacConfig` that was replaced with `configs.rbac`
+
 
 ### Features
 
