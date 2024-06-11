@@ -1,5 +1,23 @@
 # Changelog
 
+## [5.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.5.0...v5.0.0) (2024-06-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **chart:** major update of dependencies on argocd chart
+
+### Features
+
+* **chart:** major update of dependencies on argocd chart ([52543df](https://github.com/camptocamp/devops-stack-module-argocd/commit/52543df692e21fee2cd772ca47282d166f0fdfae))
+* modify the Helm values to support new chart version ([a2127c9](https://github.com/camptocamp/devops-stack-module-argocd/commit/a2127c94e84282b8138282b6c365ab6b37a0a6b0))
+
+
+### Bug Fixes
+
+* add domain value ([fae7776](https://github.com/camptocamp/devops-stack-module-argocd/commit/fae7776f1b85e7bac9424840d2ad2234e2599dc9))
+* fix typo that prevented OIDC configuration apply ([e5bec3f](https://github.com/camptocamp/devops-stack-module-argocd/commit/e5bec3f9a97ecc650f7ddd491990ad4182d79c60))
+
 ## [4.5.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v4.4.1...v4.5.0) (2024-05-29)
 
 
