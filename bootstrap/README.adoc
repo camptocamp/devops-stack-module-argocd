@@ -122,9 +122,10 @@ Type:
 [source,hcl]
 ----
 map(object({
-    destination_cluster  = string
-    allowed_source_repos = optional(list(string), ["*"])
-    allowed_namespaces   = optional(list(string), ["*"])
+    destination_cluster        = string
+    allowed_source_repos       = optional(list(string), ["*"])
+    allowed_namespaces         = optional(list(string), ["*"])
+    orphaned_resources_warning = optional(bool, true)
   }))
 ----
 
@@ -242,9 +243,10 @@ At a minimum, you need to provide the `destination_cluster` value, so that the d
 [source]
 ----
 map(object({
-    destination_cluster  = string
-    allowed_source_repos = optional(list(string), ["*"])
-    allowed_namespaces   = optional(list(string), ["*"])
+    destination_cluster        = string
+    allowed_source_repos       = optional(list(string), ["*"])
+    allowed_namespaces         = optional(list(string), ["*"])
+    orphaned_resources_warning = optional(bool, true)
   }))
 ----
 
