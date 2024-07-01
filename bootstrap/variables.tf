@@ -7,9 +7,10 @@ variable "argocd_projects" {
     *The first cluster in the list should always be your main cluster where the Argo CD will be deployed, and the destination cluster for that project must be `in-cluster`.* 
   EOT
   type = map(object({
-    destination_cluster  = string
-    allowed_source_repos = optional(list(string), ["*"])
-    allowed_namespaces   = optional(list(string), ["*"])
+    destination_cluster        = string
+    allowed_source_repos       = optional(list(string), ["*"])
+    allowed_namespaces         = optional(list(string), ["*"])
+    orphaned_resources_warning = optional(bool, true)
   }))
   default = {}
 

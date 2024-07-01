@@ -53,7 +53,21 @@ resource "argocd_project" "devops_stack_applications" {
     }
 
     orphaned_resources {
-      warn = true
+      warn = each.value.orphaned_resources_warning
+
+      # Because we are creating the Argo CD resources using Terraform, these appear as orphaned resources in the Argo CD
+      # interface, so we need to ignore them.
+      ignore {
+        group = "argoproj.io"
+        kind  = "*"
+        name  = "*"
+      }
+
+      # Most of the Secrets are created by the External Secrets operator, so it's best they are ignored.
+      ignore {
+        kind = "Secret"
+        name = "*"
+      }
     }
 
     cluster_resource_whitelist {
