@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.4.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v5.3.0...v5.4.0) (2024-08-06)
+
+
+### Features
+
+* update prometheus rule to be more flexible ([#114](https://github.com/camptocamp/devops-stack-module-argocd/issues/114)) ([5f80f8a](https://github.com/camptocamp/devops-stack-module-argocd/commit/5f80f8a32b011454044a3bab2d603f1f549a6805))
+
 ## [5.3.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v5.2.0...v5.3.0) (2024-07-10)
 
 
