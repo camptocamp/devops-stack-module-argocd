@@ -48,7 +48,7 @@ jobs:
 
     - name: "Upgrade Helm chart dependencies"
       id: deps-update
-      uses: camptocamp/helm-dependency-update-action@v0.4.1
+      uses: camptocamp/helm-dependency-update-action@v0.5.0
       with:
         chart-path: "charts/argocd"
         readme-path: "README.adoc"
@@ -122,7 +122,7 @@ jobs:
 
     - name: "Upgrade Helm chart dependencies"
       id: deps-update
-      uses: camptocamp/helm-dependency-update-action@v0.4.1
+      uses: camptocamp/helm-dependency-update-action@v0.5.0
       with:
         chart-path: "charts/argocd"
         readme-path: "README.adoc"
