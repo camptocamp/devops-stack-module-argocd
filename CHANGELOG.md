@@ -1,5 +1,18 @@
 # Changelog
 
+## [6.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v5.5.0...v6.0.0) (2024-08-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* **chart:** minor update of dependencies on argocd chart ([#119](https://github.com/camptocamp/devops-stack-module-argocd/issues/119))
+  - the minimum Kubernetes version is now 1.25;
+  - Argo CD is now upgraded to version 2.12.0; **please check the [upgrade guide](https://argo-cd.readthedocs.io/en/latest/operator-manual/upgrading/2.11-2.12/) to see if you are affected by any of the changes**;
+
+### Features
+
+* **chart:** minor update of dependencies on argocd chart ([#119](https://github.com/camptocamp/devops-stack-module-argocd/issues/119)) ([1cb0c92](https://github.com/camptocamp/devops-stack-module-argocd/commit/1cb0c92bcbf96529dad2aa270bfc2b26699e9b18))
+
 ## [5.5.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v5.4.0...v5.5.0) (2024-08-15)
 
 
