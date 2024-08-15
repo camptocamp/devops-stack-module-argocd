@@ -2,7 +2,7 @@ apiVersion: v2
 dependencies:
 - name: argo-cd
   repository: https://argoproj.github.io/argo-helm
-  version: 7.3.11
+  version: 7.4.3
 description: |
   This chart installs and configures:
 
@@ -10,4 +10,4 @@ description: |
   * A Grafana dashboard for Argo CD
   * An `OAuthClient` Kubernetes object if the OpenShift 4 option is enabled
 name: ArgoCD
-version: "0"
+version: 0
