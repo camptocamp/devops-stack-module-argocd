@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.5.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v5.4.0...v5.5.0) (2024-08-15)
+
+
+### Features
+
+* **chart:** patch update of dependencies on argocd chart ([#117](https://github.com/camptocamp/devops-stack-module-argocd/issues/117)) ([8c93fda](https://github.com/camptocamp/devops-stack-module-argocd/commit/8c93fda86825a7a1e9a32a8f03b887260637570d))
+
 ## [5.4.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v5.3.0...v5.4.0) (2024-08-06)
 
 

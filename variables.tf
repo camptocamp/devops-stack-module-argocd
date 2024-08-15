@@ -34,7 +34,7 @@ variable "argocd_labels" {
 variable "target_revision" {
   description = "Override of target revision of the application chart."
   type        = string
-  default     = "v5.4.0" # x-release-please-version
+  default     = "v5.5.0" # x-release-please-version
 }
 
 variable "cluster_issuer" {
