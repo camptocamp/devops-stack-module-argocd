@@ -6,6 +6,8 @@
 ### ⚠ BREAKING CHANGES
 
 * **chart:** minor update of dependencies on argocd chart ([#119](https://github.com/camptocamp/devops-stack-module-argocd/issues/119))
+  - the minimum Kubernetes version is now 1.25;
+  - Argo CD is now upgraded to version 2.12.0; **please check the [upgrade guide](https://argo-cd.readthedocs.io/en/latest/operator-manual/upgrading/2.11-2.12/) to see if you are affected by any of the changes**;
 
 ### Features
 
