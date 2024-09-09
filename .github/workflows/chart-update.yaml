@@ -64,7 +64,7 @@ jobs:
     - name: "Create Pull Request for a minor/patch update"
       if: ${{ steps.deps-update.outputs.update-type != 'none' && steps.deps-update.outputs.update-type != 'major' }}
       id: minor-pr
-      uses: peter-evans/create-pull-request@v6
+      uses: peter-evans/create-pull-request@v7
       env:
         pr-title: "feat(chart): ${{ steps.deps-update.outputs.update-type }} update of dependencies on argocd chart"
         branch: "chart-autoupdate-${{ steps.deps-update.outputs.update-type }}-argocd"
@@ -89,7 +89,7 @@ jobs:
     - name: "Create Pull Request for a major update"
       if: ${{ steps.deps-update.outputs.update-type != 'none' && steps.deps-update.outputs.update-type == 'major' }}
       id: major-pr
-      uses: peter-evans/create-pull-request@v6
+      uses: peter-evans/create-pull-request@v7
       env:
         # This step does not have a branch and labels environment variable, because it is forcefully a major update, 
         # unlike the previous step, which can either be a patch, minor or major update.
@@ -140,7 +140,7 @@ jobs:
     - name: "Create Pull Request for a minor/patch update"
       if: ${{ !inputs.dry-run && steps.deps-update.outputs.update-type != 'none' && steps.deps-update.outputs.update-type != 'major' }}
       id: minor-pr
-      uses: peter-evans/create-pull-request@v6
+      uses: peter-evans/create-pull-request@v7
       env:
         pr-title: "feat(chart): ${{ steps.deps-update.outputs.update-type }} update of dependencies on argocd chart"
         branch: "chart-autoupdate-${{ steps.deps-update.outputs.update-type }}-argocd"
@@ -165,7 +165,7 @@ jobs:
     - name: "Create Pull Request for a major update"
       if: ${{ !inputs.dry-run && steps.deps-update.outputs.update-type != 'none' && steps.deps-update.outputs.update-type == 'major' }}
       id: major-pr
-      uses: peter-evans/create-pull-request@v6
+      uses: peter-evans/create-pull-request@v7
       env:
         # This step does not have a branch and labels environment variable, because it is forcefully a major update, 
         # unlike the previous step, which can either be a patch, minor or major update.
