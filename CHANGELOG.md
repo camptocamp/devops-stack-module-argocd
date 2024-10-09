@@ -1,5 +1,16 @@
 # Changelog
 
+## [7.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v6.3.0...v7.0.0) (2024-10-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* point the Argo CD provider to the new repository ([#133](https://github.com/camptocamp/devops-stack-module-argocd/issues/133))
+
+### Features
+
+* point the Argo CD provider to the new repository ([#133](https://github.com/camptocamp/devops-stack-module-argocd/issues/133)) ([86616d9](https://github.com/camptocamp/devops-stack-module-argocd/commit/86616d9f49b6a73eb521bac27c052b0d2a38b798))
+
 ## [6.3.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v6.2.0...v6.3.0) (2024-08-29)
 
 
