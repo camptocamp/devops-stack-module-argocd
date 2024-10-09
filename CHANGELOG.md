@@ -1,5 +1,84 @@
 # Changelog
 
+## [7.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v6.3.0...v7.0.0) (2024-10-09)
+
+
+### ⚠ BREAKING CHANGES
+
+* point the Argo CD provider to the new repository ([#133](https://github.com/camptocamp/devops-stack-module-argocd/issues/133))
+
+### Features
+
+* point the Argo CD provider to the new repository ([#133](https://github.com/camptocamp/devops-stack-module-argocd/issues/133)) ([86616d9](https://github.com/camptocamp/devops-stack-module-argocd/commit/86616d9f49b6a73eb521bac27c052b0d2a38b798))
+
+### Migrate provider source `oboukili` -> `argoproj-labs`
+
+We've tested the procedure found [here](https://github.com/argoproj-labs/terraform-provider-argocd?tab=readme-ov-file#migrate-provider-source-oboukili---argoproj-labs) and we think the order of the steps is not exactly right. This is the procedure we recommend (**note that this should be run manually on your machine and not on a CI/CD workflow**):
+
+1. First, make sure you are already using version 6.2.0 of the `oboukili/argocd` provider.
+
+1. Then, check which modules you have that are using the `oboukili/argocd` provider.
+
+```shell
+$ terraform providers
+
+Providers required by configuration:
+.
+├── provider[registry.terraform.io/hashicorp/helm] 2.15.0
+├── (...)
+└── provider[registry.terraform.io/oboukili/argocd] 6.2.0
+
+Providers required by state:
+
+    (...)
+
+    provider[registry.terraform.io/oboukili/argocd]
+
+    provider[registry.terraform.io/hashicorp/helm]
+```
+
+3. Afterwards, proceed to point **ALL*  the DevOps Stack modules to the versions that have changed the source on their respective requirements. In case you have other personal modules that also declare `oboukili/argocd` as a requirement, you will also need to update them.
+
+4. Also update the required providers on your root module. If you've followed our examples, you should find that configuration on the `terraform.tf` file in the root folder.
+
+5. Execute the migration  via `terraform state replace-provider`:
+
+```bash
+$ terraform state replace-provider registry.terraform.io/oboukili/argocd registry.terraform.io/argoproj-labs/argocd
+Terraform will perform the following actions:
+
+  ~ Updating provider:
+    - registry.terraform.io/oboukili/argocd
+    + registry.terraform.io/argoproj-labs/argocd
+
+Changing 13 resources:
+
+  module.argocd_bootstrap.argocd_project.devops_stack_applications
+  module.secrets.module.secrets.argocd_application.this
+  module.metrics-server.argocd_application.this
+  module.efs.argocd_application.this
+  module.loki-stack.module.loki-stack.argocd_application.this
+  module.thanos.module.thanos.argocd_application.this
+  module.cert-manager.module.cert-manager.argocd_application.this
+  module.kube-prometheus-stack.module.kube-prometheus-stack.argocd_application.this
+  module.argocd.argocd_application.this
+  module.traefik.module.traefik.module.traefik.argocd_application.this
+  module.ebs.argocd_application.this
+  module.helloworld_apps.argocd_application.this
+  module.helloworld_apps.argocd_project.this
+
+Do you want to make these changes?
+Only 'yes' will be accepted to continue.
+
+Enter a value: yes
+
+Successfully replaced provider for 13 resources.
+```
+
+6. Perform a `terraform init -upgrade` to upgrade your local `.terraform` folder.
+
+7. Run a `terraform plan` or `terraform apply` and you should see that everything is OK and that no changes are necessary. 
+
 ## [6.3.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v6.2.0...v6.3.0) (2024-08-29)
 
 
