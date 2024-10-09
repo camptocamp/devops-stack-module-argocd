@@ -97,7 +97,7 @@ The following providers are used by this module:
 
 The following resources are used by this module:
 
-- https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project[argocd_project.devops_stack_applications] (resource)
+- https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/project[argocd_project.devops_stack_applications] (resource)
 - https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release[helm_release.argocd] (resource)
 - https://registry.terraform.io/providers/camptocamp/jwt/latest/docs/resources/hashed_token[jwt_hashed_token.argocd] (resource)
 - https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] (resource)
@@ -215,7 +215,7 @@ Description: The Argo CD accounts pipeline tokens.
 [cols="a,a",options="header,autowidth"]
 |===
 |Name |Type
-|https://registry.terraform.io/providers/oboukili/argocd/latest/docs/resources/project[argocd_project.devops_stack_applications] |resource
+|https://registry.terraform.io/providers/argoproj-labs/argocd/latest/docs/resources/project[argocd_project.devops_stack_applications] |resource
 |https://registry.terraform.io/providers/hashicorp/helm/latest/docs/resources/release[helm_release.argocd] |resource
 |https://registry.terraform.io/providers/camptocamp/jwt/latest/docs/resources/hashed_token[jwt_hashed_token.argocd] |resource
 |https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource[null_resource.this] |resource
