@@ -1,5 +1,17 @@
 # Changelog
 
+## [7.1.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v7.0.0...v7.1.0) (2024-10-11)
+
+
+### Features
+
+* **chart:** minor update of dependencies on argocd chart ([#132](https://github.com/camptocamp/devops-stack-module-argocd/issues/132)) ([635a11c](https://github.com/camptocamp/devops-stack-module-argocd/commit/635a11c4f6e3c10c78921f9d7c552c976f7b0455))
+
+
+### Bug Fixes
+
+* grafana panels uses angular deprecated plugin ([#135](https://github.com/camptocamp/devops-stack-module-argocd/issues/135)) ([60bdfea](https://github.com/camptocamp/devops-stack-module-argocd/commit/60bdfead93bf94bcd12994d021b4d60291e5ec86))
+
 ## [7.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v6.3.0...v7.0.0) (2024-10-09)
 
 
