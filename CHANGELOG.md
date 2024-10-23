@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.1.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v7.1.0...v7.1.1) (2024-10-23)
+
+
+### Bug Fixes
+
+* **dashboards:** add release in file name to avoid duplicates ([#138](https://github.com/camptocamp/devops-stack-module-argocd/issues/138)) ([e8c0d9b](https://github.com/camptocamp/devops-stack-module-argocd/commit/e8c0d9b7217537def7de19752ce7d469be70d464))
+
 ## [7.1.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v7.0.0...v7.1.0) (2024-10-11)
 
 
