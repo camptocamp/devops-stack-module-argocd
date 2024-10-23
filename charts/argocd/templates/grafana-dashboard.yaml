@@ -17,7 +17,7 @@ items:
     labels:
       grafana_dashboard: '1'
   data:
-    {{ $dashboardName }}.json: {{ $.Files.Get $path | toJson }}
+    {{ $.Release.Name }}-{{ $dashboardName }}.json: {{ $.Files.Get $path | toJson }}
 {{- end }}
 {{- end }}
 {{- end }}
