@@ -1,4 +1,4 @@
-{{- if or (index .Values "argo-cd" "controller" "metrics" "serviceMonitor" "enabled") 
+{{- if or (index .Values "argo-cd" "controller" "metrics" "serviceMonitor" "enabled")
           (or (index .Values "argo-cd" "repoServer" "metrics" "serviceMonitor" "enabled")
               (index .Values "argo-cd" "server" "metrics" "serviceMonitor" "enabled")
           )
@@ -17,7 +17,7 @@ items:
     labels:
       grafana_dashboard: '1'
   data:
-    {{ $dashboardName }}.json: {{ $.Files.Get $path | toJson }}
+    {{ $.Release.Name }}-{{ $dashboardName }}.json: {{ $.Files.Get $path | toJson }}
 {{- end }}
 {{- end }}
 {{- end }}
