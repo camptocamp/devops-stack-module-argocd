@@ -320,7 +320,7 @@ variable "repo_server_aadpodidbinding" {
 variable "helmfile_cmp_version" {
   description = "Version of the helmfile-cmp plugin."
   type        = string
-  default     = "0.1.1"
+  default     = "0.1.2"
 }
 
 variable "helmfile_cmp_env_variables" {
