@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.2.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v7.1.1...v7.2.0) (2025-01-08)
+
+
+### Features
+
+* bump helmfile plugin ([#118](https://github.com/camptocamp/devops-stack-module-argocd/issues/118)) ([bdaf2ae](https://github.com/camptocamp/devops-stack-module-argocd/commit/bdaf2ae525b3053f7022eb2ac2cd9a37e40bde37))
+
 ## [7.1.1](https://github.com/camptocamp/devops-stack-module-argocd/compare/v7.1.0...v7.1.1) (2024-10-23)
 
 
