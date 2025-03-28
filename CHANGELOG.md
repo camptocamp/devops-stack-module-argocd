@@ -1,5 +1,12 @@
 # Changelog
 
+## [7.3.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v7.2.0...v7.3.0) (2025-03-28)
+
+
+### Features
+
+* **chart:** minor update of dependencies on argocd chart ([37d94ff](https://github.com/camptocamp/devops-stack-module-argocd/commit/37d94ffadb59cfeb65c0a3fe335f18cca9951085))
+
 ## [7.2.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v7.1.1...v7.2.0) (2025-01-08)
 
 
