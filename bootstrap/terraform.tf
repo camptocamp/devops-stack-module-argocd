@@ -2,7 +2,7 @@ terraform {
   required_providers {
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2"
+      version = ">= 3"
     }
     utils = {
       source  = "cloudposse/utils"
