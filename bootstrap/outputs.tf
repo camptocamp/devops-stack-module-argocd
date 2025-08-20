@@ -5,7 +5,7 @@ output "id" {
 
 output "argocd_namespace" {
   description = "The namespace where Argo CD resides. The main use of this output is to create an implicit dependency when passing this attribute to the oboukili/argocd provider settings."
-  value       = helm_release.argocd.metadata.0.namespace
+  value       = helm_release.argocd.metadata.namespace
 }
 
 output "argocd_project_names" {
