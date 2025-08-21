@@ -1,5 +1,16 @@
 # Changelog
 
+## [8.0.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v7.3.0...v8.0.0) (2025-08-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* make version working with helm v3 provider
+
+### Features
+
+* make version working with helm v3 provider ([f8d9266](https://github.com/camptocamp/devops-stack-module-argocd/commit/f8d92664b2316b11eeccb25f66c44c3daf835372))
+
 ## [7.3.0](https://github.com/camptocamp/devops-stack-module-argocd/compare/v7.2.0...v7.3.0) (2025-03-28)
 
 
